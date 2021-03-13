@@ -1,29 +1,86 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+import Layout from '../Layout/Layout.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+// 解决标题栏路由导航冗余报错问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
+}
+
+/** 路由说明
+ * 
+ * 两种路由：
+ * constantRoutes静态路由，包含不需要layout布局的基本页
+ * asyncRouter动态路由，使用layout布局
+ * 
+ * 自定义字段：
+ * show	标志是否在aside侧边栏展示，false时不显示，true或省缺时显示
+ * 
+ */
+
+// 无需权限的路由
+const constantRoutes = [
+	{
+		path: '/login',
+		name: 'login',
+		show: false,
+		component: () => import('../views/login.vue')
+	},
+	{
+		path: '/404',
+		name: '404',
+		show: false,
+		component: () => import('../views/404.vue')
+	}
+]
+
+// 动态路由
+const asyncRouter = [
+	{
+		path: '',
+		name: '首页',
+		icon: 'el-icon-s-home',
+		component: Layout,
+		redirect: '/dashboard',
+		children: [{
+			path: 'dashboard',
+			name: '首页',
+			icon: 'el-icon-s-home',
+			component: () => import('../views/dashboard.vue')
+		}]
+	},
+	{
+		path: '/manage',
+		name: '管理',
+		icon: 'el-icon-setting',
+		component: Layout,
+		redirect: '/manage/blog',
+		children: [{
+			path: 'blog',
+			name: '博客管理',
+			icon: 'el-icon-notebook-1',
+			component: () => import('../views/blog/blog.vue')
+		},
+		{
+			path: 'user',
+			name: '用户管理',
+			icon: 'el-icon-user',
+			component: () => import('../views/user/user.vue')
+		}]
+	},
+
+	// 404页一定要放在最后
+	{ path: '/*', name: '404', show: false, redirect: '/404' }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+mode: 'history',
+base: process.env.BASE_URL,
+routes: [...constantRoutes,...asyncRouter]
 })
 
 export default router
