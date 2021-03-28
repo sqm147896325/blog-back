@@ -44,9 +44,28 @@ export default {
 </script>
 
 <style lang='less' scoped>
-// 撑开侧边栏
-.menu{
+// 自定义侧边栏样式
+/deep/ .menu{
 	height: 100vh;
+	background: darken(@bg-bar,10%);
+	color: @c-white;
+	font-size: @fz-big;
+	/deep/ & i{
+		color: lighten(@c-black,5%);
+	}
+	/deep/ & span{
+		color: darken(@c-black,10%);
+	}
+	/deep/ & .el-menu-item.is-active{
+		color: @c-black;
+		span,i {
+			font-weight: 1000;
+		}
+	}
+	// 消除侧边栏聚焦颜色
+	/deep/ & .el-menu-item:focus {
+		background: rgba(0, 0, 0, 0);
+	}
 }
 // 自定义展开时宽度
 /deep/ .el-menu:not(.el-menu--collapse){

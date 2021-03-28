@@ -4,7 +4,7 @@
 				<l-aside />
 			<el-container direction="vertical">
 				<l-header />
-				<el-main height="">
+				<el-main>
 					<router-view />
 				</el-main>
 				<l-footer />
@@ -29,5 +29,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.Layout{
+	min-width: 800px;
+}
 </style>
