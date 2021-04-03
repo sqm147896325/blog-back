@@ -34,7 +34,7 @@ axios.interceptors.request.use(config => {
 	// 如果浏览器中有token且该地址不在白名单中，则为请求头添加token
 	if(window.sessionStorage.getItem("token") && !tokenWL.includes(config.url)){
 		//为请求头添加对象，添加token验证的Authorization字段
-		config.headers.Authorization = window.sessionStorage.getItem("token");
+		config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem("token");
 	}
 
 	// 如果是post请求，使用qs序列化对象

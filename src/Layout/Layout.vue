@@ -30,6 +30,6 @@ export default {
 
 <style lang="less" scoped>
 .Layout{
-	min-width: 800px;
+	min-width: 1050px;
 }
 </style>
