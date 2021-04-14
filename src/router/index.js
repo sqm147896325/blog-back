@@ -78,9 +78,9 @@ const asyncRouter = [
 ]
 
 const router = new VueRouter({
-mode: 'history',
-base: process.env.BASE_URL,
-routes: [...constantRoutes,...asyncRouter]
+	mode: 'history',
+	// base: process.env.BASE_URL,
+	routes: [...constantRoutes,...asyncRouter]
 })
 
 export default router

@@ -28,14 +28,53 @@ export function apiGetUserList(params) {
 }
 
 /**
- * @description: 修改用户，也做删除
+ * @description: 添加用户
  * @param {*}
  * @return {*}
  */
-export function apiPostUpdataUser(params) {
+ export function apiPutUser(params) {
 	return axios({
-		url: '/user/updateUser',
+		url: '/user',
+		method: 'PUT',
+		data: params
+	})
+}
+
+/**
+ * @description: 修改用户
+ * @param {*}
+ * @return {*}
+ */
+ export function apiPostUser(params) {
+	return axios({
+		url: '/user',
 		method: 'POST',
+		data: params
+	})
+}
+
+/**
+ * @description: 获取单个用户
+ * @param {*}
+ * @return {*}
+ */
+export function apiGetUser(params) {
+	return axios({
+		url: '/user',
+		method: 'GET',
+		data: params
+	})
+}
+
+/**
+ * @description: 删除用户
+ * @param {*}
+ * @return {*}
+ */
+ export function apiDeleteUser(params) {
+	return axios({
+		url: '/user',
+		method: 'DELETE',
 		data: params
 	})
 }

@@ -70,7 +70,7 @@ export default {
 			switch (command) {
 				// 登出操作
 				case -1:
-					sessionStorage.removeItem('token');
+					localStorage.removeItem('token');
 					this.$router.replace('/login');
 					this.$message.success('退出成功');
 					break;

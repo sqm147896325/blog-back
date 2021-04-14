@@ -59,7 +59,11 @@ export default {
 					let res = await apiPostLogin(this.loginInfo);
 					// 存在res且flag为1则表示登录成功
 					if(res?.flag == 1){
-						sessionStorage.setItem('token',res.dataInfo.token);
+						localStorage.setItem('token',res.dataInfo.token);
+						let userInfo = { id: this.loginInfo.id };
+						localStorage.setItem('userInfo',JSON.stringify(userInfo));
+						this.$store.commit('setUserInfo',userInfo);
+						console.log('userinfo',this.$store)
 						this.$router.push('/');
 						this.$message.success('登录成功');
 					}

@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Aside from './components/Aside';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Aside from './components/Aside.vue';
+import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
 
 export default {
 	name: 'Layout',

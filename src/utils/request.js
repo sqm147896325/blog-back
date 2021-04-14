@@ -5,11 +5,11 @@ import qs from 'qs';
 // 请求基础路径配置
 class Baseurl{
 	static host = '127.0.0.1';
-	static port = '3000';
-	static path = 'api';
+	static port = '9080';
+	// static path = 'api';
 
 	static baseURL(){
-		return `http://${this.host}:${this.port}/${this.path}`;
+		return `http://${this.host}:${this.port}/${this.path || ''}`;
 	}
 }
 
@@ -32,9 +32,9 @@ const tokenWL = ['/user/login'];
 axios.interceptors.request.use(config => {
 
 	// 如果浏览器中有token且该地址不在白名单中，则为请求头添加token
-	if(window.sessionStorage.getItem("token") && !tokenWL.includes(config.url)){
+	if(localStorage.getItem("token") && !tokenWL.includes(config.url)){
 		//为请求头添加对象，添加token验证的Authorization字段
-		config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem("token");
+		config.headers.Authorization = 'Bearer ' + localStorage.getItem("token");
 	}
 
 	// 如果是post请求，使用qs序列化对象

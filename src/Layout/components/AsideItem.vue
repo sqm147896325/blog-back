@@ -21,12 +21,10 @@
 </template>
 
 <script>
-import AsideItem from './AsideItem'
 
 export default {
-	// 递归调用AsideItem组件完成菜单的创建
+	// 递归调用AsideItem组件完成菜单的创建,组件递归调用自己时仅需要name
 	name: 'AsideItem',
-	components: { AsideItem },
 	props:{
 		itemMenu: {
 			type: Array,

@@ -6,15 +6,7 @@ function recursiveMenu(value) {
 		if(typeof value[index].children == 'undefined'){
 			continue;
 		}
-		// if(value[index].children.length === 1){
-		// 	/** 如果children长度为1多半为重定向，进行删除使组件递归时目录无需展开
-		// 	*	但是需要保证父级使用重定向，且重定向到该唯一子集
-		// 	*/
-		// 	if(value[index].redirect != undefined && value[index].redirect == value[index].path + value[index].children[0].path ){
-		// 		delete value[index].children;
-		// 		continue;
-		// 	}
-		// }
+		
 		for (let index2 = 0; index2 < value[index].children.length; index2++) {
 			value[index].children[index2].path = value[index].path + '/' + value[index].children[index2].path;
 			recursiveMenu(value[index].children[index2]);

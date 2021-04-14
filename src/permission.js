@@ -7,7 +7,7 @@ router.beforeEach(async (to,from,next) => {
 	// 传入活动的菜单栏
 	await store.commit('setActiveMenu',to.path);
 	
-	let token = sessionStorage.getItem('token');
+	let token = localStorage.getItem('token');
 	// token有无跳转逻辑
 	if(token){
 		// 有token不能访问login

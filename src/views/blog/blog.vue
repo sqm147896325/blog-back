@@ -13,17 +13,16 @@
 
 		<!-- 表格区域 -->
 		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
-			<el-table-column prop="blog_name" label="标题" width="100" align="center" />
-			<el-table-column prop="author_name" label="作者名" width="100" align="center" />
+			<el-table-column prop="title" label="标题" width="100" align="center" />
+			<el-table-column prop="author" label="作者名" width="100" align="center" />
 			<el-table-column prop="author_id" label="作者id" width="80" align="center" />
-			<el-table-column prop="describe" label="描述" width="160" align="center" />
-			<el-table-column prop="cate" label="分类" width="160" align="center" />
-			<el-table-column prop="create_time" label="创建时间" width="120" align="center" />
-			<el-table-column prop="update_time" label="更新时间" width="160" align="center" />
+			<el-table-column prop="des" label="描述" width="160" align="center" />
+			<el-table-column prop="keyword" label="关键字" width="160" align="center" />
+			<el-table-column prop="created_at" label="创建时间" width="120" align="center" />
+			<el-table-column prop="updated_at" label="更新时间" width="160" align="center" />
 			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
 				<template class="operation">
 					<el-button type="success" size="small" @click="change">查看</el-button>
-					<el-button type="primary" size="small" @click="change">修改</el-button>
 					<el-button type="danger" size="small" @click="del">删除</el-button>
 				</template>
 			</el-table-column>
@@ -34,7 +33,7 @@
 
 <script>
 import { apiGetBlogList } from '@/api/blog.js';
-import Search from '@/components/Search/Search';
+import Search from '@/components/Search/Search.vue';
 
 export default {
 	components: { 'my-search': Search },
@@ -50,14 +49,13 @@ export default {
 	methods: {
 		async init(){
 			let { dataInfo } = await apiGetBlogList();
-			this.userList = dataInfo;
-			console.log(this.userList)
+			this.userList = dataInfo.rows;
 		},
 		// 添加
 		add(){
 			
 		},
-		// 修改
+		// 查看
 		change(){
 
 		},

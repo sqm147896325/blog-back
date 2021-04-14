@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import AsideItem from './AsideItem';
+import AsideItem from './AsideItem.vue';
 
 export default {
 	name: 'Aside',

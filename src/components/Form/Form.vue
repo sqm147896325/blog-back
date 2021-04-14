@@ -1,15 +1,15 @@
 /**
  * @description: 自定义form组件，用于快速完成简单的表单功能 
  * @param {*}	
- *	formdate表单数据如：{ username: {label: '用户名',value: ''} , id: {label: '账号id',value: ''} }
- *	rules校验规则，遵循element form组件中rules所使用的规则
+ *	formdate 表单数据如：{ username: {label: '用户名',value: ''} , id: {label: '账号id',value: ''} }
+ *	rules 校验规则，遵循element form组件中rules所使用的规则
  * @return {*}	submitFrom确定按钮、cancelFrom取消按钮
  */
 
 <template>
-	<el-form :model="formdata" ref="form" :rules="rules" label-width="60px" :inline="false" size="normal">
-		<el-form-item v-for="(item , index ) in formdata" :key="index" :label="item.label">
-			<el-input v-model="item.value"></el-input>
+	<el-form :model="data" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
+		<el-form-item v-for="(value , key) in formdata" :key="key" :label="value.label" :prop="key">
+			<el-input v-model="data[key]"></el-input>
 		</el-form-item>
 		<div class="foot-button">
 			<el-button type="primary" @click="submit">确定</el-button>
@@ -35,10 +35,16 @@ export default {
 	},
 	data(){
 		return{
-
+			formKey: Object.keys(this.formdata),
+			data: {}
 		}
 	},
+	mounted(){
+		this.init();
+	},
 	methods: {
+		init(){
+		},
 		// 确定修改
 		submit(){
 			this.$refs['form'].validate(state => {

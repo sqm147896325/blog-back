@@ -22,14 +22,14 @@
 			<el-table-column prop="operation" label="操作" align="center" width="180" >
 				<template class="operation" slot-scope="scope">
 					<el-button type="primary" size="small" @click="change(scope.row)">修改</el-button>
-					<el-button type="danger" size="small" @click="del">删除</el-button>
+					<el-button type="danger" size="small" @click="del(scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		
 		<!-- 遮罩 -->
 		<el-dialog :title="'修改账号'" :visible.sync="dialogVisible" width="33%">
-			<my-form :formdata="formdata" @cancelFrom="cancelFrom" @submitFrom="submitFrom"></my-form>
+			<my-form :formdata="formdata" :rules="rules" @cancelFrom="cancelFrom" @submitFrom="submitFrom"></my-form>
 		</el-dialog>
 		
     </div>
@@ -37,8 +37,8 @@
 
 <script>
 import { apiGetUserList } from '@/api/user.js';
-import Search from '@/components/Search/Search';
-import From from '@/components/Form/Form';
+import Search from '@/components/Search/Search.vue';
+import From from '@/components/Form/Form.vue';
 
 export default {
 	components: { 'my-search': Search , 'my-form': From },
@@ -49,10 +49,14 @@ export default {
 			dialogVisible: false,
 			formdata: {
 				username: {label: '用户名',value: ''},
-				id: {label: '账号id',value: ''},
+				password: {label: '密码',value: ''},
 				tel: {label: '电话',value: ''},
 				emil: {label: '邮箱',value: ''},
 				des: {label: '描述',value: ''},
+			},
+			rules:{
+				username:[ { required: true, message: '请输入用户名', trigger: 'blur' } ],
+				password: [ { required:true, message: '请输入密码',trigger: 'blur' } ]
 			}
 		}
 	},
@@ -62,8 +66,7 @@ export default {
 	methods: {
 		async init(){
 			let { dataInfo } = await apiGetUserList();
-			this.userList = dataInfo;
-			console.log(this.userList)
+			this.userList = dataInfo.rows;
 		},
 		// 添加
 		add(){
@@ -81,15 +84,16 @@ export default {
 			this.dialogVisible = true;
 		},
 		// 删除
-		del(){
-			this.$confirm(`是否${{msg}}`, '提示', {
+		del(row){
+			let msg = `删除${row.id}`;
+			this.$confirm(`是否${msg}`, '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(() => {
-				this.$message.success(`${{msg}}成功!`);
+				this.$message.success(`${msg}成功!`);
 			}).catch(() => {
-				this.$message.info(`已取消${{msg}}`);
+				this.$message.info(`已取消${msg}`);
 			});
 			// apiPostUpdataUser()
 		},
