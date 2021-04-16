@@ -9,6 +9,6 @@ export function apiGetBlogList(params) {
 	return axios({
 		url: '/blog/list',
 		method: 'GET',
-		data: params
+		params: params
 	})
 }

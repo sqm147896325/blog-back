@@ -16,14 +16,17 @@ export function apiPostLogin(params) {
 
 /**
  * @description: 获取用户列表
- * @param {*}
+ * @param {*}		page		要搜索的页码
+ * @param {*}		pagesize	每页大小
+ * @param {*}		query		查询内容
+ * @param {*}		key			查询字段
  * @return {*}
  */
 export function apiGetUserList(params) {
 	return axios({
 		url: '/user/list',
 		method: 'GET',
-		data: params
+		params: params
 	})
 }
 
@@ -62,7 +65,7 @@ export function apiGetUser(params) {
 	return axios({
 		url: '/user',
 		method: 'GET',
-		data: params
+		params: params
 	})
 }
 
