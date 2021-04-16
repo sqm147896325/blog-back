@@ -1,20 +1,29 @@
 <template>
-	<el-input size="small" :placeholder="'请输入' + option[select] " v-model="input" :clearable="true" @clear="search" @keydown.enter.native="search" class="input-with-select">
+	<el-input
+	class="input-with-select"
+	size="small"
+	v-model="input"
+	:placeholder="'请输入' + option[select].label"
+	:clearable="true"
+	@clear="search"
+	@keydown.enter.native="search">
 		<el-select v-model="select" slot="prepend" placeholder="请选择" @change="change">
-			<el-option v-for="(item , index) in option" :label="item" :value="index" :key="index" ></el-option>
+			<el-option v-for="(item , index) in option" :label="item.label" :value="index" :key="index" ></el-option>
 		</el-select>
 		<el-button type="primary" size="small" @click="search" slot="append" icon="el-icon-search">搜索</el-button>
 	</el-input>
 </template>
 
 <script>
+/**
+ * @description: 基于element-ui的自定义搜索组件
+ * @param {props}		option		搜索类型,[{lable：'显示的名称',value: '对应的值'}]
+ * @param {method}		change		更改搜索类型，返回更改后对应的值
+ * @param {method}		search		搜索
+ */
 export default {
 	name: 'Search',
 	props:{
-		holder:{
-			type: String,
-			default: ''
-		},
 		option: {
 			type: Array,
 			default: ()=>[]
@@ -27,9 +36,9 @@ export default {
 		}
 	},
 	methods: {
-		change(){
+		change(e){
 			// 向父组件传递输入的值
-			this.$emit('change',this.select);
+			this.$emit('change',this.option[e].value);
 		},
 		search(){
 			// 向父组件传递输入的值
