@@ -4,7 +4,7 @@
 		<!-- 功能栏 -->
 		<el-row :gutter="0" class="row">
 			<el-col :span="12" :offset="0">
-				<my-search holder="值" :option="option" @search="search" @change="select"></my-search>
+				<my-search :option="option" @search="search" @change="select"></my-search>
 			</el-col>
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
@@ -26,6 +26,9 @@
 				</template>
 			</el-table-column>
 		</el-table>
+
+		<!-- 分页器 -->
+		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
 		<!-- 遮罩 -->
 		<el-dialog :title="'修改账号'" :visible.sync="dialogVisible" width="33%">
@@ -39,14 +42,38 @@
 import { apiGetUserList } from '@/api/user.js';
 import Search from '@/components/Search/Search.vue';
 import From from '@/components/Form/Form.vue';
+import Pagination from '@/components/Pagination/Pagination.vue';
 
 export default {
-	components: { 'my-search': Search , 'my-form': From },
+	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination },
 	data(){
 		return {
+			// 需要渲染的数据
 			userList: [],
-			option: [ '用户名','账号id','电话' ],
+
+			/* 搜索组件 */
+			// 搜索类型
+			option: [ 
+				{label: '用户名', value:'username'},
+				{label: '账号id', value:'id'},
+				{label: '电话', value:'tel'},
+			],
+
+			/* 分页组件 */
+			// 分页搜索数据
+			query: {
+				page: 1,
+				pagesize: 2,
+				query: '',
+				key: 'username'
+			},
+			// 页数
+			total: 0,
+
+			/* 表单组件及遮罩 */
+			// 遮罩
 			dialogVisible: false,
+			// 表单
 			formdata: {
 				username: {label: '用户名',value: ''},
 				password: {label: '密码',value: ''},
@@ -54,6 +81,7 @@ export default {
 				emil: {label: '邮箱',value: ''},
 				des: {label: '描述',value: ''},
 			},
+			// 表单验证规则
 			rules:{
 				username:[ { required: true, message: '请输入用户名', trigger: 'blur' } ],
 				password: [ { required:true, message: '请输入密码',trigger: 'blur' } ]
@@ -65,8 +93,7 @@ export default {
 	},
 	methods: {
 		async init(){
-			let { dataInfo } = await apiGetUserList();
-			this.userList = dataInfo.rows;
+			await this.search()
 		},
 		// 添加
 		add(){
@@ -98,12 +125,25 @@ export default {
 			// apiPostUpdataUser()
 		},
 		// 搜索
-		search(e){
-			console.log(e);
+		async search(e){
+			this.query.query = e;		// 传入要搜索的值
+			let { dataInfo } = await apiGetUserList(this.query);
+			this.total = dataInfo.count;
+			this.userList = dataInfo.rows;
+		},
+		// 翻页
+		async turnPage(e){
+			this.query.page = e;
+			this.search();
+		},
+		// 改变页面大小
+		async changePagesize(e){
+			this.query.pagesize = e;
+			this.search();
 		},
 		// 搜素对象选择
 		select(e){
-			console.log(e);
+			this.query.key = e;
 		},
 		// 取消遮罩
 		cancelFrom(){
