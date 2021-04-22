@@ -8,7 +8,7 @@ import axios from '../utils/request'
  */
 export function apiPostLogin(params) {
 	return axios({
-		url: '/user/login',
+		url: '/login',
 		method: 'POST',
 		data: params
 	})
