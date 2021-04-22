@@ -102,13 +102,14 @@ export default {
 		},
 		// 修改
 		change(row){
-			// 遍历row的keys，如果有在formdata中相应定义的key值则覆盖其value
-			Object.keys(row).forEach(e => {
-				if(this.formdata[e] != undefined){
-					this.formdata[e].value = row[e];
-				}
-			});
-			this.dialogVisible = true;
+			this.$router.push('/edit/123')
+			// // 遍历row的keys，如果有在formdata中相应定义的key值则覆盖其value
+			// Object.keys(row).forEach(e => {
+			// 	if(this.formdata[e] != undefined){
+			// 		this.formdata[e].value = row[e];
+			// 	}
+			// });
+			// this.dialogVisible = true;
 		},
 		// 删除
 		del(){
