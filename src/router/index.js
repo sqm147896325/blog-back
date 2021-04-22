@@ -83,6 +83,7 @@ const powerHideRouter = [
 		name: '博客编辑',
 		show: false,
 		component: Layout,
+		redirect: '/manage/blog',
 		children: [
 			{
 				path: ':id',
