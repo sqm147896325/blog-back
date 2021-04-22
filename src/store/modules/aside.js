@@ -1,14 +1,18 @@
 import router from '../../router/index';
 
 // 递归算法对菜单路径进行正确连接
-function recursiveMenu(value) { 
+function recursiveMenu(value) {
+	 
 	for (let index = 0; index < value.length; index++) {
 		if(typeof value[index].children == 'undefined'){
+			// 没有子集了
 			continue;
 		}
 		
 		for (let index2 = 0; index2 < value[index].children.length; index2++) {
+			// 拼接路径
 			value[index].children[index2].path = value[index].path + '/' + value[index].children[index2].path;
+			// 递归调用
 			recursiveMenu(value[index].children[index2]);
 		}
 	}

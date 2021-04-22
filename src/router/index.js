@@ -22,6 +22,8 @@ VueRouter.prototype.push = function push(location) {
  * 
  */
 
+// ! 不要用name字段表示名称，而要在meta中定义这些额外的信息
+
 // 无需权限的路由
 const constantRoutes = [
 	{
@@ -38,8 +40,8 @@ const constantRoutes = [
 	}
 ]
 
-// 动态路由
-const asyncRouter = [
+// 权限路由，显示在菜单栏中
+const powerShowRouter = [
 	{
 		path: '',
 		name: '首页',
@@ -71,7 +73,25 @@ const asyncRouter = [
 			icon: 'el-icon-user',
 			component: () => import('../views/user/user.vue')
 		}]
+	}
+]
+
+// 权限路由，不显示在菜单栏中
+const powerHideRouter = [
+	{
+		path: '/edit',
+		name: '博客编辑',
+		show: false,
+		component: Layout,
+		redirect: '/manage/blog',
+		children: [
+			{
+				path: ':id',
+				component: () => import('../views/blog/edit.vue')
+			}
+		]
 	},
+	
 
 	// 404页一定要放在最后
 	{ path: '/*', name: '404', show: false, redirect: '/404' }
@@ -80,7 +100,7 @@ const asyncRouter = [
 const router = new VueRouter({
 	mode: 'history',
 	// base: process.env.BASE_URL,
-	routes: [...constantRoutes,...asyncRouter]
+	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter]
 })
 
 export default router

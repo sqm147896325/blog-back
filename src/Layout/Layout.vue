@@ -5,7 +5,9 @@
 			<el-container direction="vertical">
 				<l-header />
 				<el-main>
-					<router-view />
+					<transition name="fade" mode="out-in">
+						<router-view></router-view>
+					</transition>
 				</el-main>
 				<l-footer />
 			</el-container>
@@ -24,6 +26,13 @@ export default {
 		'l-aside': Aside,
 		'l-header': Header,
 		'l-footer': Footer
+	},
+	watch: {
+		"$route":function(to,from){
+			const toDepth = to.path.split('/').length;
+			const fromDepth = from.path.split('/').length;
+			this.transition = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+		}
 	}
 }
 </script>
@@ -31,5 +40,12 @@ export default {
 <style lang="less" scoped>
 .Layout{
 	min-width: 1050px;
+}
+
+.fade-enter-active, .fade-leave-active {
+	transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to  {
+	opacity: 0;
 }
 </style>
