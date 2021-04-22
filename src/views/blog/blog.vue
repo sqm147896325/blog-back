@@ -32,9 +32,7 @@
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
 		<!-- 遮罩 -->
-		<el-dialog :title="'修改账号'" :visible.sync="dialogVisible" width="33%">
-			<my-form :formdata="formdata" :rules="rules" @cancelFrom="cancelFrom" @submitFrom="submitFrom"></my-form>
-		</el-dialog>
+		<my-form :formdata="formdata" :row="row" :rules="rules" :show="dialogVisible" @cancelForm="cancelForm" @submitFrom="submitFrom"></my-form>
 		
     </div>
 </template>
@@ -85,7 +83,8 @@ export default {
 			// 表单验证规则
 			rules:{
 				title:[ { required: true, message: '标题', trigger: 'blur' } ]
-			}
+			},
+			row: {}
 		}
 	},
 	mounted(){
@@ -146,7 +145,7 @@ export default {
 			this.query.key = e;
 		},
 		// 取消遮罩
-		cancelFrom(){
+		cancelForm(){
 			this.dialogVisible = false;
 		},
 		// 重置formdata
