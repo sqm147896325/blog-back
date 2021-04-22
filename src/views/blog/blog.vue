@@ -21,8 +21,8 @@
 			<el-table-column prop="created_at" label="创建时间" width="120" align="center" />
 			<el-table-column prop="updated_at" label="更新时间" width="160" align="center" />
 			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
-				<template class="operation">
-					<el-button type="success" size="small" @click="change">查看</el-button>
+				<template class="operation" slot-scope="scope">
+					<el-button type="success" size="small" @click="change(scope.row)">查看</el-button>
 					<el-button type="danger" size="small" @click="del">删除</el-button>
 				</template>
 			</el-table-column>
@@ -102,7 +102,7 @@ export default {
 		},
 		// 修改
 		change(row){
-			this.$router.push('/edit/123')
+			this.$router.push(`/edit/${row.id}`)
 			// // 遍历row的keys，如果有在formdata中相应定义的key值则覆盖其value
 			// Object.keys(row).forEach(e => {
 			// 	if(this.formdata[e] != undefined){
