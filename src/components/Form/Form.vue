@@ -49,14 +49,18 @@ export default {
 		return {
 			// ? 深拷贝row为子组件内部数据
 			rowData: {...this.row},
-			// ? 子组件内部接收遮罩开关
-			visible: this.show
+			// ? 子组件内部接收遮罩开关c
+			visible: this.show,
+			// ? 根据row判断当前是添加还是修改,没有值为添加 0 ，有值为修改 1
+			type: Object.keys(this.row).length == 0 ? 0 : 1
+			
 		}
 	},
 	watch: {
 		// ? 内部数据与props动态关联
 		row(newValue){
 			this.rowData = {...this.row};
+			this.type = Object.keys(this.row).length == 0 ? 0 : 1;
 		},
 		// ? 内部数据与props动态关联
 		show(newValue){
@@ -74,7 +78,7 @@ export default {
 		submit(){
 			this.$refs['form'].validate(state => {
 				if(state){
-					this.$emit('submitFrom',{...this.rowData});		// 解构赋值数据，去除__ob__监视器
+					this.$emit('submitFrom',{...this.rowData},this.type);		// 解构赋值数据，去除__ob__监视器
 				}
 			})
 		},
