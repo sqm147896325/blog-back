@@ -31,9 +31,7 @@
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
 		<!-- 遮罩 -->
-		<el-dialog :title="'修改账号'" :visible.sync="dialogVisible" width="33%">
-			<my-form :formdata="formdata" :rules="rules" @cancelFrom="cancelFrom" @submitFrom="submitFrom"></my-form>
-		</el-dialog>
+		<my-form :formdata="formdata" :row="row" :rules="rules" :show="dialogVisible" @cancelForm="cancelForm" @submitFrom="submitFrom"></my-form>
 		
     </div>
 </template>
@@ -48,44 +46,38 @@ export default {
 	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination },
 	data(){
 		return {
-			// 需要渲染的数据
-			userList: [],
+			userList: [],	// 需要渲染的数据
 
 			/* 搜索组件 */
-			// 搜索类型
 			option: [ 
 				{label: '用户名', value:'username'},
 				{label: '账号id', value:'id'},
 				{label: '电话', value:'tel'},
-			],
+			],	// 搜索类型
 
 			/* 分页组件 */
-			// 分页搜索数据
 			query: {
 				page: 1,
-				pagesize: 2,
+				pagesize: 5,
 				query: '',
 				key: 'username'
-			},
-			// 页数
-			total: 0,
+			},	// 分页搜索数据
+			total: 0,				// 页数
 
 			/* 表单组件及遮罩 */
-			// 遮罩
-			dialogVisible: false,
-			// 表单
+			dialogVisible: false,	// 遮罩
 			formdata: {
 				username: {label: '用户名',value: ''},
 				password: {label: '密码',value: ''},
 				tel: {label: '电话',value: ''},
 				emil: {label: '邮箱',value: ''},
 				des: {label: '描述',value: ''},
-			},
-			// 表单验证规则
+			},	// 表单
 			rules:{
 				username:[ { required: true, message: '请输入用户名', trigger: 'blur' } ],
 				password: [ { required:true, message: '请输入密码',trigger: 'blur' } ]
-			}
+			},	// 表单验证规则
+			row: {}
 		}
 	},
 	mounted(){
@@ -95,21 +87,26 @@ export default {
 		async init(){
 			await this.search()
 		},
+
 		// 添加
 		add(){
 			this.resetFormdata();		// 先清空表单
 			this.dialogVisible = true;	// 再打开遮罩
 		},
+
 		// 修改
 		change(row){
 			// 遍历row的keys，如果有在formdata中相应定义的key值则覆盖其value
-			Object.keys(row).forEach(e => {
-				if(this.formdata[e] != undefined){
-					this.formdata[e].value = row[e];
-				}
-			});
+			// Object.keys(row).forEach(e => {
+			// 	if(this.formdata[e] != undefined){
+			// 		this.formdata[e].value = row[e];
+			// 	}
+			// });
+			row.password = '';		// api中不返回密码字段，自定义空的key值
+			this.row = row;
 			this.dialogVisible = true;
 		},
+
 		// 删除
 		del(row){
 			let msg = `删除${row.id}`;
@@ -122,8 +119,8 @@ export default {
 			}).catch(() => {
 				this.$message.info(`已取消${msg}`);
 			});
-			// apiPostUpdataUser()
 		},
+
 		// 搜索
 		async search(e){
 			this.query.query = e;		// 传入要搜索的值
@@ -131,30 +128,36 @@ export default {
 			this.total = dataInfo.count;
 			this.userList = dataInfo.rows;
 		},
+
 		// 翻页
 		async turnPage(e){
 			this.query.page = e;
 			this.search();
 		},
+
 		// 改变页面大小
 		async changePagesize(e){
 			this.query.pagesize = e;
 			this.search();
 		},
+		
 		// 搜素对象选择
 		select(e){
 			this.query.key = e;
 		},
+
 		// 取消遮罩
-		cancelFrom(){
+		cancelForm(){
 			this.dialogVisible = false;
 		},
+
 		// 重置formdata
 		resetFormdata(){
 			for(let key in this.formdata){
 				this.formdata[key].value = '';
 			}
 		},
+
 		// 确定表单信息
 		submitFrom(e){
 			console.log('[user]',e);
