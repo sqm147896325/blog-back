@@ -30,13 +30,13 @@ const constantRoutes = [
 		path: '/login',
 		name: 'login',
 		show: false,
-		component: () => import('../views/login.vue')
+		component: () => import('../views/main/login.vue')
 	},
 	{
 		path: '/404',
 		name: '404',
 		show: false,
-		component: () => import('../views/404.vue')
+		component: () => import('../views/main/404.vue')
 	}
 ]
 
@@ -52,7 +52,7 @@ const powerShowRouter = [
 			path: 'dashboard',
 			name: '首页',
 			icon: 'el-icon-s-home',
-			component: () => import('../views/dashboard.vue')
+			component: () => import('../views/main/dashboard.vue')
 		}]
 	},
 	{

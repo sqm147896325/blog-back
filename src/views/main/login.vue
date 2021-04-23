@@ -60,7 +60,7 @@ export default {
 					// 存在res且flag为1则表示登录成功
 					if(res?.flag == 1){
 						localStorage.setItem('token',res.dataInfo.token);
-						let userInfo = { id: this.loginInfo.id };
+						let userInfo = res.dataInfo.userInfo;
 						localStorage.setItem('userInfo',JSON.stringify(userInfo));
 						this.$store.commit('setUserInfo',userInfo);
 						console.log('userinfo',this.$store)
