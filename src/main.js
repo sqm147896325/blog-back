@@ -6,7 +6,7 @@ import store from './store'
 // 导入element-ui
 import ElementUI , { Message } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI)
+Vue.use(ElementUI);
 
 // 导入权限控制
 import '@/permission';

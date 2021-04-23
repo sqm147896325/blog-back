@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { apiGetUserList } from '@/api/user.js';
+import { apiGetUserList , apiPutUser , apiPostUser , apiDeleteUser } from '@/api/user.js';
 import Search from '@/components/Search/Search.vue';
 import From from '@/components/Form/Form.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
@@ -96,26 +96,22 @@ export default {
 
 		// 修改
 		change(row){
-			// 遍历row的keys，如果有在formdata中相应定义的key值则覆盖其value
-			// Object.keys(row).forEach(e => {
-			// 	if(this.formdata[e] != undefined){
-			// 		this.formdata[e].value = row[e];
-			// 	}
-			// });
 			row.password = '';		// api中不返回密码字段，自定义空的key值
 			this.row = row;
 			this.dialogVisible = true;
 		},
 
 		// 删除
-		del(row){
+		async del(row){
 			let msg = `删除${row.id}`;
 			this.$confirm(`是否${msg}`, '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
-			}).then(() => {
+			}).then(async () => {
+				await apiDeleteUser({id: row.id});
 				this.$message.success(`${msg}成功!`);
+				this.init();
 			}).catch(() => {
 				this.$message.info(`已取消${msg}`);
 			});
@@ -153,15 +149,25 @@ export default {
 
 		// 重置formdata
 		resetFormdata(){
-			for(let key in this.formdata){
-				this.formdata[key].value = '';
-			}
+			this.row = {};
+			// for(let key in this.formdata){
+			// 	this.formdata[key].value = '';
+			// }
 		},
 
 		// 确定表单信息
-		submitFrom(e){
-			console.log('[user]',e);
+		async submitFrom(e,type){
 			this.dialogVisible = false;
+			let response;
+			if(type == 1){
+				// type为1为修改
+				response = await apiPostUser(e);	// 发送更改用户信息
+			}else{
+				// type为0为添加
+				response = await apiPutUser(e);		// 发送添加用户
+			}
+			console.log('[response]',response);
+			await this.init();		// 添加后重新初始化
 		}
 	}
 }

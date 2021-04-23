@@ -48,4 +48,8 @@ export default {
 .fade-enter, .fade-leave-to  {
 	opacity: 0;
 }
+// 覆盖el-main样式
+.el-main{
+	padding: 10px;
+}
 </style>
