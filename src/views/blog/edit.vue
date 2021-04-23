@@ -49,7 +49,7 @@
 <script>
 import Vditor from "vditor";
 import "vditor/dist/index.css";
-import { apiGetBlog } from '../../api/blog';
+import { apiGetBlog , apiPostBlog , apiPutBlog } from '../../api/blog';
 
 export default {
 	data(){
@@ -120,7 +120,24 @@ export default {
 		},
 
 		// 保存
-		save(){},
+		async save(){
+			let response;
+			let params = {
+				author_id: this.$store.state.userInfo.id,
+				author: this.$store.state.userInfo.username,
+				title: this.title,
+				content: this.content,
+				des: this.des,
+				keyword: this.keyword
+			}
+			if(this.id != 0){
+				// 修改模式
+				response = await apiPostBlog(params);
+			}
+			// 新建模式
+			response = await apiPutBlog(params);
+			console.log(response);
+		},
 		// 返回
 		back(){
 			this.$router.replace('/manage/blog');
