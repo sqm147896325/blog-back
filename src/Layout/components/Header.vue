@@ -56,13 +56,14 @@ export default {
 			});
 		},
 		setOpen(){
-			this.$store.commit('setOpen');
+			// 使vuex中侧边栏状态取反
+			this.$store.commit('setOpen',!this.$store.state.aside.asideClose);
 		},
 
 		/* 获取store中状态 */
 		// 侧边栏是否展开
 		collapse(){
-			return this.$store.state.aside.asideOpen;
+			return this.$store.state.aside.asideClose;
 		},
 		
 		// 头像菜单选项

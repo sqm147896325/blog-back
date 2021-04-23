@@ -3,7 +3,7 @@ export default {
 		userInfo: {},		// userInfo
 	},
 	mutations: {
-		// 控制侧边栏开启关闭
+		// 设置用户信息
 		setUserInfo(state,userInfo){
 			state.userInfo = userInfo;
 		},

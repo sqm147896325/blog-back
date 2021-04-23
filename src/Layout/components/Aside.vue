@@ -37,7 +37,7 @@ export default {
 		},
 		// 侧边栏是否展开
 		collapse(){
-			return this.$store.state.aside.asideOpen;
+			return this.$store.state.aside.asideClose;
 		}
 	}
 }

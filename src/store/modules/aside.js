@@ -29,14 +29,14 @@ routes = recursiveMenu(routes);
 
 export default {
     state: {
-		asideOpen: false,		// 控制侧边栏的展开折叠
+		asideClose: true,		// 控制侧边栏的展开折叠，true折叠，false展开
 		activeMenu: '',			// 默认活动的菜单
 		menu: routes			// 侧边栏菜单显示所需要的数据
 	},
 	mutations: {
 		// 控制侧边栏开启关闭
-		setOpen(state){
-			state.asideOpen = !state.asideOpen;
+		setOpen(state,open){
+			state.asideClose = open;
 		},
 		// 设置默认激活的侧边栏菜单项
 		setActiveMenu(state,activeMenu){
