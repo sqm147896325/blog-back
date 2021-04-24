@@ -78,6 +78,10 @@ export default {
 		this.init();
 	},
 	beforeRouteLeave(to, from, next){
+		if(to.path == '/login'){
+			next();
+			return false;
+		}
 		this.$confirm(`确定离开编辑页面`, '提示', {
 			confirmButtonText: '确定',
 			cancelButtonText: '取消',
@@ -121,22 +125,23 @@ export default {
 
 		// 保存
 		async save(){
-			let response;
 			let params = {
-				author_id: this.$store.state.userInfo.id,
-				author: this.$store.state.userInfo.username,
+				author_id: this.$store.state.userInfo.userInfo.id,
+				author: this.$store.state.userInfo.userInfo.username,
 				title: this.title,
-				content: this.content,
+				content: this.content.getValue(),
 				des: this.des,
-				keyword: this.keyword
+				keyword: this.keyword.toString()
 			}
 			if(this.id != 0){
 				// 修改模式
+				params.id = this.id;
+				console.log(params)
 				response = await apiPostBlog(params);
+				return false;
 			}
 			// 新建模式
 			response = await apiPutBlog(params);
-			console.log(response);
 		},
 		// 返回
 		back(){

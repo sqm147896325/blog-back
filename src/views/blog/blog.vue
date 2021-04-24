@@ -23,7 +23,7 @@
 			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
 				<template class="operation" slot-scope="scope">
 					<el-button type="success" size="small" @click="change(scope.row)">查看</el-button>
-					<el-button type="danger" size="small" @click="del">删除</el-button>
+					<el-button type="danger" size="small" @click="del(scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -60,7 +60,7 @@ export default {
 			// 分页搜索数据
 			query: {
 				page: 1,
-				pagesize: 2,
+				pagesize: 5,
 				query: '',
 				key: 'title'
 			},
@@ -84,15 +84,19 @@ export default {
 			this.$router.push(`/edit/${row.id}?type=1`);
 		},
 		// 删除
-		del(){
-			this.$confirm(`是否${{msg}}`, '提示', {
+		del(row){
+			let msg = `删除${row.id}`;
+			this.$confirm(`是否${msg}`, '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
-			}).then(() => {
-				this.$message.success(`${{msg}}成功!`);
-			}).catch(() => {
-				this.$message.info(`已取消${{msg}}`);
+			}).then(async () => {
+				await apiDeleteBlog({id: row.id});
+				this.$message.success(`${msg}成功!`);
+				this.init();
+			}).catch((err) => {
+				console.log(err)
+				this.$message.info(`已取消${msg}`);
 			});
 		},
 		// 搜索
