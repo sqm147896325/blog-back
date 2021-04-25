@@ -52,14 +52,17 @@ axios.interceptors.response.use(
 		// 自定义响应码，233为直接渲染显示错误信息
 		if(code == 233){
 			Message.warning(response.data.msg);
+			return response;
 		}
 		// 自定义响应码，仅在控制台输出错误信息
 		if(code == 250){
 			console.warn('[响应提示]',response.data.msg);
+			return response;
 		}
 		if(code == 200){
 			return response.data;
 		}
+		// 默认返回为 response，如果修改默认返回可能导致option请求不通
 	},
 
 	//响应错误拦截
