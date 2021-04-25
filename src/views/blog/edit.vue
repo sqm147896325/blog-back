@@ -187,9 +187,10 @@ export default {
 				return false;
 			}
 			// 新建模式
-			await apiPutBlog(params);
-			this.initData();
-			// location.reload();
+			let { data } = await apiPutBlog(params);
+			this.id = data.dataInfo.id;							// 获取新建后的id
+			this.$router.replace(`/edit/${this.id}?type=1`);	// 替换路由params与query，更改为修改模式
+			await this.initData();	// 数据初始化
 		},
 		// 返回
 		back(){
@@ -200,7 +201,7 @@ export default {
 		// 检测提交的数据是否符合规则
 		checkFail(){
 			if(this.title == ''){
-				this.$message.error('标题不能为空')
+				this.$message.error('标题不能为空');
 				return true;
 			}
 		},
@@ -210,11 +211,13 @@ export default {
 			let { dataInfo } = await apiGetBlog({id:this.id});
 			this.title = this.constTitle = dataInfo.title;
 			this.des = this.constDes = dataInfo.des;
-			this.keyword = this.constKeyword = dataInfo.keyword.split(',');
+			// 分割关键字时要考虑没有关键字的情况
+			this.keyword = this.constKeyword = dataInfo.keyword == '' ? [] : dataInfo.keyword.split(',');
 			this.constContent = dataInfo.content;
 			this.content.setValue(dataInfo.content);
 			// 将编辑器更改的标识符重置为未更改，即false
 			this.editChange = false;
+			return dataInfo;
 		}
 	}
 }
