@@ -3,13 +3,14 @@ import router from './router';
 import store from './store';
 
 // token验证
-router.beforeEach(async (to,from,next) => {
+router.beforeEach((to,from,next) => {
 	// 传入活动的菜单栏
-	await store.commit('setActiveMenu',to.path);
+	store.commit('setActiveMenu',to.path);
 	
 	let token = localStorage.getItem('token');
+	let userInfo = JSON.parse(localStorage.getItem('userInfo'));
 	// token有无跳转逻辑
-	if(token){
+	if(token && userInfo){
 		// 有token不能访问login
 		if (to.path === '/login'){
 			next({ path: '/' });
@@ -20,6 +21,8 @@ router.beforeEach(async (to,from,next) => {
 			* 直接清除浏览器中的token并刷新页面即可
 			* 登出同理
 			*/ 
+			// todo 路径跳转时读取localStorage中的用户信息，这里应该监听关闭与初始化该页面进行数据持久化操作
+			store.commit('setUserInfo',userInfo);
 			// 正常跳转
 			next();
 		}
