@@ -19,9 +19,10 @@
 			<el-table-column prop="tel" label="电话" width="120" align="center" />
 			<el-table-column prop="emil" label="邮箱" width="160" align="center" />
 			<el-table-column prop="des" label="描述" align="center" />
-			<el-table-column prop="operation" label="操作" align="center" width="180" >
+			<el-table-column prop="operation" label="操作" align="center" width="280" >
 				<template class="operation" slot-scope="scope">
-					<el-button type="primary" size="small" @click="change(scope.row)">修改</el-button>
+					<el-button type="primary" size="small" @click="change(scope.row)">修改信息</el-button>
+					<el-button type="primary" size="small" @click="changePower(scope.row)">修改权限</el-button>
 					<el-button type="danger" size="small" @click="del(scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
@@ -30,9 +31,12 @@
 		<!-- 分页器 -->
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
-		<!-- 遮罩 -->
+		<!-- 表单遮罩 -->
 		<my-form :formdata="formdata" :row="row" :rules="rules" :show="dialogVisible" @cancelForm="cancelForm" @submitFrom="submitFrom"></my-form>
 		
+		<!-- 权限遮罩 -->
+		<power-dialog :show.sync="powerVisible" :powerData="powerData" :id="powerId" @save="init"></power-dialog>
+
     </div>
 </template>
 
@@ -41,9 +45,10 @@ import { apiGetUserList , apiPutUser , apiPostUser , apiDeleteUser } from '@/api
 import Search from '@/components/Search/Search.vue';
 import From from '@/components/Form/Form.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
+import PowerDialog from './components/PowerDialog.vue'
 
 export default {
-	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination },
+	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination , PowerDialog},
 	data(){
 		return {
 			userList: [],	// 需要渲染的数据
@@ -77,7 +82,12 @@ export default {
 				username:[ { required: true, message: '请输入用户名', trigger: 'blur' } ],
 				password: [ { required:true, message: '请输入密码',trigger: 'blur' } ]
 			},	// 表单验证规则
-			row: {}
+			row: {},
+
+			/* 权限树组件及遮罩 */
+			powerData: [],
+			powerVisible: false,
+			powerId: 0
 		}
 	},
 	mounted(){
@@ -85,7 +95,7 @@ export default {
 	},
 	methods: {
 		async init(){
-			await this.search()
+			await this.search();
 		},
 
 		// 添加
@@ -99,6 +109,13 @@ export default {
 			row.password = '';		// api中不返回密码字段，自定义空的key值
 			this.row = row;
 			this.dialogVisible = true;
+		},
+
+		// 修改权限
+		changePower(row){
+			this.powerData = JSON.parse(row.power) || [];
+			this.powerId = row.id;
+			this.powerVisible = true;
 		},
 
 		// 删除

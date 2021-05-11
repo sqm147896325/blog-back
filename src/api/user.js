@@ -81,3 +81,16 @@ export function apiGetUser(params) {
 		data: params
 	})
 }
+
+/**
+ * @description: 设置用户权限
+ * @param {*}
+ * @return {*}
+ */
+ export function apiPostPower(params) {
+	return axios({
+		url: '/user/power',
+		method: 'POST',
+		data: params
+	})
+}

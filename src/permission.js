@@ -37,3 +37,25 @@ router.beforeEach((to,from,next) => {
 		}
 	}	
 })
+
+// 鉴权
+router.beforeEach((to,from,next) => {
+	let power = store.state.user.userInfo.power;	// 获取该账号拥有的权限
+	let whiteList = router.options.whiteList;
+	// 白名单中直接访问
+	if(whiteList.includes(to.name)){
+		next();
+		return true;
+	}
+	// 拥有权限可以访问
+	if(power.includes(to.name)){
+		next();
+		return true;
+	}
+	// 访问首页直接访问
+	if(to.name == '首页'){
+		next();
+		return true;
+	}
+	next('/dashboard');
+})

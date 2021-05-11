@@ -45,9 +45,25 @@ export default {
 			if(this.itemMenu.length == 0){
 				// 初始时，根据vuex中存储的菜单信息生成目录
 				this.routesMenu = this.$store.state.aside.menu;
+				// 根据权限信息筛选去除
+				this.routesMenu = this.routesMenu.filter(e => {
+					if(this.$store.state.user.userInfo.power.includes(e.name) || e.name == '首页'){
+						return true;
+					}else{
+						return false;
+					}
+				});
 			}else{
 				// 递归调用时，使用递归的props进行生成
 				this.routesMenu = this.itemMenu;
+				// 根据权限信息筛选去除
+				this.routesMenu = this.routesMenu.filter(e => {
+					if(this.$store.state.user.userInfo.power.includes(e.name)){
+						return true;
+					}else{
+						return false;
+					}
+				});
 			}
 		},
 		// 选择菜单子项时的点击事件

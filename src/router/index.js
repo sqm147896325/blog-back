@@ -76,7 +76,7 @@ const powerShowRouter = [
 	}
 ]
 
-// 权限路由，不显示在菜单栏中
+// 权限附属路由，不显示在菜单栏中
 const powerHideRouter = [
 	{
 		path: '/edit',
@@ -95,12 +95,16 @@ const powerHideRouter = [
 
 	// 404页一定要放在最后
 	{ path: '/*', name: '404', show: false, redirect: '/404' }
-]
+];
+
+// 鉴权白名单
+const whiteList = [ 'login' , '404' , '博客编辑' ];
 
 const router = new VueRouter({
 	mode: 'history',
 	// base: process.env.BASE_URL,
-	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter]
+	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter],
+	whiteList
 })
 
 export default router

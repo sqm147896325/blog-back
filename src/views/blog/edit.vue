@@ -165,8 +165,8 @@ export default {
 				return false;
 			}
 			let params = {
-				author_id: this.$store.state.userInfo.userInfo.id,
-				author: this.$store.state.userInfo.userInfo.username,
+				author_id: this.$store.state.user.userInfo.id,
+				author: this.$store.state.user.userInfo.username,
 				title: this.title,
 				content: this.content.getValue(),
 				des: this.des,
