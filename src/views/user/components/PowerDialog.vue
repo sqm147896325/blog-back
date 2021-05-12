@@ -65,7 +65,6 @@ export default {
 			let routerData = this.$router.options.routes;
 			// 首页不参与鉴权，为默认的最小权限
 			routerData = routerData.filter(e => {
-				console.log(e.name)
 				return e.name != '首页';
 			});
 			routerData = this.recursionFilter(routerData,(routerData) => this.ruleOfFilter(routerData));
