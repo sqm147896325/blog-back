@@ -80,13 +80,14 @@ const powerShowRouter = [
 const powerHideRouter = [
 	{
 		path: '/edit',
-		name: '博客编辑',
+		name: '编辑',
 		show: false,
 		component: Layout,
 		redirect: '/manage/blog',
 		children: [
 			{
 				path: ':id',
+				name: '博客编辑',
 				component: () => import('../views/blog/edit.vue')
 			}
 		]
