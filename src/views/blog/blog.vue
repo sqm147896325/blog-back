@@ -18,8 +18,18 @@
 			<el-table-column prop="author_id" label="作者id" width="80" align="center" />
 			<el-table-column prop="des" label="描述" width="160" align="center" />
 			<el-table-column prop="keyword" label="关键字" width="160" align="center" />
-			<el-table-column prop="created_at" label="创建时间" width="120" align="center" />
-			<el-table-column prop="updated_at" label="更新时间" width="160" align="center" />
+			<el-table-column prop="created_at" label="创建时间" width="120" align="center">
+				<template class="operation" slot-scope="scope">
+					<div>{{scope.row.created_at | dateFilter(0)}}</div>
+					<div>{{scope.row.created_at | dateFilter(1)}}</div>
+				</template>
+			</el-table-column>
+			<el-table-column prop="updated_at" label="更新时间" width="160" align="center">
+				<template class="operation" slot-scope="scope">
+					<div>{{scope.row.updated_at | dateFilter(0)}}</div>
+					<div>{{scope.row.updated_at | dateFilter(1)}}</div>
+				</template>
+			</el-table-column>
 			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
 				<template class="operation" slot-scope="scope">
 					<el-button type="success" size="small" :disabled="scope.row.author_id | notMyBlog(that)" @click="change(scope.row)">查看</el-button>
@@ -81,6 +91,18 @@ export default {
 				return false;
 			}
 			return e != that.$store.state.user.userInfo.id;
+		},
+		// 时间过滤器
+		dateFilter(date,type){
+			if(!date){
+				// 如果没有这一字段直接返回''
+				return '';
+			}
+			if(type == 0){
+				return date.split('T')[0];
+			}else{
+				return date.split('T')[1].split('.')[0];
+			};
 		}
 	},
 	async mounted(){
