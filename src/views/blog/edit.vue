@@ -83,6 +83,7 @@ export default {
 	mounted(){
 		this.init();
 	},
+	// 组件路由守卫（离开）
 	beforeRouteLeave(to, from, next){
 		// 离开页面提示
 		if(to.path == '/login' || to.query.save == 'true' || this.dataChange == true){
@@ -209,6 +210,18 @@ export default {
 		// 获取初始化数据,注：不能直接调用，需要再edit初始化后才可以调用
 		async initData(){
 			let { dataInfo } = await apiGetBlog({id:this.id});
+			if(!dataInfo){
+				// 如果不存在该博客则进行跳转
+				this.$router.replace('/dashboard?save=true');
+				return false;
+			}
+			if(dataInfo.author_id != this.$store.state.user.userInfo.id && !this.$store.state.user.isAdmin){
+				// 如果id校验正确且不为超级管理员则进行拦截
+				this.$router.replace('/dashboard?save=true');
+				return false;
+			}
+
+			/* 满足进入该页面的要求则进行访问 */
 			this.title = this.constTitle = dataInfo.title;
 			this.des = this.constDes = dataInfo.des;
 			// 分割关键字时要考虑没有关键字的情况
