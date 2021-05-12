@@ -17,9 +17,10 @@
 <script>
 /**
  * @description: 基于element-ui的自定义搜索组件
- * @param {props}		option		搜索类型,[{lable：'显示的名称',value: '对应的值'}]
- * @param {method}		change		更改搜索类型，返回更改后对应的值
- * @param {method}		search		搜索
+ * @param {props}		option			搜索类型,[{lable：'显示的名称',value: '对应的值'}]
+ * @param {props}		defaultValue	搜索的默认值
+ * @param {method}		change			更改搜索类型，返回更改后对应的值
+ * @param {method}		search			搜索
  */
 export default {
 	name: 'Search',
@@ -27,6 +28,9 @@ export default {
 		option: {
 			type: Array,
 			default: ()=>[]
+		},
+		defaultValue: {
+			default: ''
 		}
 	},
 	data(){
@@ -34,6 +38,10 @@ export default {
 			input: '',
 			select: 0
 		}
+	},
+	mounted(){
+		// 如果有defaultValue，则使input的值为defaultValue
+		this.input = this.defaultValue;
 	},
 	methods: {
 		change(e){
