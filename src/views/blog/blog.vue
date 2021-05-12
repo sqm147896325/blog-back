@@ -3,7 +3,7 @@
 
 		<el-row :gutter="0" class="row">
 			<el-col :span="12" :offset="0">
-				<my-search holder="值" :option="option" @search="search" @change="select"></my-search>
+				<my-search holder="值" :option="option" :defaultValue="defaultValue" @search="search" @change="select"></my-search>
 			</el-col>
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
@@ -22,8 +22,8 @@
 			<el-table-column prop="updated_at" label="更新时间" width="160" align="center" />
 			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
 				<template class="operation" slot-scope="scope">
-					<el-button type="success" size="small" @click="change(scope.row)">查看</el-button>
-					<el-button type="danger" size="small" @click="del(scope.row)">删除</el-button>
+					<el-button type="success" size="small" :disabled="scope.row.author_id | notMyBlog(that)" @click="change(scope.row)">查看</el-button>
+					<el-button type="danger" size="small" :disabled="scope.row.author_id | notMyBlog(that)" @click="del(scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -43,18 +43,23 @@ export default {
 	components: { 'my-search': Search , 'my-pagination': Pagination },
 	data(){
 		return {
+			// that
+			that: this,
+
 			// 需要渲染的数据
 			userList: [],
 
 			/* 搜索组件 */
 			// 搜索类型
-			option: [ 
+			option: [
+				{label: '作者id', value:'author_id'},
 				{label: '标题', value:'title'},
 				{label: '内容', value:'content'},
 				{label: '描述', value:'des'},
 				{label: '关键字', value:'keyword'},
 				{label: '作者名', value:'author'},
 			],
+			defaultValue: this.$store.state.user.userInfo.id,
 
 			/* 分页组件 */
 			// 分页搜索数据
@@ -62,18 +67,28 @@ export default {
 				page: 1,
 				pagesize: 5,
 				query: '',
-				key: 'title'
+				key: 'author_id'
 			},
 			// 页数
 			total: 0
 		}
 	},
-	mounted(){
-		this.init();
+	filters: {
+		// 判断当前博客是否可以控制
+		notMyBlog(e,that){
+			if(that.$store.state.user.isAdmin){
+				// 超级管理员可以访问所有
+				return false;
+			}
+			return e != that.$store.state.user.userInfo.id;
+		}
+	},
+	async mounted(){
+		await this.init();
 	},
 	methods: {
 		async init(){
-			await this.search();
+			await this.search(this.$store.state.user.userInfo.id);
 		},
 		// 添加
 		add(){
