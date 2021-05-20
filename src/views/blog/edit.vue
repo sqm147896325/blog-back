@@ -113,8 +113,9 @@ export default {
 			this.keyword = data;
 		},
 		// 读取成功回调
-		readText(data){
-			this.content.setValue(data);
+		readText(fileName, data){
+			this.content.setValue(data);	// 设置内容
+			this.title = fileName.substring(0,fileName.lastIndexOf('.'));;	// 设置去后缀后的标题
 			this.$message.success('读取成功');
 			this.checkEdit();
 		},
