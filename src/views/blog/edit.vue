@@ -44,7 +44,7 @@ import Vditor from "vditor";
 import "vditor/dist/index.css";
 import { apiGetBlog , apiPostBlog , apiPutBlog } from '../../api/blog';
 import readOneFile from '../../components/readOneFile/readOneFile.vue';
-import TagsInput from '../../components/TagsInput/TagsInput.vue'
+import TagsInput from '../../components/TagsInput/TagsInput.vue';
 
 export default {
 	components: { readOneFile , TagsInput },
@@ -68,7 +68,8 @@ export default {
 			/* 编辑器数据 */
 			content: '',			// 编辑器对象
 			constContent: '',		// 初始请求到的值
-			editChange: false		// 编辑器是否改变
+			editChange: false,		// 编辑器是否改变
+			contentLenght: 0		// 内容字数
 		}
 	},
 	computed: {
@@ -115,6 +116,7 @@ export default {
 		// 读取成功回调
 		readText(fileName, data){
 			this.content.setValue(data);	// 设置内容
+			console.log('all', wordCount(data)); 
 			this.title = fileName.substring(0,fileName.lastIndexOf('.'));;	// 设置去后缀后的标题
 			this.$message.success('读取成功');
 			this.checkEdit();
@@ -131,6 +133,15 @@ export default {
 					enable:false
 				},
 				placeholder: 'Hello,please!',	// 提示
+				// 开启计数器
+				counter: {
+					enable: true,
+					type: 'markdown',	// 统计类型
+					after: (lenght) => {
+						console.log('this.contentLenght',this.contentLenght)
+						this.contentLenght = lenght; // 使用回调统计文章字数
+					}
+				},
 				// 输入触发（延迟较大）
 				input: () => {
 					this.checkEdit();
@@ -172,7 +183,8 @@ export default {
 				title: this.title,
 				content: this.content.getValue(),
 				des: this.des,
-				keyword: this.keyword.toString()
+				keyword: this.keyword.toString(),
+				lenght: this.contentLenght
 			}
 			if(this.id != 0){
 				// 修改模式
