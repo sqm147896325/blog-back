@@ -27,6 +27,7 @@ export default {
         async init() {
             await this.getNewBlog()
             this.charts()
+            console.log('获取data中的数据', this.$data)
         },
 
         /* 图表相关 */
@@ -40,7 +41,7 @@ export default {
             this.newBlog.option = {
                 title: {
                     text: '近日新增博客',
-                    subtext: '需要重构',
+                    subtext: '访问次数',
                     left: 'center'
                 },
                 tooltip: {
@@ -88,9 +89,10 @@ export default {
             }
             // 获取数据库中最新增加的三条博客数据
             let { dataInfo } = await apiGetBlogList(query)
+            console.log('',dataInfo)
             this.newBlog.data = dataInfo.rows.map(e => {
                 return {
-                    value: 1,
+                    value: e.visited,
                     name: e.title
                 }
             })
