@@ -48,7 +48,7 @@ router.beforeEach((to,from,next) => {
 		return true;
 	}
 	// 拥有权限可以访问
-	if(power.includes(to.name)){
+	if(power && power.includes(to.name)){
 		next();
 		return true;
 	}
