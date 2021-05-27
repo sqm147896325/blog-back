@@ -56,6 +56,24 @@ const powerShowRouter = [
 		}]
 	},
 	{
+		path: '/application',
+		name: '应用',
+		icon: 'el-icon-menu',
+		component: Layout,
+		redirect: '/application/appList',
+		children: [{
+			path: 'appList',
+			name: '应用列表',
+			icon: 'el-icon-help',
+			component: () => import('../views/application/appList.vue')
+		},{
+			path: 'apiDoc',
+			name: '接口文档',
+			icon: 'el-icon-document',
+			component: () => import('../views/application/apiDoc/apiDoc.vue')
+		}]
+	},
+	{
 		path: '/manage',
 		name: '管理',
 		icon: 'el-icon-setting',
