@@ -1,14 +1,41 @@
 <template>
     <div class="dashboard">
-        <div id="new-blog" style="width: 600px;height:400px;"></div>
+        <grid-layout
+            :layout.sync="layout"
+            :col-num="6"
+            :row-height="40"
+            :is-draggable="true"
+            :is-resizable="true"
+            :is-mirrored="false"
+            :vertical-compact="true"
+            :margin="[10, 10]"
+            :use-css-transforms="true"
+        >
+            <grid-item v-for="item in layout"
+                    :x="item.x"
+                    :y="item.y"
+                    :w="item.w"
+                    :h="item.h"
+                    :i="item.i"
+                    :key="item.i">
+                <div v-if="item.i == '0'" id="new-blog" style="width: 100%;height:100%"></div>
+                <div v-else-if="item.i == '1'" id="keyword-data" style="width: 100%;height:100%"></div>
+                <div v-else class="item-inner"></div>
+            </grid-item>
+        </grid-layout>
     </div>
 </template>
 
 <script>
-import { apiGetBlogList } from '@/api/blog.js'
+import VueGridLayout from 'vue-grid-layout'; // 引入vue-grid-layout布局
+import { apiGetBlogList , apiGetKeyword } from '@/api/blog.js'
 import * as echarts from 'echarts' // 引入echarts
 export default {
     name: 'Dashboard',
+    components: {
+        GridLayout: VueGridLayout.GridLayout,
+        GridItem: VueGridLayout.GridItem
+    },
     data() {
         return {
             // 新增博客相关
@@ -16,7 +43,21 @@ export default {
                 chart: {},
                 option: {},
                 data: []
-            }
+            },
+            // 关键字及其出现次数相关
+            keywordData: {
+                chart: {},
+                option: {},
+                data: []
+            },
+            layout: [
+                {"x":0,"y":0,"w":3,"h":5,"i":"0"},
+                {"x":3,"y":0,"w":3,"h":5,"i":"1"},
+                {"x":0,"y":1,"w":3,"h":5,"i":"2"},
+                {"x":3,"y":1,"w":3,"h":5,"i":"3"},
+                {"x":0,"y":2,"w":3,"h":5,"i":"4"},
+                {"x":3,"y":2,"w":3,"h":5,"i":"5"},
+            ]
         }
     },
     async mounted() {
@@ -25,58 +66,34 @@ export default {
     methods: {
         // 初始化
         async init() {
-            await this.getNewBlog()
-            this.charts()
-            console.log('获取data中的数据', this.$data)
+            await this.getNewBlog();
+            await this.getKeywordData();
+            this.charts();
+            console.log('获取data中的数据', this.$data);
         },
 
         /* 图表相关 */
-        // 获取需要渲染的图表
-        getCharts() {
-            this.newBlog.chart = echarts.init(document.getElementById('new-blog'))
-        },
-        // 配置信息设置
-        setCharts() {
-            // 图表对应的配置
-            this.newBlog.option = {
-                title: {
-                    text: '近日新增博客',
-                    subtext: '访问次数',
-                    left: 'center'
-                },
-                tooltip: {
-                    trigger: 'item'
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                },
-                series: [
-                    {
-                        name: '新增博客',
-                        type: 'pie',
-                        radius: '50%',
-                        data: this.newBlog.data,
-                        emphasis: {
-                            itemStyle: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-        },
-        mountCharts() {
-            // 使用刚指定的配置项和数据显示图表。
-            this.newBlog.chart.setOption(this.newBlog.option);
-        },
         // 图表设置流程
         charts() {
-            this.getCharts()
-            this.setCharts()
-            this.mountCharts()
+            // 近日新增博客 图表设置
+            this.newBlog.chart = echarts.init(document.getElementById('new-blog'));
+            this.newBlog.option = {
+                title: { text: '近日新增博客', left: 'center' },
+                tooltip: { trigger: 'item' },
+                legend: { orient: 'vertical', left: 'left' },
+                series: [{ type: 'pie', data: this.newBlog.data ,radius: '60%' }]
+            };
+            this.newBlog.chart.setOption(this.newBlog.option);
+            // 关键字统计 图表设置
+            this.keywordData.chart = echarts.init(document.getElementById('keyword-data'));
+             this.keywordData.option = {
+                title: { text: '关键字统计', left: 'center' },
+                tooltip: { trigger: 'item' },
+                legend: { orient: 'vertical', left: 'left' },
+                series: [{ type: 'pie', data: this.keywordData.data ,radius: '60%' }]
+            };
+            this.keywordData.chart.setOption(this.keywordData.option);
+
         },
 
 
@@ -97,6 +114,16 @@ export default {
                 }
             })
             console.log(this.newBlog.data)
+        },
+        async getKeywordData() {
+            let { dataInfo } = await apiGetKeyword();
+            let keys = Object.keys(dataInfo)
+            this.keywordData.data = keys.map((e) => {
+                return {
+                    value: dataInfo[e],
+                    name: e
+                }
+            });
         }
     }
     
@@ -104,5 +131,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    
+.dashboard{
+    height: 83vh;
+    overflow: scroll;
+}
+.item-inner{
+    background: rgba(0, 255, 64, 0.46);
+    width: 100%;
+    height: 100%;
+}
 </style>
