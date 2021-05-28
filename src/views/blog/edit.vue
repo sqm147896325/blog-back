@@ -116,7 +116,6 @@ export default {
 		// 读取成功回调
 		readText(fileName, data){
 			this.content.setValue(data);	// 设置内容
-			console.log('all', wordCount(data)); 
 			this.title = fileName.substring(0,fileName.lastIndexOf('.'));;	// 设置去后缀后的标题
 			this.$message.success('读取成功');
 			this.checkEdit();
