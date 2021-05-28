@@ -18,6 +18,8 @@
 			<el-table-column prop="author_id" label="作者id" width="80" align="center" />
 			<el-table-column prop="des" label="描述" width="160" align="center" />
 			<el-table-column prop="keyword" label="关键字" width="160" align="center" />
+			<el-table-column prop="lenght" label="字数" width="160" align="center" />
+			<el-table-column prop="visited" label="访问次数" width="160" align="center" />
 			<el-table-column prop="created_at" label="创建时间" width="120" align="center">
 				<template class="operation" slot-scope="scope">
 					<div>{{scope.row.created_at | dateFilter(0)}}</div>
