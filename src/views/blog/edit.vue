@@ -42,7 +42,7 @@
 <script>
 import Vditor from "vditor";
 import "vditor/dist/index.css";
-import { apiGetBlog , apiPostBlog , apiPutBlog } from '../../api/blog';
+import { apiGetBlog , apiPostBlog , apiPutBlog , apiGetKeyword } from '../../api/blog';
 import readOneFile from '../../components/readOneFile/readOneFile.vue';
 import TagsInput from '../../components/TagsInput/TagsInput.vue';
 
@@ -107,6 +107,8 @@ export default {
 			// 缩入菜单栏
 			this.$store.commit('setOpen',true);
 			await this.initEdit();
+			const { dataInfo } = await apiGetKeyword();
+			this.options  = Object.keys(dataInfo);
 		},
 
 		// 改变标签回调

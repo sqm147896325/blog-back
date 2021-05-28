@@ -64,3 +64,17 @@ export function apiGetBlog(params) {
 		data: params
 	})
 }
+
+/**
+ * @author sqm
+ * @description 获取所有标签及标签下对应的博客数量
+ * @param {*}
+ * @backDes 
+ */
+ export function apiGetKeyword(params) {
+	return axios({
+		url: '/blog/keyword',
+		method: 'get',
+		data: params
+	})
+}
