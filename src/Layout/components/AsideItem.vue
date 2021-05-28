@@ -58,7 +58,7 @@ export default {
 				this.routesMenu = this.itemMenu;
 				// 根据权限信息筛选去除
 				this.routesMenu = this.routesMenu.filter(e => {
-					if(this.$store.state.user.userInfo.power.includes(e.name)){
+					if(this.$store.state.user.userInfo.power?.includes(e.name)){
 						return true;
 					}else{
 						return false;
