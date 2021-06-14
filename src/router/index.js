@@ -71,6 +71,11 @@ const powerShowRouter = [
 			name: '接口文档',
 			icon: 'el-icon-document',
 			component: () => import('../views/application/apiDoc/apiDoc.vue')
+		},{
+			path: 'networkDisk',
+			name: '网盘',
+			icon: 'el-icon-upload',
+			component: () => import('../views/application/networkDisk/networkDisk.vue')
 		}]
 	},
 	{

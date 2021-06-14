@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { apiGetApi } from '../../../api/other.js'
+import { apiGetApi } from '../../../api/app.js'
 export default {
 	data() {
 		return {
