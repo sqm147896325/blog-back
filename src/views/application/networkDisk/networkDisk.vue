@@ -7,6 +7,7 @@
 		</div>
 		<div class="right">
 			<el-button type="success" size="small" @click="mkdir">新建文件夹</el-button>
+			<el-button type="primary" :disabled="checkArr.length == 0" size="small" @click="download">下载</el-button>
 			<el-button type="primary" size="small" @click="upload">上传</el-button>
 		</div>
 	</div>
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { apiPostFlie, apiPutFlie, apiDeleteFile , apiPutDir } from '@/api/app.js'
+import { apiPostFlie, apiPutFlie, apiDeleteFile , apiPutDir , apiPostDownload } from '@/api/app.js'
 export default {
 	name: 'networkDisk',
 	data() {
@@ -104,6 +105,12 @@ export default {
 				console.log(err)
 				this.$message.info(`已取消${msg}`);
 			});
+		},
+		// 点击下载
+		async download() {
+			let downloadArr = this.checkArr.map(e => e.uuid);
+			let res = await this.downloadFile({downloadArr,user_id:this.$store.state.user.userInfo.id});
+			console.log(res);
 		},
 		// 点击上传
 		upload(){
@@ -176,6 +183,10 @@ export default {
 		// 删除文件或文件夹
 		async deleteFile(params) {
 			let res = await apiDeleteFile(params);
+			console.log(res);
+		},
+		async downloadFile(params) {
+			let res = await apiPostDownload(params);
 			console.log(res);
 		}
 	}

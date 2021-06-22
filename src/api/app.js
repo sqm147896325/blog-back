@@ -15,7 +15,7 @@ export function apiGetApi(params) {
 };
 
 /**
- * @description: 获取网盘单个文件或文件夹
+ * @description: 获取网盘单个文件或文件夹信息
  * @param {*}	params
  * @return {*}
  */
@@ -63,6 +63,19 @@ export function apiGetApi(params) {
 	return axios({
 		url: '/file/index',
 		method: 'put',
+		data: params
+	})
+};
+
+/**
+ * @description: 下载文件
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiPostDownload(params) {
+	return axios({
+		url: '/file/download',
+		method: 'post',
 		data: params
 	})
 };
