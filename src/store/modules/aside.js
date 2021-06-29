@@ -12,9 +12,9 @@ function recursiveMenu(value) {
 		for (let index2 = 0; index2 < value[index].children.length; index2++) {
 			// 拼接路径
 			value[index].children[index2].path = value[index].path + '/' + value[index].children[index2].path;
-			// 递归调用
-			recursiveMenu(value[index].children[index2]);
 		}
+		// 递归调用
+		value[index].children = recursiveMenu(value[index].children);
 	}
 	return value;
 };
