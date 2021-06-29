@@ -15,7 +15,7 @@ export function apiGetApi(params) {
 };
 
 /**
- * @description: 获取网盘单个文件或文件夹
+ * @description: 获取网盘单个文件或文件夹信息
  * @param {*}	params
  * @return {*}
  */
