@@ -66,3 +66,17 @@ export function apiGetApi(params) {
 		data: params
 	})
 };
+
+/**
+ * @description: 下载文件
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiFileDownload(params,success) {
+	return axios({
+		responseType: 'blob',
+		url: '/file/download',
+		method: 'post',
+		data: params
+	})
+};

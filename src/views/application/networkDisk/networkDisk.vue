@@ -6,6 +6,7 @@
 			<el-button :disabled="checkArr.length == 0" type="danger" size="small" @click="del">删除</el-button>
 		</div>
 		<div class="right">
+			<el-button :disabled="checkArr.length == 0" type="primary" size="small" @click="downFile">下载</el-button>
 			<el-button type="success" size="small" @click="mkdir">新建文件夹</el-button>
 			<el-button type="primary" size="small" @click="upload">上传</el-button>
 		</div>
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { apiPostFlie, apiPutFlie, apiDeleteFile , apiPutDir } from '@/api/app.js'
+import { apiPostFlie, apiPutFlie, apiDeleteFile , apiPutDir , apiFileDownload } from '@/api/app.js'
 export default {
 	name: 'networkDisk',
 	data() {
@@ -79,6 +80,14 @@ export default {
 			let res = await this.deleteFile({delArr,user_id:this.$store.state.user.userInfo.id});
 			console.log(res);
 			await this.init();
+		},
+		// 下载
+		async downFile() {
+			let downloadArr = this.checkArr.map(e => e.uuid);
+			const res = await this.FileDownload(
+				{downloadArr,user_id:this.$store.state.user.userInfo.id}
+			);
+			console.log('111',res)
 		},
 		// 创建文件夹
 		async mkdir(){
@@ -177,6 +186,11 @@ export default {
 		async deleteFile(params) {
 			let res = await apiDeleteFile(params);
 			console.log(res);
+		},
+		async FileDownload(params) {
+			let res = await apiFileDownload(params);
+			console.log(res);
+			return res;
 		}
 	}
 }
