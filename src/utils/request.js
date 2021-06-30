@@ -17,7 +17,7 @@ class Baseurl{
 axios.defaults.baseURL = Baseurl.baseURL();
 
 // 响应时间设置
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 30000;
 
 // 默认的post传参方式就是application/x-www-form-urlencoded;charset=UTF-8，不过使用该方式时需要用qs对post进行传参序列化
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
