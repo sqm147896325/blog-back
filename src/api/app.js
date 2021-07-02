@@ -68,7 +68,7 @@ export function apiGetApi(params) {
 };
 
 /**
- * @description: 下载文件
+ * @description: 下载文件（不推荐使用该方法，转而使用window.open更方便些）
  * @param {*}	params
  * @return {*}
  */
@@ -76,7 +76,7 @@ export function apiGetApi(params) {
 	return axios({
 		responseType: 'blob',
 		url: '/file/download',
-		method: 'post',
+		method: 'get',
 		data: params
 	})
 };
