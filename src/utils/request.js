@@ -4,12 +4,9 @@ import qs from 'qs';
 
 // 请求基础路径配置
 class Baseurl{
-	static host = '127.0.0.1';
-	static port = '9080';
-	// static path = 'api';
-
+	static path = import.meta.env.VITE_APP_BASE_URL;
 	static baseURL(){
-		return `http://${this.host}:${this.port}/${this.path || ''}`;
+		return `${this.path || ''}`;
 	}
 }
 
