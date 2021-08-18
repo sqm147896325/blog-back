@@ -17,7 +17,7 @@
 			<el-table-column prop="username" label="用户名" width="100" align="center" />
 			<el-table-column prop="id" label="账号id" width="80" align="center" />
 			<el-table-column prop="tel" label="电话" width="120" align="center" />
-			<el-table-column prop="emil" label="邮箱" width="160" align="center" />
+			<el-table-column prop="emil" label="邮箱" width="180" align="center" />
 			<el-table-column prop="des" label="描述" align="center" />
 			<el-table-column prop="operation" label="操作" align="center" width="280" >
 				<template class="operation" slot-scope="scope">
@@ -73,7 +73,7 @@ export default {
 			dialogVisible: false,	// 遮罩
 			formdata: {
 				username: {label: '用户名',value: ''},
-				password: {label: '密码',value: ''},
+				password: {label: '密码',value: '',type: 'password'},
 				tel: {label: '电话',value: ''},
 				emil: {label: '邮箱',value: ''},
 				des: {label: '描述',value: ''},

@@ -2,7 +2,7 @@
 	<el-dialog :title="'修改账号'" :visible.sync="visible" width="33%" @close="cancel" @closed="closed">
 		<el-form :model="rowData" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
 			<el-form-item v-for="(value , key ) in formdata" :key="key" :label="value.label" :prop="key">
-				<el-input v-model="rowData[key]"></el-input>
+				<el-input :type="value.type ? value.type : ''" v-model="rowData[key]"></el-input>
 			</el-form-item>
 			<div class="foot-button">
 				<el-button type="primary" @click="submit">确定</el-button>
