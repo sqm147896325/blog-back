@@ -1,6 +1,6 @@
 <template>
 	<div class="Layout">
-		<el-container>
+		<el-container class="container">
 				<l-aside />
 			<el-container direction="vertical">
 				<l-header />
@@ -40,6 +40,9 @@ export default {
 <style lang="less" scoped>
 .Layout{
 	min-width: 1050px;
+}
+.container{
+	height: 100vh;
 }
 
 .fade-enter-active, .fade-leave-active {
