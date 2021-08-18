@@ -125,7 +125,7 @@ const powerHideRouter = [
 const whiteList = [ 'login' , '404' , '博客编辑' ];
 
 const router = new VueRouter({
-	mode: 'history',
+	mode: 'hash',
 	// base: process.env.BASE_URL,
 	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter],
 	whiteList
