@@ -87,9 +87,9 @@ export default {
             // 关键字统计 图表设置
             this.keywordData.chart = echarts.init(document.getElementById('keyword-data'));
              this.keywordData.option = {
-                title: { text: '关键字统计', left: 'center' },
+                title: { text: '关键字统计', left: 'left' },
                 tooltip: { trigger: 'item' },
-                legend: { orient: 'vertical', left: 'left' },
+                // legend: { orient: 'vertical', left: 'left' },
                 series: [{ type: 'pie', data: this.keywordData.data ,radius: '60%' }]
             };
             this.keywordData.chart.setOption(this.keywordData.option);
