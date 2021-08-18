@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Message } from 'element-ui';
+import router from '@/router/index.js';
 import qs from 'qs';
 
 // 请求基础路径配置
@@ -64,6 +65,15 @@ axios.interceptors.response.use(
 
 	//响应错误拦截
 	error => {
+		// 鉴权失败
+		if(error && error.response.status == 401){
+			Message.warning(error.response.data.msg);
+			localStorage.removeItem('token');
+			router.push({
+				path: '/login'
+			})
+			return response;
+		}
 		return Promise.reject(error);
 	}
 );

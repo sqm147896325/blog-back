@@ -30,6 +30,7 @@ router.beforeEach((to,from,next) => {
 		// 如果没有token
 		if (to.path !== '/login'){
 			// 没有token必须重定向到login页
+			Message.warning('未登录状态');
 			next({ path: '/login' });
 		}else{
 			// 防止login也重复跳转
