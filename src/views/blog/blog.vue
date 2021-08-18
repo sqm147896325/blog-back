@@ -13,7 +13,7 @@
 
 		<!-- 表格区域 -->
 		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
-			<el-table-column prop="title" label="标题" width="100" align="center" />
+			<el-table-column prop="title" label="标题" width="180" align="center" />
 			<el-table-column prop="author" label="作者名" width="100" align="center" />
 			<el-table-column prop="author_id" label="作者id" width="80" align="center" />
 			<el-table-column prop="des" label="描述" width="160" align="center" />
