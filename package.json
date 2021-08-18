@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "vite serve",
 		"dev:beta": "vite serve --mode beta",
-		"build": "vite build"
+		"build": "vite build --base=/page/back/"
 	},
 	"dependencies": {
 		"axios": "^0.21.1",
