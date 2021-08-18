@@ -8,6 +8,9 @@
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
 			</el-col>
+			<el-col :span="2">
+				<el-button type="success" size="small" @click="format">格式</el-button>
+			</el-col>
 		</el-row>
 
 
@@ -43,6 +46,8 @@
 		<!-- 分页器 -->
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
+		<!-- 格式 -->
+		<TableFormat :visible.sync="formatVisible" :table-option="tableOption" @setTableOption="setTableOption" />
     </div>
 </template>
 
@@ -50,9 +55,10 @@
 import { apiGetBlogList , apiDeleteBlog } from '@/api/blog.js';
 import Search from '@/components/Search/Search.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
+import TableFormat from '@/components/TableFormat/TableFormat.vue';
 
 export default {
-	components: { 'my-search': Search , 'my-pagination': Pagination },
+	components: { 'my-search': Search , 'my-pagination': Pagination, TableFormat },
 	data(){
 		return {
 			// that
@@ -82,7 +88,20 @@ export default {
 				key: 'author_id'
 			},
 			// 页数
-			total: 0
+			total: 0,
+
+			/* 格式组件 */
+			formatVisible: false,
+			tableOption: [
+				{ field: 'cbilltype', cname: '单据类型', cshow: true, align: 'center', showname: '单据类型', clock: false },
+                { field: 'cbilldate', cname: '单据日期', cshow: true, align: 'center', showname: '单据日期', clock: false },
+                { field: 'cbillcode', cname: '单据号', cshow: true, align: 'center', showname: '单据号', clock: false },
+                { field: 'currency', cname: '币种', cshow: true, align: 'center', showname: '币种', clock: false },
+                { field: 'amount', cname: '原币金额', cshow: true, align: 'center', showname: '原币金额', clock: false },
+                { field: 'famount', cname: '本币金额', cshow: true, align: 'center', showname: '本币金额', clock: false },
+                { field: 'ccreatorcname', cname: '制单人', cshow: true, align: 'center', showname: '制单人', clock: false },
+                { field: 'cauditorcname', cname: '审核人', cshow: true, align: 'center', showname: '审核人', clock: false }
+			]
 		}
 	},
 	filters: {
@@ -117,6 +136,14 @@ export default {
 		// 添加
 		add(){
 			this.$router.push(`/edit/0?type=0`)
+		},
+		// 打开格式遮罩
+		format() {
+            this.formatVisible = true
+		},
+		// 设置格式回调
+		setTableOption() {
+
 		},
 		// 修改
 		change(row){
