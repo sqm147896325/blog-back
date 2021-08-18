@@ -46,8 +46,8 @@ export default {
 
 <style lang="less" scoped>
 .api-doc{
-	height: 84vh;
-	overflow: scroll;
+	// height: 84vh;
+	// overflow: scroll;
 }
 .demo-table-expand {
 	font-size: 0;
