@@ -132,8 +132,9 @@ export default {
 
 <style lang="less" scoped>
 .dashboard{
-    height: 83vh;
-    overflow: scroll;
+    // ! 这里不固定页脚
+    // height: 83vh;
+    // overflow: scroll;
 }
 .item-inner{
     background: rgba(0, 255, 64, 0.46);

@@ -191,7 +191,6 @@ export default {
 
 <style lang="less" scoped>
 .title-bar{
-	margin-top: 20px;
 	display: flex;
 	justify-content: space-between;
 	padding-bottom: 20px;

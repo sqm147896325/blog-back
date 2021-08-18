@@ -1,15 +1,15 @@
 <template>
 	<div class="Layout">
-		<el-container class="container">
+		<el-container>
 				<l-aside />
-			<el-container direction="vertical">
+			<el-container class="container" direction="vertical">
 				<l-header />
 				<el-main>
 					<transition name="fade" mode="out-in">
-						<router-view></router-view>
+						<router-view class="view"></router-view>
 					</transition>
+					<l-footer />
 				</el-main>
-				<l-footer />
 			</el-container>
 		</el-container>
 	</div>
@@ -44,7 +44,9 @@ export default {
 .container{
 	height: 100vh;
 }
-
+.view{
+	min-height: 84vh;
+}
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .2s;
 }
