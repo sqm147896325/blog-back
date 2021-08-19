@@ -202,7 +202,7 @@ export default {
 
 <style lang="less" scoped>
 .row{
-	padding: 0 0 20px 0;
+	padding: 0 0 15px 0;
 }
 .operation{
 	display: flex;
