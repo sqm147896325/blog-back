@@ -16,38 +16,38 @@
 
 		<!-- 表格区域 -->
 		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
-			<el-table-column prop="title" label="标题" width="180" align="center" />
-			<el-table-column prop="author" label="作者名" width="100" align="center" />
-			<el-table-column prop="author_id" label="作者id" width="80" align="center" />
-			<el-table-column prop="des" label="描述" width="160" align="center" />
-			<el-table-column prop="keyword" label="关键字" width="160" align="center" />
-			<el-table-column prop="lenght" label="字数" width="160" align="center" />
-			<el-table-column prop="visited" label="访问次数" width="160" align="center" />
-			<el-table-column prop="created_at" label="创建时间" width="120" align="center">
-				<template class="operation" slot-scope="scope">
-					<div>{{scope.row.created_at | dateFilter(0)}}</div>
-					<div>{{scope.row.created_at | dateFilter(1)}}</div>
-				</template>
-			</el-table-column>
-			<el-table-column prop="updated_at" label="更新时间" width="160" align="center">
-				<template class="operation" slot-scope="scope">
-					<div>{{scope.row.updated_at | dateFilter(0)}}</div>
-					<div>{{scope.row.updated_at | dateFilter(1)}}</div>
-				</template>
-			</el-table-column>
-			<el-table-column prop="operation" label="操作" align="center" width="270" fixed="right" >
-				<template class="operation" slot-scope="scope">
-					<el-button type="success" size="small" :disabled="scope.row.author_id | notMyBlog(that)" @click="change(scope.row)">查看</el-button>
-					<el-button type="danger" size="small" :disabled="scope.row.author_id | notMyBlog(that)" @click="del(scope.row)">删除</el-button>
-				</template>
-			</el-table-column>
+			<template v-for="item in tableOption">
+				<el-table-column
+					v-if="item.cshow"
+					:key="item.index"
+					:prop="item.field"
+					:label="item.showname"
+					:width="item.width"
+					:align="item.align"
+					:fixed="item.clock ? 'right' : false"
+				>
+					<template #default="{ row }">
+						<div v-if="item.field === 'created_at' || item.field === 'updated_at'">
+							<div>{{row.created_at | dateFilter(0)}}</div>
+							<div>{{row.created_at | dateFilter(1)}}</div>
+						</div>
+						<div v-else-if="item.field === 'operation'" class="operation">
+							<el-button type="success" size="small" :disabled="row.author_id | notMyBlog(that)" @click="change(row)">查看</el-button>
+							<el-button type="danger" size="small" :disabled="row.author_id | notMyBlog(that)" @click="del(row)">删除</el-button>
+						</div>
+						<span v-else>
+							{{row[item.field]}}
+						</span>
+					</template>
+				</el-table-column>
+			</template>
 		</el-table>
 
 		<!-- 分页器 -->
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
 		<!-- 格式 -->
-		<TableFormat :visible.sync="formatVisible" :table-option="tableOption" @setTableOption="setTableOption" />
+		<table-format :visible.sync="formatVisible" :table-option="tableOption" @setTableOption="setTableOption" />
     </div>
 </template>
 
@@ -93,14 +93,16 @@ export default {
 			/* 格式组件 */
 			formatVisible: false,
 			tableOption: [
-				{ field: 'cbilltype', cname: '单据类型', cshow: true, align: 'center', showname: '单据类型', clock: false },
-                { field: 'cbilldate', cname: '单据日期', cshow: true, align: 'center', showname: '单据日期', clock: false },
-                { field: 'cbillcode', cname: '单据号', cshow: true, align: 'center', showname: '单据号', clock: false },
-                { field: 'currency', cname: '币种', cshow: true, align: 'center', showname: '币种', clock: false },
-                { field: 'amount', cname: '原币金额', cshow: true, align: 'center', showname: '原币金额', clock: false },
-                { field: 'famount', cname: '本币金额', cshow: true, align: 'center', showname: '本币金额', clock: false },
-                { field: 'ccreatorcname', cname: '制单人', cshow: true, align: 'center', showname: '制单人', clock: false },
-                { field: 'cauditorcname', cname: '审核人', cshow: true, align: 'center', showname: '审核人', clock: false }
+					{ field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width:180 },
+					{ field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width:100 },
+					{ field: 'author_id', cname: '作者id', cshow: true, align: 'center', showname: '作者id', clock: false, width:80 },
+					{ field: 'des', cname: '描述', cshow: true, align: 'center', showname: '描述', clock: false, width:160 },
+					{ field: 'keyword', cname: '关键字', cshow: true, align: 'center', showname: '关键字', clock: false, width:160 },
+					{ field: 'lenght', cname: '字数', cshow: true, align: 'center', showname: '字数', clock: false, width:160 },
+					{ field: 'visited', cname: '访问次数', cshow: true, align: 'center', showname: '访问次数', clock: false, width:160 },
+					{ field: 'created_at', cname: '创建时间', cshow: true, align: 'center', showname: '创建时间', clock: false, width:120 },
+					{ field: 'updated_at', cname: '更新时间', cshow: true, align: 'center', showname: '更新时间', clock: false, width:160 },
+					{ field: 'operation', cname: '操作', cshow: true, align: 'center', showname: '操作', clock: true, width:270 }
 			]
 		}
 	},
@@ -133,6 +135,19 @@ export default {
 		async init(){
 			await this.search(this.$store.state.user.userInfo.id);
 		},
+
+		/* 顶部 */
+		// 搜素对象选择
+		select(e){
+			this.query.key = e;
+		},
+		// 搜索
+		async search(e){
+			this.query.query = e;		// 传入要搜索的值
+			let { dataInfo } = await apiGetBlogList(this.query);
+			this.total = dataInfo.count;
+			this.userList = dataInfo.rows;
+		},
 		// 添加
 		add(){
 			this.$router.push(`/edit/0?type=0`)
@@ -141,10 +156,8 @@ export default {
 		format() {
             this.formatVisible = true
 		},
-		// 设置格式回调
-		setTableOption() {
 
-		},
+		/* 表格 */
 		// 修改
 		change(row){
 			this.$router.push(`/edit/${row.id}?type=1`);
@@ -165,13 +178,8 @@ export default {
 				this.$message.info(`已取消${msg}`);
 			});
 		},
-		// 搜索
-		async search(e){
-			this.query.query = e;		// 传入要搜索的值
-			let { dataInfo } = await apiGetBlogList(this.query);
-			this.total = dataInfo.count;
-			this.userList = dataInfo.rows;
-		},
+
+		/* 分页器组件 */
 		// 翻页
 		async turnPage(e){
 			this.query.page = e;
@@ -182,9 +190,11 @@ export default {
 			this.query.pagesize = e;
 			this.search();
 		},
-		// 搜素对象选择
-		select(e){
-			this.query.key = e;
+
+		/* 格式组件 */
+		// 设置格式回调
+		setTableOption(tableOption) {
+			this.tableOption = tableOption
 		}
 	}
 }

@@ -9,23 +9,36 @@
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
 			</el-col>
+			<el-col :span="2">
+				<el-button type="success" size="small" @click="format">格式</el-button>
+			</el-col>
 		</el-row>
 
 
 		<!-- 表格区域 -->
 		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
-			<el-table-column prop="username" label="用户名" width="100" align="center" />
-			<el-table-column prop="id" label="账号id" width="80" align="center" />
-			<el-table-column prop="tel" label="电话" width="120" align="center" />
-			<el-table-column prop="emil" label="邮箱" width="180" align="center" />
-			<el-table-column prop="des" label="描述" align="center" />
-			<el-table-column prop="operation" label="操作" align="center" width="280" >
-				<template class="operation" slot-scope="scope">
-					<el-button type="primary" size="small" @click="change(scope.row)">修改信息</el-button>
-					<el-button type="primary" size="small" @click="changePower(scope.row)">修改权限</el-button>
-					<el-button type="danger" size="small" @click="del(scope.row)">删除</el-button>
-				</template>
-			</el-table-column>
+			<template v-for="item in tableOption">
+				<el-table-column
+					v-if="item.cshow"
+					:key="item.index"
+					:prop="item.field"
+					:label="item.showname"
+					:width="item.width"
+					:align="item.align"
+					:fixed="item.clock ? 'right' : false"
+				>
+					<template #default="{ row }">
+						<div v-if="item.field === 'operation'">
+							<el-button type="primary" size="small" @click="change(row)">修改信息</el-button>
+							<el-button type="primary" size="small" @click="changePower(row)">修改权限</el-button>
+							<el-button type="danger" size="small" @click="del(row)">删除</el-button>
+						</div>
+						<span v-else>
+							{{row[item.field]}}
+						</span>
+					</template>
+				</el-table-column>
+			</template>
 		</el-table>
 
 		<!-- 分页器 -->
@@ -37,6 +50,9 @@
 		<!-- 权限遮罩 -->
 		<power-dialog :show.sync="powerVisible" :powerData="powerData" :id="powerId" @save="init"></power-dialog>
 
+		<!-- 格式 -->
+		<table-format :visible.sync="formatVisible" :table-option="tableOption" @setTableOption="setTableOption" />
+
     </div>
 </template>
 
@@ -45,10 +61,11 @@ import { apiGetUserList , apiPutUser , apiPostUser , apiDeleteUser } from '@/api
 import Search from '@/components/Search/Search.vue';
 import From from '@/components/Form/Form.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
-import PowerDialog from './components/PowerDialog.vue'
+import PowerDialog from './components/PowerDialog.vue';
+import TableFormat from '@/components/TableFormat/TableFormat.vue';
 
 export default {
-	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination , PowerDialog},
+	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination , PowerDialog, TableFormat},
 	data(){
 		return {
 			userList: [],	// 需要渲染的数据
@@ -87,7 +104,18 @@ export default {
 			/* 权限树组件及遮罩 */
 			powerData: [],
 			powerVisible: false,
-			powerId: 0
+			powerId: 0,
+
+			/* 格式组件 */
+			formatVisible: false,
+			tableOption: [
+				{ field: 'username', cname: '用户名', cshow: true, align: 'center', showname: '用户名', clock: false, width:100 },
+				{ field: 'id', cname: '账号id', cshow: true, align: 'center', showname: '账号id', clock: false, width:80 },
+				{ field: 'tel', cname: '电话', cshow: true, align: 'center', showname: '电话', clock: false, width:120 },
+				{ field: 'emil', cname: '邮箱', cshow: true, align: 'center', showname: '邮箱', clock: false, width:180 },
+				{ field: 'des', cname: '描述', cshow: true, align: 'center', showname: '描述', clock: false },
+				{ field: 'operation', cname: '操作', cshow: true, align: 'center', showname: '操作', clock: true, width:280 }
+			]
 		}
 	},
 	mounted(){
@@ -98,26 +126,41 @@ export default {
 			await this.search();
 		},
 
+		/* 顶部 */
+		// 搜素对象选择
+		select(e){
+			this.query.key = e;
+		},
+		// 搜索
+		async search(e){
+			this.query.query = e;		// 传入要搜索的值
+			let { dataInfo } = await apiGetUserList(this.query);
+			this.total = dataInfo.count;
+			this.userList = dataInfo.rows;
+		},
 		// 添加
 		add(){
 			this.resetFormdata();		// 先清空表单
 			this.dialogVisible = true;	// 再打开遮罩
 		},
+		// 打开格式遮罩
+		format() {
+            this.formatVisible = true
+		},
 
+		/* 表格 */
 		// 修改
 		change(row){
 			row.password = '';		// api中不返回密码字段，自定义空的key值
 			this.row = row;
 			this.dialogVisible = true;
 		},
-
 		// 修改权限
 		changePower(row){
 			this.powerData = JSON.parse(row.power) || [];
 			this.powerId = row.id;
 			this.powerVisible = true;
 		},
-
 		// 删除
 		async del(row){
 			let msg = `删除${row.id}`;
@@ -134,36 +177,23 @@ export default {
 			});
 		},
 
-		// 搜索
-		async search(e){
-			this.query.query = e;		// 传入要搜索的值
-			let { dataInfo } = await apiGetUserList(this.query);
-			this.total = dataInfo.count;
-			this.userList = dataInfo.rows;
-		},
-
+		/* 分页器组件 */
 		// 翻页
 		async turnPage(e){
 			this.query.page = e;
 			this.search();
 		},
-
-		// 改变页面大小
+		// 改变每页大小
 		async changePagesize(e){
 			this.query.pagesize = e;
 			this.search();
 		},
-		
-		// 搜素对象选择
-		select(e){
-			this.query.key = e;
-		},
 
+		/* 表单组件 */
 		// 取消遮罩
 		cancelForm(){
 			this.dialogVisible = false;
 		},
-
 		// 重置formdata
 		resetFormdata(){
 			this.row = {};
@@ -171,7 +201,6 @@ export default {
 			// 	this.formdata[key].value = '';
 			// }
 		},
-
 		// 确定表单信息
 		async submitFrom(e,type){
 			this.dialogVisible = false;
@@ -185,6 +214,12 @@ export default {
 			}
 			console.log('[response]',response);
 			await this.init();		// 添加后重新初始化
+		},
+
+		/* 格式组件 */
+		// 设置格式回调
+		setTableOption(tableOption) {
+			this.tableOption = tableOption
 		}
 	}
 }

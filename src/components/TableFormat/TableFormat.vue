@@ -2,38 +2,38 @@
     <el-dialog
         title="格式"
         v-bind="$attrs"
-        width="500px"
+        width="560px"
         v-on="$listeners"
     >
         <div class="format-row">
             <el-button type="primary" size="small" @click="sure">确定</el-button>
             <el-button type="primary" size="small" @click="reset">重置</el-button>
-            <el-button type="primary" size="small" @click="move('top')">最上</el-button>
-            <el-button type="primary" size="small" @click="move('up')">上移</el-button>
-            <el-button type="primary" size="small" @click="move('down')">下移</el-button>
-            <el-button type="primary" size="small" @click="move('lowest')">最下</el-button>
+            <el-button type="primary" size="small" :disabled="currIndex === null" @click="move('top')">最上</el-button>
+            <el-button type="primary" size="small" :disabled="currIndex === null" @click="move('up')">上移</el-button>
+            <el-button type="primary" size="small" :disabled="currIndex === null" @click="move('down')">下移</el-button>
+            <el-button type="primary" size="small" :disabled="currIndex === null" @click="move('lowest')">最下</el-button>
         </div>
         <div class="format-list">
-            <el-table
-                ref="xTable"
-                border
-                reserve
-                show-overflow
-                highlight-hover-row
-                highlight-current-row
-                keep-source
-                :data="tableData"
-                :edit-config="{trigger: 'click', mode: 'cell'}"
-            >
-                <!-- <el-table-column align="center" header-align="center" type="selection" width="50" label="序号" /> -->
+            <el-table :data="tableData" stripe border height="300" highlight-current-row :row-class-name="tableRowIndex" @current-change="handleCurrentChange" >
+                <el-table-column align="center" header-align="center" type="index" width="50" label="序号" />
                 <el-table-column align="center" header-align="center" prop="cname" label="名称" width="100" />
                 <el-table-column align="center" header-align="center" prop="cshow" label="显示" width="50">
                     <template #default="{ row }">
                         <el-checkbox v-model="row.cshow" />
                     </template>
                 </el-table-column>
-                <el-table-column align="center" header-align="center" prop="align" label="对齐方式" width="auto" :edit-render="{name: 'select', options: alignList }" />
-                <el-table-column align="center" header-align="center" prop="showname" label="显示名称" width="100" :edit-render="{name: 'input', attrs: {type: 'text', placeholder: '请输入显示名称'}}" />
+                <el-table-column align="center" header-align="center" prop="align" label="对齐方式" width="auto">
+                    <template #default="{ row }">
+                        <el-select size="small" v-model="row.align">
+                            <el-option v-for="item in alignList" :key="item.value" :label="item.label" :value="item.value" size="small" />
+                        </el-select>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" header-align="center" prop="showname" label="显示名称" width="120">
+                    <template #default="{ row }">
+                        <el-input size="small" v-model="row.showname" />
+                    </template>
+                </el-table-column>
                 <el-table-column align="center" header-align="center" prop="clock" label="锁定" width="50">
                     <template #default="{ row }">
                         <el-checkbox v-model="row.clock" />
@@ -62,70 +62,95 @@ export default {
                 { value: 'right', label: '右对齐' }
             ],
             tableData: [],
-            rawData: [] // 存放原始数据
+            rawData: [], // 存放原始数据
+            currIndex: null // 控制上移下移的高亮行索引
         }
     },
     watch: {
         // 表格数据是对tableOption进行处理
         tableOption(newValue) {
-            this.rawData = newValue.map(e => {
-                return JSON.parse(JSON.stringify(e))
-            })
-            this.tableData = newValue.map(e => {
-                return JSON.parse(JSON.stringify(e))
-            })
+            this.dataChange(newValue)
         }
     },
     mounted() {
-        this.rawData = this.tableOption.map(e => {
-            return JSON.parse(JSON.stringify(e))
-        })
-        this.tableData = this.tableOption.map(e => {
-            return JSON.parse(JSON.stringify(e))
-        })
+        this.dataChange(this.tableOption)
     },
     methods: {
         sure() {
-            this.$emit('setTableOption', this.tableData)
+            const tableData = [...this.tableData].map(e => {
+                e = JSON.parse(JSON.stringify(e))
+                delete e.index
+                return e
+            })
+            this.$emit('setTableOption', tableData)
             this.$emit('update:visible', false)
         },
         reset() {
-            console.log('重置')
+            this.currIndex = null
             this.tableData = this.rawData.map(e => {
-                return JSON.parse(JSON.stringify(e))
+                const tableRow = JSON.parse(JSON.stringify(e))
+                return tableRow
             })
         },
         move(type) {
-            const row = this.$refs.xTable.getCurrentRecord()
-            const index = this.$refs.xTable.getRowIndex(row)
+            const index = this.currIndex
+            console.log(index)
             switch (type) {
                 case 'top':
                     if (index !== 0) {
                         this.tableData.unshift(this.tableData.splice(index, 1)[0])
+                        this.currIndex = 0
                     }
                     break
                 case 'up':
                     if (index !== 0) {
                         this.tableData[index] = this.tableData.splice(index - 1, 1, this.tableData[index])[0]
+                        this.currIndex = this.currIndex - 1
                     } else {
                         this.tableData.push(this.tableData.shift())
+                        this.currIndex = this.tableData.length - 1
                     }
                     break
                 case 'down':
                     if (index !== this.tableData.length - 1) {
                         this.tableData[index] = this.tableData.splice(index + 1, 1, this.tableData[index])[0]
+                        this.currIndex = this.currIndex + 1
                     } else {
                         this.tableData.unshift(this.tableData.splice(index, 1)[0])
+                        this.currIndex = 0
                     }
                     break
                 case 'lowest':
                     if (index !== this.tableData.length - 1) {
-                        this.tableData.push(this.tableData.shift())
+                        this.tableData.push(this.tableData.splice(index, 1)[0])
+                        this.currIndex = this.tableData.length - 1
                     }
                     break
                 default:
                     break
             }
+        },
+        /* 表格方法 */
+        // 高亮行改变
+        handleCurrentChange(currentRow){
+            if(currentRow && currentRow.index !== null) {
+                this.currIndex = currentRow.index
+            }
+        },
+        // 当前行index
+        tableRowIndex({ row, rowIndex}) {
+            row.index = rowIndex;
+        },
+        /* 数据变化监听 */
+        dataChange(newValue) {
+            this.rawData = newValue.map((e,i) => {
+                const tableRow = JSON.parse(JSON.stringify(e))
+                return tableRow
+            })
+            this.tableData = newValue.map((e,i) => {
+                const tableRow = JSON.parse(JSON.stringify(e))
+                return tableRow
+            })
         }
     }
 }
@@ -134,9 +159,10 @@ export default {
 <style lang="less" scoped>
 .format-row{
     display: flex;
+    margin-bottom: 10px;
 }
 .format-list{
-    height: 360px;
+    height: 320px;
     overflow-y: scroll;
 }
 </style>
