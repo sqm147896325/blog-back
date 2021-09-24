@@ -7,15 +7,18 @@
 				<el-breadcrumb-item v-for="item in matched" :key="item.path" :to="item.path">{{item.name}}</el-breadcrumb-item>
 			</el-breadcrumb> 
 
-			<el-dropdown @command="headMenu" class="dropdown">
-				<span class="dropdown-head">
-					<el-avatar shape="square" :size="36"> user </el-avatar>
-					<i class="el-icon-arrow-down el-icon--right"></i>
-				</span>
-				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item v-for="( item , index ) in option" :key="index" :command="item.value">{{item.lable}}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+			<div class="main-left">
+				<div class="left-msg">msg</div>
+				<el-dropdown @command="headMenu" class="left-dropdown">
+					<span class="dropdown-head">
+						<el-avatar shape="square" :size="36"> user </el-avatar>
+						<i class="el-icon-arrow-down el-icon--right"></i>
+					</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-for="( item , index ) in option" :key="index" :command="item.value">{{item.lable}}</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+			</div>
 
 		</el-header>
     </div>
@@ -107,9 +110,15 @@ export default {
 
 	}
 
-	.dropdown{
+	.main-left{
 		position: absolute;
 		right: 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.left-msg{
+			margin: 0 20px;
+		}
 	}
 
 	.dropdown-head{

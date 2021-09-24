@@ -4,7 +4,7 @@
 		<!-- 功能栏 -->
 		<el-row :gutter="0" class="row">
 			<el-col :span="12" :offset="0">
-				<my-search :option="option" @search="search" @change="select"></my-search>
+				<my-search :option="option" v-model="value" @search="search" @selectchange="select"></my-search>
 			</el-col>
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
@@ -71,6 +71,7 @@ export default {
 			userList: [],	// 需要渲染的数据
 
 			/* 搜索组件 */
+			value: '', // 搜索帮定值
 			option: [ 
 				{label: '用户名', value:'username'},
 				{label: '账号id', value:'id'},
@@ -132,8 +133,8 @@ export default {
 			this.query.key = e;
 		},
 		// 搜索
-		async search(e){
-			this.query.query = e;		// 传入要搜索的值
+		async search(){
+			this.query.query = this.value;		// 传入要搜索的值
 			let { dataInfo } = await apiGetUserList(this.query);
 			this.total = dataInfo.count;
 			this.userList = dataInfo.rows;

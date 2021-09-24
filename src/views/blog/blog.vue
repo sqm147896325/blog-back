@@ -3,7 +3,7 @@
 
 		<el-row :gutter="0" class="row">
 			<el-col :span="12" :offset="0">
-				<my-search holder="值" :option="option" :defaultValue="defaultValue" @search="search" @change="select"></my-search>
+				<my-search holder="值" :option="option" v-model="defaultValue" @search="search" @selectchange="select"></my-search>
 			</el-col>
 			<el-col :span="2" :offset="1">
 				<el-button type="success" size="small" @click="add" class="el-icon-plus">添加</el-button>
@@ -142,8 +142,8 @@ export default {
 			this.query.key = e;
 		},
 		// 搜索
-		async search(e){
-			this.query.query = e;		// 传入要搜索的值
+		async search(){
+			this.query.query = this.defaultValue;		// 传入要搜索的值
 			let { dataInfo } = await apiGetBlogList(this.query);
 			this.total = dataInfo.count;
 			this.userList = dataInfo.rows;

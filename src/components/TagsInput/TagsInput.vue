@@ -1,12 +1,13 @@
 <template>
 	<el-select
-	multiple
-	filterable
-	allow-create
-	default-first-option
-	size="small"
-	v-model="innerKeyword"
-	:placeholder="placeholder">
+		multiple
+		filterable
+		allow-create
+		default-first-option
+		size="small"
+		v-model="innerKeyword"
+		:placeholder="placeholder"
+	>
 		<el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
 	</el-select>
 </template>
