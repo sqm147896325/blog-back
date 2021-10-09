@@ -133,13 +133,20 @@ export default {
 	},
 	methods: {
 		async init(){
-			await this.search(this.$store.state.user.userInfo.id);
+			await this.search();
 		},
 
 		/* 顶部 */
 		// 搜素对象选择
 		select(e){
+			if(e !== 'author_id' && this.defaultValue === this.$store.state.user.userInfo.id) {
+				this.defaultValue = ''
+			} 
+			if (e === 'author_id') {
+				this.defaultValue = this.$store.state.user.userInfo.id
+			}
 			this.query.key = e;
+			this.search()
 		},
 		// 搜索
 		async search(){

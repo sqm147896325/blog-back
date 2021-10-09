@@ -131,6 +131,7 @@ export default {
 		// 搜素对象选择
 		select(e){
 			this.query.key = e;
+			this.search()
 		},
 		// 搜索
 		async search(){
