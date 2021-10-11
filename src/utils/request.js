@@ -3,16 +3,8 @@ import { Message } from 'element-ui';
 import router from '@/router/index.js';
 import qs from 'qs';
 
-// 请求基础路径配置
-class Baseurl{
-	static path = import.meta.env.VITE_APP_BASE_URL;
-	static baseURL(){
-		return `${this.path || ''}`;
-	}
-}
-
 // 请求基础路径
-axios.defaults.baseURL = Baseurl.baseURL();
+axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_PATH;
 
 // 响应时间设置,由于有文件传输，这里设置为30秒
 axios.defaults.timeout = 30000;

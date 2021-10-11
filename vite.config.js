@@ -1,6 +1,20 @@
 import { defineConfig } from 'vite';
 import { createVuePlugin } from 'vite-plugin-vue2';
+import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
+
+// 根据环境变量加载环境变量文件
+try {
+	const file = dotenv.parse(fs.readFileSync(`.env.${process.env.NODE_ENV}`))
+	// 根据获取的key给对应的环境变量赋值
+	for (const key in file) {
+	  process.env[key] = file[key]
+	}
+} catch (e) {
+	console.error('环境加载失败', e)
+}
+
 export default defineConfig({
   build: {
     outDir: 'dist'
@@ -13,7 +27,7 @@ export default defineConfig({
       '/api': {
         target: process.env.VITE_APP_BASE_URL,
         changeOrigin: true,
-        pathRewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api/, '')
       },
     },
   },

@@ -5,10 +5,12 @@
 			<el-breadcrumb class="breadcrumb" separator="/">
 				<el-breadcrumb-item to="/">首页</el-breadcrumb-item>
 				<el-breadcrumb-item v-for="item in matched" :key="item.path" :to="item.path">{{item.name}}</el-breadcrumb-item>
-			</el-breadcrumb> 
+			</el-breadcrumb>
 
 			<div class="main-left">
-				<div class="left-msg">msg</div>
+				<el-badge :hidden="!msgNum || msgVisible" :value="msgNum" :max="99" class="left-msg">
+					<i :class="msgNum ? 'el-icon-chat-line-round' : 'el-icon-chat-round'" class="msg-icon" @click="msgOpen"></i>
+				</el-badge>
 				<el-dropdown @command="headMenu" class="left-dropdown">
 					<span class="dropdown-head">
 						<el-avatar shape="square" :size="36"> user </el-avatar>
@@ -21,12 +23,17 @@
 			</div>
 
 		</el-header>
+
+		<Message class="messge-dialog" :visible.sync="msgVisible"></Message>
     </div>
 </template>
 
 <script>
+import { init } from 'echarts';
+import Message from './Message.vue'
 export default {
 	name: 'Header',
+	components: { Message },
 	data(){
 		return {
 			// 路由原型，存储路由父子级及重定向信息
@@ -35,7 +42,10 @@ export default {
 			option: [
 				{ value: -1 , lable: '登出'},
 				{ value: 1 , lable: '个人中心'},
-			]
+			],
+			msgNum: 0, // 消息条数
+			msgVisible: false, // 消息组件是否开启
+			msgArr: [], // 消息栈 
 		}
 	},
 	mounted(){
@@ -47,8 +57,27 @@ export default {
 			this.routeChange()
 		}
 	},
+	sockets: {
+		//查看socket是否渲染成功
+		connect() {
+			console.log('链接成功');
+		},
+		//检测socket断开链接
+		disconnect() {
+			console.log('断开链接');
+		}, 
+		// 重新链接
+		reconnect() {
+			console.log('重新链接');
+		},
+		//客户端接收后台传输的socket事件
+		res: (msg) => {
+			console.log('res事件',msg);
+		}
+	},
 	methods: {
 		init(){
+			this.$socket.emit('init', JSON.stringify({name: 'sqm', time: (new Date()).toString(), msg: 'init'}))
 			this.routeChange()
 		},
 		// 路由改变面包屑内容也应该相应改变
@@ -67,6 +96,11 @@ export default {
 		// 侧边栏是否展开
 		collapse(){
 			return this.$store.state.aside.asideClose;
+		},
+
+		// 消息组件开启
+		msgOpen() {
+			this.msgVisible = true
 		},
 		
 		// 头像菜单选项
@@ -117,7 +151,10 @@ export default {
 		justify-content: center;
 		align-items: center;
 		.left-msg{
-			margin: 0 20px;
+			margin: 0 10px;
+			.msg-icon{
+				font-size: 20px;
+			}
 		}
 	}
 
@@ -127,5 +164,9 @@ export default {
 		padding: 10px;
 		border-radius: 6px;
 	}
+}
+
+.messge-dialog{
+	min-width: 1050px;
 }
 </style>
