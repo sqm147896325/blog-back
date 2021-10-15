@@ -45,7 +45,7 @@
 		<my-pagination @turnPage="turnPage" @changePagesize="changePagesize" :total="total" ></my-pagination>
 		
 		<!-- 表单遮罩 -->
-		<my-form :formdata="formdata" :row="row" :rules="rules" :show="dialogVisible" @cancelForm="cancelForm" @submitFrom="submitFrom"></my-form>
+		<my-form title="修改账号" :formdata="formdata" :row="row" :rules="rules" :visible.sync="dialogVisible" @cancelForm="cancelForm" @submitFrom="submitFrom"></my-form>
 		
 		<!-- 权限遮罩 -->
 		<power-dialog :show.sync="powerVisible" :powerData="powerData" :id="powerId" @save="init"></power-dialog>

@@ -80,3 +80,29 @@ export function apiGetApi(params) {
 		data: params
 	})
 };
+
+/**
+ * @description: 发送邮件
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiToolEmailVerify(params) {
+	return axios({
+		url: '/tool/emailVerify',
+		method: 'get',
+		data: params
+	})
+};
+
+/**
+ * @description: 发送邮件验证码
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiToolEmail(params) {
+	return axios({
+		url: '/tool/email',
+		method: 'get',
+		data: params
+	})
+};

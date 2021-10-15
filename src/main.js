@@ -23,7 +23,8 @@ MsgIO.io.on('connect', () => {
 
 Vue.config.productionTip = false
 
-new Vue({
+// 方便调试
+window.$debug = new Vue({
   router,
   store,
   render: h => h(App)

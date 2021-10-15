@@ -2,7 +2,7 @@
 	<div class="login">
 		<div class="title">LS后台</div>
 		<div class="card">
-			<el-form :model="loginInfo" :rules="rule" ref="loginForm" class='loginForm'>
+			<el-form :model="loginInfo" :rules="rules" ref="loginForm" class='loginForm'>
 				<el-form-item prop="id" class="item">
 					<el-input placeholder="请输入内容" v-model="loginInfo.id" @keyup.enter.native="login">
 						<template slot="prepend">账号</template>
@@ -13,26 +13,31 @@
 						<template slot="prepend">密码</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item>	
-					<el-button @click="login" type="info" >登录</el-button>
+				<el-form-item>
+					<el-button @click="register" type="info">注册</el-button>
+					<el-button @click="login" type="info">登录</el-button>
+					<el-button @click="forget" type="info">忘记密码</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
+		<my-form :title="title" :formdata="formdata" :row="bindData" :rules="rules" :visible.sync="dialogVisible" @cancelForm="handleClose" @submitFrom="submitFrom"></my-form>
 	</div>
 </template>
 
 <script>
 import { apiPostLogin } from '@/api/user.js';
+import From from '@/components/Form/Form.vue';
 
 export default {
 	name: 'Login',
+	components: { 'my-form': From },
 	data(){
 		return{
 			loginInfo: {
 				id: new String,
 				password: new String
 			},
-			rule: {
+			rules: {
 				id: [
 					{ required: true, message: '请输入账号id', trigger: 'blur' },
 					{ min: 1, message: '请输入账号id', trigger: 'blur' }
@@ -41,7 +46,21 @@ export default {
 					{ required: true, message: '请输入密码', trigger: 'blur' },
 					{ min: 6, max: 20, message: '密码在6-20个字符', trigger: 'blur' }
 				],
-			}
+			},
+			formdata: {
+				username: {label: '用户名',value: ''},
+				emil: {label: '邮箱',value: ''},
+				password: {label: '密码',value: '', type: 'password'},
+				rePassword: {label: '确认密码',value: '', type: 'password'},
+			},	// 表单
+			bindData: {
+				username: '',
+				emil: '',
+				password: '',
+				rePassword: '',
+			},
+			title: '注册',
+			dialogVisible: false
 		}
 	},
 	mounted(){
@@ -69,6 +88,20 @@ export default {
 					}
 				}
 			});
+		},
+		register() {
+			this.dialogVisible = true
+			this.title = '注册'
+		},
+		forget() {
+			this.dialogVisible = true
+			this.title = '忘记密码'
+		},
+		handleClose() {
+
+		},
+		submitFrom() {
+
 		}
 	}
 }

@@ -1,8 +1,14 @@
 <template>
-	<el-dialog :title="'修改账号'" :visible.sync="visible" width="33%" @close="cancel" @closed="closed">
-		<el-form :model="rowData" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
+	<el-dialog :title="title" v-bind="$attrs" width="33%" :close-on-click-modal="false" @close="cancel" @closed="closed">
+		<el-form :model="rowData" ref="form" :rules="rules" label-width="80px" :inline="false" size="small">
+
+			<!-- 用于屏蔽自动填充用户名密码 -->
+			<input type="password" class="hide" />
+			<input type="text" class="hide" />
+
 			<el-form-item v-for="(value , key ) in formdata" :key="key" :label="value.label" :prop="key">
-				<el-input :type="value.type ? value.type : ''" v-model="rowData[key]"></el-input>
+				<slot v-if="$slots[value.value]" />
+				<el-input v-else :type="value.type ? value.type : ''" v-model="rowData[key]"></el-input>
 			</el-form-item>
 			<div class="foot-button">
 				<el-button type="primary" @click="submit">确定</el-button>
@@ -18,7 +24,7 @@
  * @param {props}	formdate 	表单格式，如：{ key值: {label: '别名',value: '绑定值'}}
  * @param {props}	row 		表单数据，新增时无数据，修改时从外部传入当前行的数据
  * @param {props}	rules 		校验规则，遵循element form组件中rules所使用的规则
- * @param {props}	show 		遮罩控制，默认false关闭
+ * @param {props}	title 		标题
  * @param {methods}	submitFrom	表单确定
  * @param {methods}	cancelFrom	表单取消
  */
@@ -40,20 +46,17 @@ export default {
 			type: Object,
 			default: ()=>{},
 		},
-		show: {
-			type: Boolean,
-			default: ()=>false
+		title: {
+			type: String,
+			default: '标题'
 		}
 	},
 	data(){
 		return {
 			// ? 深拷贝row为子组件内部数据
 			rowData: {...this.row},
-			// ? 子组件内部接收遮罩开关c
-			visible: this.show,
 			// ? 根据row判断当前是添加还是修改,没有值为添加 0 ，有值为修改 1
 			type: Object.keys(this.row).length == 0 ? 0 : 1
-			
 		}
 	},
 	watch: {
@@ -61,10 +64,6 @@ export default {
 		row(newValue){
 			this.rowData = {...this.row};
 			this.type = Object.keys(this.row).length == 0 ? 0 : 1;
-		},
-		// ? 内部数据与props动态关联
-		show(newValue){
-			this.visible = newValue;
 		}
 	}, 
 	mounted(){
@@ -78,12 +77,14 @@ export default {
 		submit(){
 			this.$refs['form'].validate(state => {
 				if(state){
+					this.$emit('update:visible', false)
 					this.$emit('submitFrom',{...this.rowData},this.type);		// 解构赋值数据，去除__ob__监视器
 				}
 			})
 		},
 		// 取消修改，在父组件中定义关闭
 		cancel(){
+			this.$emit('update:visible', false)
 			this.$emit('cancelForm');
 		},
 		// 关闭动画回调
@@ -98,5 +99,11 @@ export default {
 .foot-button{
 	display: flex;
 	justify-content: center;
+}
+// 用隐藏输入框隐藏自动填充密码
+.hide{
+	width: 0;
+	border: 0;
+	position: absolute;
 }
 </style>
