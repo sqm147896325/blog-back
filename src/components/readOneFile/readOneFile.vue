@@ -44,7 +44,6 @@ export default {
 		// 更改文件检测
 		changeFile (file, fileList) {
 			this.fileName = file.name;
-			console.log('文件关键信息', file)
 			if (file.status === 'ready') {
 				// 已上传文件列表如果存在 2 条记录，移除第一条，实现替换效果
 				if (fileList.length === 2) {

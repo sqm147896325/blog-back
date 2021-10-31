@@ -38,7 +38,6 @@ export default {
 		async init() {
 			let res = await apiGetApi();
 			this.tableData = res.dataInfo;
-			console.log(res)
 		}
 	}
 }

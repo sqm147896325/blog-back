@@ -82,7 +82,6 @@ export default {
 						let userInfo = res.dataInfo.userInfo;
 						localStorage.setItem('userInfo',JSON.stringify(userInfo));
 						this.$store.commit('setUserInfo',userInfo);
-						console.log('userinfo',this.$store)
 						this.$router.push('/');
 						this.$message.success('登录成功');
 					}

@@ -214,7 +214,6 @@ export default {
 				// type为0为添加
 				response = await apiPutUser(e);		// 发送添加用户
 			}
-			console.log('[response]',response);
 			await this.init();		// 添加后重新初始化
 		},
 

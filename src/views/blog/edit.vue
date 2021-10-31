@@ -139,7 +139,6 @@ export default {
 					enable: true,
 					type: 'markdown',	// 统计类型
 					after: (lenght) => {
-						console.log('this.contentLenght',this.contentLenght)
 						this.contentLenght = lenght; // 使用回调统计文章字数
 					}
 				},

@@ -75,10 +75,8 @@ export default {
 		},
 		// 删除
 		async del() {
-			console.log(this.checkArr);
 			let delArr = this.checkArr.map(e => e.uuid);
 			let res = await this.deleteFile({delArr,user_id:this.$store.state.user.userInfo.id});
-			console.log(res);
 			await this.init();
 		},
 		// 下载
@@ -108,7 +106,7 @@ export default {
 				this.$message.success(`${msg}成功!`);
 				await this.init();
 			}).catch((err) => {
-				console.log(err)
+				console.err('错误捕捉', err)
 				this.$message.info(`已取消${msg}`);
 			});
 		},
@@ -168,22 +166,18 @@ export default {
 		async postFile() {
 			let res = await apiPostFlie({uuid:this.uuid,user_id:this.$store.state.user.userInfo.id});
 			this.tableData = res.dataInfo.content;
-			console.log(res)
 		},
 		// 存入文件
 		async putFile(params) {
 			let res = await apiPutFlie(params);
-			console.log(res)
 		},
 		// 存入文件夹
 		async putDir(params) {
 			let res = await apiPutDir(params);
-			console.log(res);
 		},
 		// 删除文件或文件夹
 		async deleteFile(params) {
 			let res = await apiDeleteFile(params);
-			console.log(res);
 		}
 	}
 }

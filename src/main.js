@@ -24,8 +24,11 @@ MsgIO.io.on('connect', () => {
 Vue.config.productionTip = false
 
 // 方便调试
-window.$debug = new Vue({
+const $debug = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+if (import.meta.env.NODE_ENV !== 'production') {
+	window.$debug = $debug
+}

@@ -94,7 +94,6 @@ export default {
         },
         move(type) {
             const index = this.currIndex
-            console.log(index)
             switch (type) {
                 case 'top':
                     if (index !== 0) {

@@ -69,7 +69,6 @@ export default {
             await this.getNewBlog();
             await this.getKeywordData();
             this.charts();
-            console.log('获取data中的数据', this.$data);
         },
 
         /* 图表相关 */
@@ -106,14 +105,12 @@ export default {
             }
             // 获取数据库中最新增加的三条博客数据
             let { dataInfo } = await apiGetBlogList(query)
-            console.log('',dataInfo)
             this.newBlog.data = dataInfo.rows.map(e => {
                 return {
                     value: e.visited,
                     name: e.title
                 }
             })
-            console.log(this.newBlog.data)
         },
         async getKeywordData() {
             let { dataInfo } = await apiGetKeyword();
