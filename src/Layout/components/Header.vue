@@ -29,8 +29,7 @@
 </template>
 
 <script>
-import { init } from 'echarts';
-import Message from './Message.vue'
+import Message from '@/components/Message/Message.vue'
 export default {
 	name: 'Header',
 	components: { Message },
