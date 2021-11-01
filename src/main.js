@@ -13,8 +13,21 @@ import '@/permission';
 
 // 导入长连接插件
 import VueSocketIO from 'vue-socket.io';
+import socketIO from 'socket.io-client';
+socketIO(`ws://localhost:9080`);
+socketIO('/msg')
+let IO = socketIO('/chat')
 const MsgIO = new VueSocketIO({
-    connection: `ws://localhost:9080/msg`,
+	debug: false,
+    connection: IO,
+	vuex: {
+		store,
+        actionPrefix: 'SOCKET_',
+        mutationPrefix: 'SOCKET_',
+		options: {
+			useConnectionNamespace: true
+		}
+	}
 })
 Vue.use(MsgIO);
 MsgIO.io.on('connect', () => {

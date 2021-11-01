@@ -76,7 +76,9 @@ export default {
 	},
 	methods: {
 		init(){
+			this.$socket.connect('/msg');
 			this.$socket.emit('init', JSON.stringify({name: 'sqm', time: (new Date()).toString(), msg: 'init'}))
+			console.log(this.$socket)
 			this.routeChange()
 		},
 		// 路由改变面包屑内容也应该相应改变
