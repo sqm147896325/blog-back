@@ -31,6 +31,10 @@ export default defineConfig({
       },
     },
   },
+  // // 预构建
+  // optimizeDeps: {
+  //   include: ['socket.io-client'],
+  // },
   // 配置别名@，如果没有配置需要手动更改组件位置为src
   resolve: {
     alias: [
