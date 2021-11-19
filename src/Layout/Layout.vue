@@ -6,7 +6,9 @@
 				<l-header />
 				<el-main>
 					<transition name="fade" mode="out-in">
-						<router-view class="view"></router-view>
+						<keep-alive>
+							<router-view class="view"></router-view>
+						</keep-alive>
 					</transition>
 					<l-footer />
 				</el-main>
