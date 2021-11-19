@@ -57,28 +57,14 @@ export default {
 		}
 	},
 	sockets: {
-		//查看socket是否渲染成功
-		connect() {
-			console.log('链接成功');
-		},
-		//检测socket断开链接
-		disconnect() {
-			console.log('断开链接');
-		}, 
-		// 重新链接
-		reconnect() {
-			console.log('重新链接');
-		},
-		//客户端接收后台传输的socket事件
+		// 客户端接收后台传输的socket事件
 		res: (msg) => {
 			console.log('res事件',msg);
 		}
 	},
 	methods: {
 		init(){
-			this.$socket.connect('/msg');
-			this.$socket.emit('init', JSON.stringify({name: 'sqm', time: (new Date()).toString(), msg: 'init'}))
-			console.log(this.$socket)
+			this.$socket.emit('init', {name: 'sqm', time: new Date().getTime(), msg: 'init'})
 			this.routeChange()
 		},
 		// 路由改变面包屑内容也应该相应改变

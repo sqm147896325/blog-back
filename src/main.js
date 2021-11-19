@@ -18,6 +18,30 @@ import socket from './socket';
 
 Vue.use(socket)
 
+/* // ! 这里作为记录注册方法，等吃透了 vue-socket.io （它在stroe中的使用），我会对这个包进行改造
+let IOMsg = io('localhost:9080/msg')
+let IOChat = io('localhost:9080/chat')
+Vue.mixin({
+  mounted(){
+    if(this.$options.socketsMsg){
+      Object.keys(this.$options.socketsMsg).forEach(e => {
+          if(e !== 'subscribe' && e !== 'unsubscribe') {
+            IOMsg.on(e, this.$options.socketsMsg[e]);
+          }
+      });
+    }
+    if(this.$options.socketsChat){
+      Object.keys(this.$options.socketsChat).forEach(e => {
+          if(e !== 'subscribe' && e !== 'unsubscribe') {
+            IOChat.on(e, this.$options.socketsChat[e]);
+          }
+      });
+    }
+  }
+})
+Vue.prototype.$socketMsg = IOMsg
+Vue.prototype.$socketChat = IOChat */
+
 Vue.config.productionTip = false
 
 // 方便调试

@@ -23,6 +23,10 @@ export default defineConfig({
     createVuePlugin(),
   ],
   server: {
+    // 是否自动打开浏览器
+    open: true,
+    // 服务器主机名，如果允许外部访问，可设置为"0.0.0.0"
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: process.env.VITE_APP_BASE_URL,
