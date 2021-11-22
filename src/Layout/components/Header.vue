@@ -58,13 +58,16 @@ export default {
 	},
 	sockets: {
 		// 客户端接收后台传输的socket事件
-		res: (msg) => {
-			console.log('res事件',msg);
+		res(data) {
+			console.log('res事件',data);
+		},
+		'233'(data) {
+			this.$message.success(data.msg)
 		}
 	},
 	methods: {
 		init(){
-			this.$socket.emit('init', {name: 'sqm', time: new Date().getTime(), msg: 'init'})
+			this.sokcet('init', { data: 123 })
 			this.routeChange()
 		},
 		// 路由改变面包屑内容也应该相应改变

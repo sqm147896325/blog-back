@@ -18,6 +18,16 @@ import socket from './socket';
 
 Vue.use(socket)
 
+Vue.mixin({
+	methods: {
+		sokcet(type='init', data) {
+			const params = {name: this.$store.state.user.userInfo.username, time: new Date().getTime(), userId: this.$store.state.user.userInfo.id}
+			Object.assign( params, data)
+			this.$socket.emit(type, params)
+		}
+	}
+})
+
 /* // ! 这里作为记录注册方法，等吃透了 vue-socket.io （它在stroe中的使用），我会对这个包进行改造
 let IOMsg = io('localhost:9080/msg')
 let IOChat = io('localhost:9080/chat')
