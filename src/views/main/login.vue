@@ -81,7 +81,7 @@ export default {
 						localStorage.setItem('token',res.dataInfo.token);
 						let userInfo = res.dataInfo.userInfo;
 						localStorage.setItem('userInfo',JSON.stringify(userInfo));
-						this.$store.commit('setUserInfo',userInfo);
+						this.$store.commit('user/setUserInfo',userInfo);
 						this.$router.push('/');
 						this.$message.success('登录成功');
 					}
@@ -106,7 +106,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .login{
 	position: relative;
 	display: flex;

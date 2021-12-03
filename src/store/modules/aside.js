@@ -28,6 +28,7 @@ let routes = router.options.routes.filter(e => {
 routes = recursiveMenu(routes);
 
 export default {
+	namespaced:true,
     state: {
 		asideClose: true,		// 控制侧边栏的展开折叠，true折叠，false展开
 		activeMenu: '',			// 默认活动的菜单

@@ -105,7 +105,7 @@ export default {
 	methods: {
 		async init(){
 			// 缩入菜单栏
-			this.$store.commit('setOpen',true);
+			this.$store.commit('aside/setOpen',true);
 			await this.initEdit();
 			const { dataInfo } = await apiGetKeyword();
 			this.options  = Object.keys(dataInfo);

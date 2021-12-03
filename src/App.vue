@@ -15,7 +15,5 @@ export default {
 </script>
 
 <style lang="less">
-body{
-	margin: 0;
-}
+// 这里不能添加scoped，否则全局样式会出不去
 </style>

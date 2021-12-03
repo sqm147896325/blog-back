@@ -1,4 +1,5 @@
 export default {
+	namespaced:true,
     state: {
 		userInfo: {},		// 用户信息
 		isAdmin: false		// 是否超级管理员
