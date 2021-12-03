@@ -5,7 +5,7 @@ import store from './store';
 // token验证
 router.beforeEach((to,from,next) => {
 	// 传入活动的菜单栏
-	store.commit('setActiveMenu',to.path);
+	store.commit('aside/setActiveMenu',to.path);
 	
 	let token = localStorage.getItem('token');
 	let userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -22,7 +22,7 @@ router.beforeEach((to,from,next) => {
 			* 登出同理
 			*/ 
 			// todo 路径跳转时读取localStorage中的用户信息，这里应该监听关闭与初始化该页面进行数据持久化操作
-			store.commit('setUserInfo',userInfo);
+			store.commit('user/setUserInfo',userInfo);
 			// 正常跳转
 			next();
 		}

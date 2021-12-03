@@ -68,7 +68,7 @@ export default {
 		},
 		// 选择菜单子项时的点击事件
 		chooseMenu(path){
-			this.$store.commit('setActiveMenu',path);
+			this.$store.commit('aside/setActiveMenu',path);
 		},
 	}
 }

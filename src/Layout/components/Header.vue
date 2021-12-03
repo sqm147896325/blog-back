@@ -59,11 +59,16 @@ export default {
 	sockets: {
 		// 客户端接收后台传输的socket事件
 		res(data) {
-			console.log('res事件',data);
+			if (this.debug.socket) console.log('res',data)
 		},
 		'233'(data) {
-			this.$message.success(data.msg)
-		}
+			if (this.debug.socket) console.log('233',data)
+			this.$msgTip('success', data)
+		},
+		'250'(data) {
+			if (this.debug.socket) console.log('250',data)
+			this.$msgTip('error', data, 0)
+		},
 	},
 	methods: {
 		init(){
@@ -79,7 +84,7 @@ export default {
 		},
 		setOpen(){
 			// 使vuex中侧边栏状态取反
-			this.$store.commit('setOpen',!this.$store.state.aside.asideClose);
+			this.$store.commit('aside/setOpen',!this.$store.state.aside.asideClose);
 		},
 
 		/* 获取store中状态 */
