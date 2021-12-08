@@ -1,5 +1,6 @@
 import axios from '../utils/request'
 
+const baseUrl = import.meta.env.VITE_APP_BASE_PATH
 
 /**
  * @description: 登录接口 
@@ -8,7 +9,7 @@ import axios from '../utils/request'
  */
 export function apiPostLogin(params) {
 	return axios({
-		url: '/login',
+		url: baseUrl + '/login',
 		method: 'POST',
 		data: params
 	})
@@ -24,7 +25,7 @@ export function apiPostLogin(params) {
  */
 export function apiGetUserList(params) {
 	return axios({
-		url: '/user/list',
+		url: baseUrl + '/user/list',
 		method: 'GET',
 		params: params
 	})
@@ -37,7 +38,7 @@ export function apiGetUserList(params) {
  */
  export function apiPutUser(params) {
 	return axios({
-		url: '/user',
+		url: baseUrl + '/user',
 		method: 'PUT',
 		data: params
 	})
@@ -50,7 +51,7 @@ export function apiGetUserList(params) {
  */
  export function apiPostUser(params) {
 	return axios({
-		url: '/user',
+		url: baseUrl + '/user',
 		method: 'POST',
 		data: params
 	})
@@ -63,7 +64,7 @@ export function apiGetUserList(params) {
  */
 export function apiGetUser(params) {
 	return axios({
-		url: '/user',
+		url: baseUrl + '/user',
 		method: 'GET',
 		params: params
 	})
@@ -76,7 +77,7 @@ export function apiGetUser(params) {
  */
  export function apiDeleteUser(params) {
 	return axios({
-		url: '/user',
+		url: baseUrl + '/user',
 		method: 'DELETE',
 		data: params
 	})
@@ -89,7 +90,7 @@ export function apiGetUser(params) {
  */
  export function apiPostPower(params) {
 	return axios({
-		url: '/user/power',
+		url: baseUrl + '/user/power',
 		method: 'POST',
 		data: params
 	})

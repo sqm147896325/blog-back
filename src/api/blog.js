@@ -1,5 +1,7 @@
 import axios from '../utils/request'
 
+const baseUrl = import.meta.env.VITE_APP_BASE_PATH
+
 /**
  * @description: 获取博客列表
  * @param {*}
@@ -7,7 +9,7 @@ import axios from '../utils/request'
  */
 export function apiGetBlogList(params) {
 	return axios({
-		url: '/blog/list',
+		url: baseUrl + '/blog/list',
 		method: 'GET',
 		params: params
 	})
@@ -20,7 +22,7 @@ export function apiGetBlogList(params) {
  */
  export function apiPutBlog(params) {
 	return axios({
-		url: '/blog',
+		url: baseUrl + '/blog',
 		method: 'PUT',
 		data: params
 	})
@@ -33,7 +35,7 @@ export function apiGetBlogList(params) {
  */
  export function apiPostBlog(params) {
 	return axios({
-		url: '/blog',
+		url: baseUrl + '/blog',
 		method: 'POST',
 		data: params
 	})
@@ -46,7 +48,7 @@ export function apiGetBlogList(params) {
  */
 export function apiGetBlog(params) {
 	return axios({
-		url: '/blog',
+		url: baseUrl + '/blog',
 		method: 'GET',
 		params: params
 	})
@@ -59,7 +61,7 @@ export function apiGetBlog(params) {
  */
  export function apiDeleteBlog(params) {
 	return axios({
-		url: '/blog',
+		url: baseUrl + '/blog',
 		method: 'DELETE',
 		data: params
 	})
@@ -73,7 +75,7 @@ export function apiGetBlog(params) {
  */
  export function apiGetKeyword(params) {
 	return axios({
-		url: '/blog/keyword',
+		url: baseUrl + '/blog/keyword',
 		method: 'get',
 		data: params
 	})

@@ -4,7 +4,7 @@ import router from '@/router/index.js';
 import qs from 'qs';
 
 // 请求基础路径
-axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_PATH;
+axios.defaults.baseURL = ''; // 不在这里设置,基地址不唯一
 
 // 响应时间设置,由于有文件传输，这里设置为30秒
 axios.defaults.timeout = 30000;

@@ -1,5 +1,6 @@
 import axios from '../utils/request'
 
+const baseUrl = import.meta.env.VITE_APP_BASE_PATH
 
 /**
  * @description: 获取api 
@@ -8,7 +9,7 @@ import axios from '../utils/request'
  */
 export function apiGetApi(params) {
 	return axios({
-		url: '/api/index',
+		url: baseUrl + '/api/index',
 		method: 'get',
 		data: params
 	})
@@ -21,7 +22,7 @@ export function apiGetApi(params) {
  */
  export function apiPostFlie(params) {
 	return axios({
-		url: '/file/index',
+		url: baseUrl + '/file/index',
 		method: 'post',
 		data: params
 	})
@@ -34,7 +35,7 @@ export function apiGetApi(params) {
  */
  export function apiDeleteFile(params) {
 	return axios({
-		url: '/file/index',
+		url: baseUrl + '/file/index',
 		method: 'delete',
 		data: params
 	})
@@ -48,7 +49,7 @@ export function apiGetApi(params) {
  export function apiPutFlie(params) {
 	return axios({
 		headers: {"content-type": "multipart/form-data"},
-		url: '/file/index',
+		url: baseUrl + '/file/index',
 		method: 'put',
 		data: params
 	})
@@ -61,7 +62,7 @@ export function apiGetApi(params) {
  */
  export function apiPutDir(params) {
 	return axios({
-		url: '/file/index',
+		url: baseUrl + '/file/index',
 		method: 'put',
 		data: params
 	})
@@ -75,7 +76,7 @@ export function apiGetApi(params) {
  export function apiFileDownload(params,success) {
 	return axios({
 		responseType: 'blob',
-		url: '/file/download',
+		url: baseUrl + '/file/download',
 		method: 'get',
 		data: params
 	})
@@ -88,7 +89,7 @@ export function apiGetApi(params) {
  */
  export function apiToolEmailVerify(params) {
 	return axios({
-		url: '/tool/emailVerify',
+		url: baseUrl + '/tool/emailVerify',
 		method: 'get',
 		data: params
 	})
@@ -101,7 +102,7 @@ export function apiGetApi(params) {
  */
  export function apiToolEmail(params) {
 	return axios({
-		url: '/tool/email',
+		url: baseUrl + '/tool/email',
 		method: 'get',
 		data: params
 	})
