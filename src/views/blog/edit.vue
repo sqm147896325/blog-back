@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- 博客信息 -->
-		<el-row>
+		<el-row class="margin-bottom">
 			<el-col :span="8">
 				<!-- 标题 -->
 				<el-row>
@@ -29,7 +29,9 @@
 		</el-row>
 		
 		<!-- 编辑器 -->
-		<div id="vditor" class="margin-top"></div>
+		<div class="md-edit">
+			<div id="vditor" class="margin-bottom"></div>
+		</div>
 
 		<!-- 功能按钮 -->
 		<div class="bottom-button">
@@ -82,6 +84,9 @@ export default {
 		}
 	},
 	mounted(){
+		
+	},
+	activated() {
 		this.init();
 	},
 	// 组件路由守卫（离开）
@@ -106,6 +111,8 @@ export default {
 		async init(){
 			// 缩入菜单栏
 			this.$store.commit('aside/setOpen',true);
+			// 重新为data赋值
+			this.id = this.$route.params.id
 			await this.initEdit();
 			const { dataInfo } = await apiGetKeyword();
 			this.options  = Object.keys(dataInfo);
@@ -126,7 +133,7 @@ export default {
 		async initEdit(){
 			// 初始化编辑器
 			this.content = new Vditor("vditor",{
-				height: 320,		// 编辑器高度
+				// height: 400,		// 编辑器高度, 这里不给在css自定义
 				toolbarConfig:{
 					pin:true
 				},
@@ -274,10 +281,19 @@ export default {
 ::v-deep .vditor-toolbar--pin{
 	position: relative;
 }
+#vditor{
+	height: calc(100vh - 270px);
+}
+.md-edit{
+	// height: 70vh;
+}
 
 // 上边距
 .margin-top{
 	margin-top: 10px;
+}
+.margin-bottom{
+	margin-bottom: 10px;
 }
 
 // 底部按钮

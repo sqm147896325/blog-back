@@ -47,7 +47,8 @@ export default {
 	height: 100vh;
 }
 .view{
-	min-height: 84vh;
+	min-height: calc(100vh - 120px);
+	padding-bottom: 20px;
 }
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .2s;
@@ -57,6 +58,6 @@ export default {
 }
 // 覆盖el-main样式
 .el-main{
-	padding: 10px;
+	padding: 10px 10px 0 10px;
 }
 </style>
