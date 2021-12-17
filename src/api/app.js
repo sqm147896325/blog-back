@@ -87,23 +87,11 @@ export function apiGetApi(params) {
  * @param {*}	params
  * @return {*}
  */
- export function apiToolEmailVerify(params) {
+ export function apiToolEmail(params) {
 	return axios({
-		url: baseUrl + '/tool/emailVerify',
-		method: 'get',
+		url: baseUrl + '/tool/email',
+		method: 'post',
 		data: params
 	})
 };
 
-/**
- * @description: 发送邮件验证码
- * @param {*}	params
- * @return {*}
- */
- export function apiToolEmail(params) {
-	return axios({
-		url: baseUrl + '/tool/email',
-		method: 'get',
-		data: params
-	})
-};

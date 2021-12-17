@@ -7,9 +7,11 @@
 			<input type="text" class="hide" />
 
 			<el-form-item v-for="(value , key ) in formdata" :key="key" :label="value.label" :prop="key">
-				<slot v-if="$slots[value.value]" />
+				<!-- 直接在template使用作用域插槽，暴露allRow,rowValue,rowKey -->
+				<slot v-if="slotsKey.includes(key)" :allRow="rowData" :rowKey="key" :name="key" />
 				<el-input v-else :type="value.type ? value.type : ''" v-model="rowData[key]"></el-input>
 			</el-form-item>
+
 			<div class="foot-button">
 				<el-button type="primary" @click="submit">确定</el-button>
 				<el-button @click="cancel">取消</el-button>
@@ -65,8 +67,14 @@ export default {
 			this.rowData = {...this.row};
 			this.type = Object.keys(this.row).length == 0 ? 0 : 1;
 		}
-	}, 
+	},
+	computed: {
+		slotsKey() {
+			return Object.keys(this.$scopedSlots)
+		}
+	},
 	mounted(){
+		console.log(this.slotsKey)
 		this.init();
 	},
 	methods: {

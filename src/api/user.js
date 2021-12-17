@@ -95,3 +95,29 @@ export function apiGetUser(params) {
 		data: params
 	})
 }
+
+/**
+ * @description: 发送用户验证码
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiToolEmailVerify(params) {
+	return axios({
+		url: baseUrl + '/tool/emailVerify',
+		method: 'post',
+		data: params
+	})
+};
+
+/**
+ * @description: 邮箱验证码设置用户信息
+ * @param {*}	params
+ * @return {*}
+ */
+ export function apiToolEmailSetUser(params) {
+	return axios({
+		url: baseUrl + '/tool/emailSetUser',
+		method: 'post',
+		data: params
+	})
+};
