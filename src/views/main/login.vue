@@ -13,17 +13,16 @@
 						<template slot="prepend">密码</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item>
-					<el-button @click="register" type="info">注册</el-button>
-					<el-button @click="login" type="info">登录</el-button>
-					<el-button @click="forget" type="info">忘记密码</el-button>
-				</el-form-item>
+				<div class="item-button">
+					<el-button class="login-btn" @click="login" type="info">登录</el-button>
+					<div class="function-btn" @click="registerOrForget" size="small" type="text">注册/忘记密码</div>
+				</div>
 			</el-form>
 		</div>
 		<my-form ref="myForm" :title="title" :formdata="formdata" :row="bindData" :rules="rules" :visible.sync="dialogVisible" @cancelForm="handleClose" @submitFrom="submitFrom">
 			<template v-slot:verification="{ allRow, rowKey }">
 				<el-input v-model="allRow[rowKey]">
-					<el-button slot="append" @click="getVerification" :disabled="verificationText !== '获取验证码'">{{verificationText === '获取验证码' ? '获取验证码' : verificationText + '秒后可再次获取'}}</el-button>
+					<el-button slot="append" @click="getVerification" :disabled="verificationText !== '获取验证码'" :loading="verificationText === 'loading'">{{['获取验证码', 'loading'].includes(verificationText) ? '获取验证码' : verificationText + '秒后可再次获取'}}</el-button>
 				</el-input>
 			</template>
 		</my-form>
@@ -107,19 +106,15 @@ export default {
 				}
 			});
 		},
-		register() {
+		registerOrForget() {
 			this.dialogVisible = true
-			this.title = '注册'
-		},
-		forget() {
-			this.dialogVisible = true
-			this.title = '忘记密码'
+			this.title = '注册/忘记密码'
 		},
 		handleClose() {
 
 		},
 		async submitFrom(data, type) {
-			await apiToolEmailSetUser({ email: data.email, verification: data.verification , password: data.password, type: 0 })
+			await apiToolEmailSetUser({ email: data.email, verification: data.verification , password: data.password })
 		},
 
 		/* 注册登录相关 */
@@ -139,16 +134,19 @@ export default {
 		async getVerification() {
 			this.$refs.myForm.$refs.form.validateField('email', async(errorMessage) => {
 				if (!errorMessage) {
-					await apiToolEmailVerify({ email: this.$refs.myForm.rowData.email, type: 0 })
-					this.$message.success('已发送至邮箱，请及时注册')
-					this.verificationText = 60
-					let timer = setInterval(() => {
-						this.verificationText--
-						if (this.verificationText === 0) {
-							this.verificationText = '获取验证码'
-							clearInterval(timer)
-						}
-					}, 1000)
+					apiToolEmailVerify({ email: this.$refs.myForm.rowData.email, type: 0 }).then(() => {
+						this.verificationText = 60
+							let timer = setInterval(() => {
+							this.verificationText--
+							if (this.verificationText === 0) {
+								this.verificationText = '获取验证码'
+								clearInterval(timer)
+							}
+						}, 1000)
+					}).catch(() => {
+						this.verificationText = '获取验证码'
+					})
+					this.verificationText = 'loading'
 				} else {
 					this.$message.error('请先输入正确邮箱')
 				}
@@ -196,8 +194,19 @@ export default {
 		width: 100%;
 	}
 }
-
-v:deep .el-form-item__error{
-	color: rgb(53, 220, 20);
+.item-button{
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	width: 100%;
+	.login-btn{
+		margin-right: 150px;
+	}
+	.function-btn{
+		color: #fff;
+		font-size: @fz-small;
+		cursor: pointer;
+		text-decoration: underline;
+	}
 }
 </style>

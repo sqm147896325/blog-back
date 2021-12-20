@@ -103,7 +103,7 @@ export function apiGetUser(params) {
  */
  export function apiToolEmailVerify(params) {
 	return axios({
-		url: baseUrl + '/tool/emailVerify',
+		url: baseUrl + '/user/emailVerify',
 		method: 'post',
 		data: params
 	})
@@ -116,7 +116,7 @@ export function apiGetUser(params) {
  */
  export function apiToolEmailSetUser(params) {
 	return axios({
-		url: baseUrl + '/tool/emailSetUser',
+		url: baseUrl + '/user/emailSetUser',
 		method: 'post',
 		data: params
 	})

@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 		const code = response.status;
 		// 自定义响应码，233为直接渲染显示错误信息
 		if(code == 233){
-			Message.warning(response.data.msg);
+			Message[response.data.dataInfo.type](response.data.msg);
 			return response;
 		}
 		// 自定义响应码，仅在控制台输出错误信息
