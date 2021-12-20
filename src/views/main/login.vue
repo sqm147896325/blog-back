@@ -134,7 +134,7 @@ export default {
 		async getVerification() {
 			this.$refs.myForm.$refs.form.validateField('email', async(errorMessage) => {
 				if (!errorMessage) {
-					apiToolEmailVerify({ email: this.$refs.myForm.rowData.email, type: 0 }).then(() => {
+					apiToolEmailVerify({ email: this.$refs.myForm.rowData.email }).then(() => {
 						this.verificationText = 60
 							let timer = setInterval(() => {
 							this.verificationText--
