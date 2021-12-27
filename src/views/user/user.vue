@@ -93,7 +93,7 @@ export default {
 				username: {label: '用户名',value: ''},
 				password: {label: '密码',value: '',type: 'password'},
 				tel: {label: '电话',value: ''},
-				emil: {label: '邮箱',value: ''},
+				email: {label: '邮箱',value: ''},
 				des: {label: '描述',value: ''},
 			},	// 表单
 			rules:{
@@ -113,7 +113,7 @@ export default {
 				{ field: 'username', cname: '用户名', cshow: true, align: 'center', showname: '用户名', clock: false, width:100 },
 				{ field: 'id', cname: '账号id', cshow: true, align: 'center', showname: '账号id', clock: false, width:80 },
 				{ field: 'tel', cname: '电话', cshow: true, align: 'center', showname: '电话', clock: false, width:120 },
-				{ field: 'emil', cname: '邮箱', cshow: true, align: 'center', showname: '邮箱', clock: false, width:180 },
+				{ field: 'email', cname: '邮箱', cshow: true, align: 'center', showname: '邮箱', clock: false, width:180 },
 				{ field: 'des', cname: '描述', cshow: true, align: 'center', showname: '描述', clock: false },
 				{ field: 'operation', cname: '操作', cshow: true, align: 'center', showname: '操作', clock: true, width:280 }
 			]
