@@ -11,7 +11,10 @@ export function apiPostLogin(params) {
 	return axios({
 		url: baseUrl + '/login',
 		method: 'POST',
-		data: params
+		data: params,
+		config: {
+			md5: ['password']
+		}
 	})
 };
 
@@ -40,7 +43,10 @@ export function apiGetUserList(params) {
 	return axios({
 		url: baseUrl + '/user',
 		method: 'PUT',
-		data: params
+		data: params,
+		config: {
+			md5: ['password']
+		}
 	})
 }
 
@@ -53,7 +59,10 @@ export function apiGetUserList(params) {
 	return axios({
 		url: baseUrl + '/user',
 		method: 'POST',
-		data: params
+		data: params,
+		config: {
+			md5: ['password']
+		}
 	})
 }
 
@@ -118,6 +127,9 @@ export function apiGetUser(params) {
 	return axios({
 		url: baseUrl + '/user/emailSetUser',
 		method: 'post',
-		data: params
+		data: params,
+		config: {
+			md5: ['password']
+		}
 	})
 };

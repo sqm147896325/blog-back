@@ -2,6 +2,7 @@ import axios from "axios";
 import { Message } from 'element-ui';
 import router from '@/router/index.js';
 import qs from 'qs';
+import crypto from 'crypto-js';
 
 // 请求基础路径
 axios.defaults.baseURL = ''; // 不在这里设置,基地址不唯一
@@ -25,10 +26,25 @@ axios.interceptors.request.use(config => {
 		config.headers.Authorization = 'Bearer ' + localStorage.getItem("token");
 	}
 
+	const data = Object.assign(JSON.parse(JSON.stringify(qs.parse(config.data))), config.params);
+
+	if (config?.config?.md5 && config?.config?.md5.length !== 0) {
+		const md5 = config.config.md5;
+		const dataMap = new Map(Object.entries(data))
+		dataMap.forEach((v, k) => {
+			if(md5.includes(k)) {
+				data[k] = crypto.MD5(v).toString()
+			}
+		});
+		// post请求参数解析优先
+		config.data = data;
+	}
+
 	// 如果是post请求，使用qs序列化对象
 	if(config.method  === 'post'){
         config.data = qs.stringify(config.data);
     }
+
 	return config;
 });
 
@@ -39,7 +55,7 @@ axios.interceptors.response.use(
 		const code = response.status;
 		// 自定义响应码，233为直接渲染显示错误信息
 		if(code == 233){
-			Message[response.data.dataInfo.type](response.data.msg);
+			Message[response.data.dataInfo.type ? response.data.dataInfo.type : 'warning' ](response.data.msg);
 			return response;
 		}
 		// 自定义响应码，仅在控制台输出错误信息
@@ -56,7 +72,7 @@ axios.interceptors.response.use(
 	//响应错误拦截
 	error => {
 		// 鉴权失败
-		if(error && error.response.status == 401){
+		if(error && error?.response?.status == 401){
 			Message.warning(error.response.data.msg);
 			localStorage.removeItem('token');
 			router.push({
