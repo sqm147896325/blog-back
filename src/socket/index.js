@@ -1,3 +1,4 @@
+// !(弃用)
 import store from '../store'
 
 // 导入长连接插件

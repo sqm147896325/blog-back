@@ -13,43 +13,16 @@ Vue.use(ElementUI);
 // 导入权限控制
 import '@/permission';
 
-// 导入socket.io
-import socket from './socket';
-Vue.use(socket)
+// // 导入socket.io
+// import socket from './socket';
+// Vue.use(socket)
 
-Vue.mixin({
-	methods: {
-		sokcet(type='init', data) {
-			const params = {name: this.$store.state.user.userInfo.username, time: new Date().getTime(), userId: this.$store.state.user.userInfo.id}
-			Object.assign( params, data)
-			this.$socket.emit(type, params)
-		}
-	}
-})
-
-/* // ! 这里作为记录注册方法，等吃透了 vue-socket.io （它在stroe中的使用），我会对这个包进行改造
-let IOMsg = io('localhost:9080/msg')
-let IOChat = io('localhost:9080/chat')
-Vue.mixin({
-  mounted(){
-    if(this.$options.socketsMsg){
-      Object.keys(this.$options.socketsMsg).forEach(e => {
-          if(e !== 'subscribe' && e !== 'unsubscribe') {
-            IOMsg.on(e, this.$options.socketsMsg[e]);
-          }
-      });
-    }
-    if(this.$options.socketsChat){
-      Object.keys(this.$options.socketsChat).forEach(e => {
-          if(e !== 'subscribe' && e !== 'unsubscribe') {
-            IOChat.on(e, this.$options.socketsChat[e]);
-          }
-      });
-    }
-  }
-})
-Vue.prototype.$socketMsg = IOMsg
-Vue.prototype.$socketChat = IOChat */
+// 导入自定义socket.io
+import MadderSocket from './plugins/socket';
+Vue.use(new MadderSocket({
+  vuex: store,
+  options: [{ name: 'msg', ip: `${ import.meta.env.VITE_SOCKET_URL }/msg` }, { name: 'chat', ip: `${ import.meta.env.VITE_SOCKET_URL }/chat` }]
+}))
 
 // 混入逻辑
 import minix from '@/minix'

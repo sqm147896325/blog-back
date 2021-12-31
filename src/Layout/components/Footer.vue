@@ -34,6 +34,12 @@ export default{
     background: #3333;
 	  height: 1px;
   }
+  .main-copyright{
+    cursor: default;
+  }
+  .main-record{
+    cursor: pointer;
+  }
 }
 .row{
   color: #333;

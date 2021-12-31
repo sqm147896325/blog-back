@@ -58,21 +58,29 @@ export default {
 	},
 	sockets: {
 		// 客户端接收后台传输的socket事件
-		res(data) {
-			if (this.debug.socket) console.log('res',data)
-		},
-		'233'(data) {
-			if (this.debug.socket) console.log('233',data)
-			this.$msgTip('success', data)
-		},
-		'250'(data) {
-			if (this.debug.socket) console.log('250',data)
-			this.$msgTip('error', data, 0)
-		},
+		msg: {
+			res(data) {
+				if (this.debug.socket) console.log('res',data)
+			},
+			'233'(data) {
+				if (this.debug.socket) console.log('233',data)
+				this.$msgTip('success', data)
+			},
+			'250'(data) {
+				if (this.debug.socket) console.log('250',data)
+				this.$msgTip('error', data, 0)
+			},
+			reconnect() {
+				this.sokcet('msg','init')  // 重新连接时重新发送init
+			},
+			disconnect() {
+				if (this.debug.socket) console.log('断开连接')
+			}
+		}
 	},
 	methods: {
 		init(){
-			this.sokcet('init', { data: 123 })
+			this.sokcet('msg','init')
 			this.routeChange()
 		},
 		// 路由改变面包屑内容也应该相应改变
