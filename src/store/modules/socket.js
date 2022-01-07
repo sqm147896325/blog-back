@@ -16,6 +16,9 @@ export default {
 	actions: {
         MSG_RES(e, value) {
 		},
+		MSG_CONNECT(e, value) {
+			console.log('MSG_CONNECT', value)
+		},
 		MSG_200(e, value) {
 		},
 		MSG_233(e, value) {

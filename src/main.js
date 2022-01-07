@@ -21,7 +21,7 @@ import '@/permission';
 import MadderSocket from './plugins/socket';
 Vue.use(new MadderSocket({
   vuex: store,
-  options: [{ name: 'msg', ip: `${ import.meta.env.VITE_SOCKET_URL }/msg` }, { name: 'chat', ip: `${ import.meta.env.VITE_SOCKET_URL }/chat` }]
+  options: [{ name: 'msg', ip: `${ import.meta.env.VITE_SOCKET_URL }/msg` }, { name: 'chat', ip: `${ import.meta.env.VITE_SOCKET_URL }/chat` }, { name: 'term', ip: `${ import.meta.env.VITE_SOCKET_URL }/term` }]
 }))
 
 // 混入逻辑

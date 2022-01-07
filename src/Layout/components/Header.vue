@@ -60,7 +60,7 @@ export default {
 		// 客户端接收后台传输的socket事件
 		msg: {
 			res(data) {
-				if (this.debug.socket) console.log('res',data)
+				if (this.debug.socket) console.log('res',data.dataInfo)
 			},
 			'233'(data) {
 				if (this.debug.socket) console.log('233',data)
@@ -71,6 +71,7 @@ export default {
 				this.$msgTip('error', data, 0)
 			},
 			reconnect() {
+				if (this.debug.socket) console.log('reconnect 重新连接')
 				this.sokcet('msg','init')  // 重新连接时重新发送init
 			},
 			disconnect() {

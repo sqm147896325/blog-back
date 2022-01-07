@@ -59,5 +59,6 @@ export default {
 // 覆盖el-main样式
 .el-main{
 	padding: 10px 10px 0 10px;
+	overflow-x: hidden;
 }
 </style>
