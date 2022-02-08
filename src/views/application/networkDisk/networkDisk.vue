@@ -83,7 +83,7 @@ export default {
 		async downFile() {
 			let downloadArr = this.checkArr.map(e => e.uuid);
 			// 使用window.open()下载文件流
-			window.open(`${import.meta.env.VITE_APP_BASE_API}/file/download?downloadArr=${downloadArr}&user_id=${this.$store.state.user.userInfo.id}`)
+			window.open(`${import.meta.env.VITE_APP_BASE_PATH}/file/download?downloadArr=${downloadArr}&user_id=${this.$store.state.user.userInfo.id}`)
 		},
 		// 创建文件夹
 		async mkdir(){
@@ -106,7 +106,7 @@ export default {
 				this.$message.success(`${msg}成功!`);
 				await this.init();
 			}).catch((err) => {
-				console.err('错误捕捉', err)
+				console.error('错误捕捉', err)
 				this.$message.info(`已取消${msg}`);
 			});
 		},
