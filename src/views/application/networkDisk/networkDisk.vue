@@ -11,7 +11,7 @@
 			<el-button type="primary" size="small" @click="upload">上传</el-button>
 		</div>
 	</div>
-	<el-table :data="tableData" @row-click="rowClick" @selection-change="checkChange">
+	<el-table ref="table" highlight-current-row :data="tableData" @row-dblclick="rowDblclick" @row-click="rowClick" @selection-change="checkChange">
 		<el-table-column type="selection" width="55"></el-table-column>
 		<el-table-column label="名称" width="200">
 			<template slot-scope="{ row }">
@@ -25,7 +25,7 @@
 		<el-upload class="upload-center" drag action :http-request="uploadSectionFile" :on-change="flieChange" :on-remove="flieChange" multiple>
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-			<div class="el-upload__tip" slot="tip">只能上传文件，且单个大小不超过500mb</div>
+			<div class="el-upload__tip" slot="tip">只能上传文件，且单个大小不超过100mb</div>
 		</el-upload>
 		<span slot="footer">
 			<el-button @click="visible = false" size="small">取消</el-button>
@@ -116,8 +116,12 @@ export default {
 		},
 
 		/* 表格相关 */
-		// 行点击
-		async rowClick(row,col) {
+		// 行单击
+		rowClick(row,col) {
+			this.$refs.table.toggleRowSelection(row)
+		},
+		// 行双击
+		async rowDblclick(row,col) {
 			if( row.file_type == 'dir' ) {
 				this.backId.push(this.uuid);
 				this.uuid = row.uuid;
@@ -134,9 +138,9 @@ export default {
 		// 覆盖默认的上传文件方法
 		uploadSectionFile(params) {
 			const file = params.file;
-            const isLt = file.size / 1024 / 1024 < 500;
+            const isLt = file.size / 1024 / 1024 < 100;
 			if (!isLt) {
-				this.$message.error("只能上传文件大小小于500M");
+				this.$message.error("只能上传文件大小小于100M");
 				return false;
 			}
 		},
