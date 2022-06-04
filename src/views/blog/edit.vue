@@ -52,7 +52,7 @@ export default {
 	components: { readOneFile , TagsInput },
 	data(){
 		return {
-			id: this.$route.params.id,	// 标志博客id，0时为新建博客
+			id: 0,	// 标志博客id，0时为新建博客，默认为this.$route.params.id会在this.$options.data()时出错
 
 			/* 标题 */
 			title: '',
@@ -102,6 +102,7 @@ export default {
 			cancelButtonText: '取消',
 			type: 'warning'
 		}).then(() => {
+			Object.assign(this.$data, this.$options.data())
 			next();
 		}).catch(() => {
 			next(false);
@@ -115,7 +116,7 @@ export default {
 			this.id = this.$route.params.id
 			await this.initEdit();
 			const { dataInfo } = await apiGetKeyword();
-			this.options  = Object.keys(dataInfo);
+			this.options = Object.keys(dataInfo);
 		},
 
 		// 改变标签回调
@@ -201,8 +202,8 @@ export default {
 				return false
 			}
 			// 新建模式
-			let { data } = await apiPutBlog(params);
-			this.id = data.dataInfo.id;							// 获取新建后的id
+			let res = await apiPutBlog(params);
+			this.id = res.dataInfo.id;							// 获取新建后的id
 			this.$router.replace(`/edit/${this.id}?type=1`);	// 替换路由params与query，更改为修改模式
 			await this.initData();	// 数据初始化
 		},
