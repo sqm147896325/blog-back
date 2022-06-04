@@ -35,7 +35,7 @@
 
 		<!-- 功能按钮 -->
 		<div class="bottom-button">
-			<el-button type="success" size="small" @click="save" :disabled='dataChange'>保存</el-button>
+			<el-button type="success" size="small" @click="save" :disabled="dataChange">保存</el-button>
 			<el-button type="warning" size="small" @click="back">返回</el-button>
 		</div>
 	</div>
@@ -77,10 +77,10 @@ export default {
 	computed: {
 		dataChange(){
 			// 判断数据是否发生了改变
-			return this.title == this.constTitle
-			&& this.keyword == this.constKeyword
-			&& this.des == this.constDes
-			&& !this.editChange;
+			const titleFalg = this.title == this.constTitle
+			const keywordFlag = JSON.stringify(this.keyword) == JSON.stringify(this.constKeyword)
+			const desFlag = this.des == this.constDes
+			return titleFalg && keywordFlag && desFlag && !this.editChange;
 		}
 	},
 	mounted(){
@@ -196,16 +196,9 @@ export default {
 			if(this.id != 0){
 				// 修改模式
 				params.id = this.id;
-				const res = await apiPostBlog(params);
-				if(res.data.flag == 0 && res.status == 250) {
-					// 更新失败
-					this.$message.error(res.data.msg)
-				}else{
-					// 更新成功
-					// location.reload();
-					this.initData();
-				}
-				return false;
+				await apiPostBlog(params);
+				this.initData();
+				return false
 			}
 			// 新建模式
 			let { data } = await apiPutBlog(params);

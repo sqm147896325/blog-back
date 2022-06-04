@@ -178,11 +178,9 @@ export default {
 				type: 'warning'
 			}).then(async () => {
 				await apiDeleteBlog({id: row.id});
-				this.$message.success(`${msg}成功!`);
 				this.init();
 			}).catch((err) => {
 				console.log(err)
-				this.$message.info(`已取消${msg}`);
 			});
 		},
 
