@@ -1,1 +1,0 @@
-import{n as _}from"./index.01eae034.js";import"./vendor.aabb9fcb.js";var a=function(){var e=this,t=e.$createElement,r=e._self._c||t;return r("div",[e._v(" appList ")])},s=[];const o={},n={};var i=_(o,a,s,!1,l,null,null,null);function l(e){for(let t in n)this[t]=n[t]}var p=function(){return i.exports}();export{p as default};
