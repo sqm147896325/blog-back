@@ -21,7 +21,10 @@ function recursiveMenu(value) {
 
 // 遍历剔除不需要显示的路由
 let routes = router.options.routes.filter(e => {
-	return e.show != false;
+	if (e.meta && e.meta.show === false) {
+		return false;
+	}
+	return true
 });
 
 // 递归路径拼接

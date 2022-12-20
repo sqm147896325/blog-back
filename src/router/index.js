@@ -17,8 +17,9 @@ VueRouter.prototype.push = function push(location) {
  * constantRoutes静态路由，包含不需要layout布局的基本页
  * asyncRouter动态路由，使用layout布局
  * 
- * 自定义字段：
- * show	标志是否在aside侧边栏展示，false时不显示，true或省缺时显示
+ * 自定义字段meta：
+ *  show	标志是否在aside侧边栏展示，false时不显示，true或省缺时显示
+ *  defaultPath 实际跳转和在地址栏上显示的字段，以取代path
  * 
  */
 
@@ -29,14 +30,18 @@ const constantRoutes = [
 	{
 		path: '/login',
 		name: 'login',
-		show: false,
-		component: () => import('../views/main/login.vue')
+		component: () => import('../views/main/login.vue'),
+		meta: {
+			show: false
+		}
 	},
 	{
 		path: '/404',
 		name: '404',
-		show: false,
-		component: () => import('../views/main/404.vue')
+		component: () => import('../views/main/404.vue'),
+		meta: {
+			show: false
+		}
 	}
 ]
 
@@ -112,7 +117,6 @@ const powerHideRouter = [
 	{
 		path: '/edit',
 		name: '编辑',
-		show: false,
 		component: Layout,
 		redirect: '/manage/blog',
 		children: [
@@ -121,11 +125,14 @@ const powerHideRouter = [
 				name: '博客编辑',
 				component: () => import('../views/blog/edit.vue')
 			}
-		]
+		],
+		meta: {
+			show: false
+		}
 	},
 
 	// 404页一定要放在最后
-	{ path: '/*', name: '404', show: false, redirect: '/404' }
+	{ path: '/*', name: '404', redirect: '/404', meta: { show: false } }
 ];
 
 // 鉴权白名单

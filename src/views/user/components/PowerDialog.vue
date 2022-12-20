@@ -125,8 +125,8 @@ export default {
 		// 剔除的规则
 		ruleOfFilter(routerData){
 			routerData = routerData.filter(e => {
-				// 剔除show字段为false的路由
-				if(typeof e.show == 'boolean'){
+				// 剔除meta中show字段为false的路由
+				if (e.meta && e.meta.show === false) {
 					return false;
 				}
 				// 如果有e.children且e.children是只有唯一一个值的数组，则删除他。
