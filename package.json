@@ -8,6 +8,7 @@
 		"build": "vite build --base=/page/back/"
 	},
 	"dependencies": {
+		"@micro-zoe/micro-app": "^0.8.10",
 		"axios": "^0.24.0",
 		"core-js": "^3.19.3",
 		"cross-env": "^7.0.3",

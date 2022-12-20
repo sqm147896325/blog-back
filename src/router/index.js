@@ -65,17 +65,25 @@ const powerShowRouter = [
 			path: 'appList',
 			name: '应用列表',
 			icon: 'el-icon-help',
-			component: () => import('../views/application/appList.vue')
+			component: () => import('../views/application/index.vue')
 		},{
 			path: 'apiDoc',
 			name: '接口文档',
 			icon: 'el-icon-document',
-			component: () => import('../views/application/apiDoc/apiDoc.vue')
+			component: () => import('../views/application/apiDoc/index.vue')
 		},{
 			path: 'networkDisk',
 			name: '网盘',
 			icon: 'el-icon-upload',
-			component: () => import('../views/application/networkDisk/networkDisk.vue')
+			component: () => import('../views/application/networkDisk/index.vue')
+		},{
+			path: 'comapp/:page*',
+			name: '组件归集',
+			icon: 'el-icon-cherry',
+			component: () => import('../views/application/comapp/index.vue'),
+			meta: {
+				defaultPath: '/application/comapp'
+			}
 		}]
 	},
 	{
@@ -115,7 +123,6 @@ const powerHideRouter = [
 			}
 		]
 	},
-	
 
 	// 404页一定要放在最后
 	{ path: '/*', name: '404', show: false, redirect: '/404' }
@@ -125,7 +132,7 @@ const powerHideRouter = [
 const whiteList = [ 'login' , '404' , '博客编辑' ];
 
 const router = new VueRouter({
-	mode: 'hash',
+	mode: 'history',
 	// base: process.env.BASE_URL,
 	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter],
 	whiteList

@@ -1,15 +1,15 @@
 <template>
 	<div >
 		<div class="aside-item" v-for="item in routesMenu" :key='item.name'>
-			<el-menu-item v-if="typeof item.children == 'undefined'" :index="item.path" @click="chooseMenu(item.path)">
+			<el-menu-item v-if="typeof item.children == 'undefined'" :index="getPath(item)" @click="chooseMenu(item)">
 				<i :class="item.icon || 'el-icon-menu'"></i>
 				<span slot="title">{{item.name}}</span>
 			</el-menu-item>
-			<el-menu-item v-else-if="item.children.length == 1" :index="item.children[0].path" @click="chooseMenu(item.children[0].path)">
+			<el-menu-item v-else-if="item.children.length == 1" :index="getPath(item)" @click="chooseMenu(item.children[0])">
 				<i :class="item.children[0].icon || 'el-icon-menu'"></i>
 				<span slot="title">{{item.children[0].name}}</span>
 			</el-menu-item>
-			<el-submenu v-else :index="item.name"  @click="chooseMenu(item.path)">
+			<el-submenu v-else :index="item.name"  @click="chooseMenu(item)">
 				<template slot="title">
 					<i :class="item.icon || 'el-icon-menu'"></i>
 					<span slot="title">{{item.name}}</span>
@@ -66,8 +66,17 @@ export default {
 				});
 			}
 		},
+		getPath(item) {
+			let path = item.path
+			if (item.meta) {
+				// 如果有菜单默认路径，按照默认路径跳转
+				path = item.meta.defaultPath
+			}
+			return path
+		},
 		// 选择菜单子项时的点击事件
-		chooseMenu(path){
+		chooseMenu(item){
+			let path = this.getPath(item)
 			this.$store.commit('aside/setActiveMenu',path);
 		},
 	}

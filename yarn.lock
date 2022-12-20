@@ -388,6 +388,11 @@
   resolved "https://registry.npmjs.org/@interactjs/utils/-/utils-1.10.11.tgz#939d0f128dfa96c673276cca3eb7f313d92daabf"
   integrity sha512-410ZoxKF+r1roeSelL+WHXfdryUMg5iykC1XwQ3l6XqNw43IMACzyvTH6k6Pwxj7w7x42nce0Qdn1GQ3Y8xyCw==
 
+"@micro-zoe/micro-app@^0.8.10":
+  version "0.8.10"
+  resolved "https://registry.npmmirror.com/@micro-zoe/micro-app/-/micro-app-0.8.10.tgz#33fc5e821289521d8339cb35aa47a20786e01aea"
+  integrity sha512-Zb1G5UrOAEHhiAlanzHJiBlRFHMd4+C/Q5jkwTM991R7blb1F6uGY47pmcunzHns48Kj6k9v2+CLsozGyhQmyw==
+
 "@rollup/pluginutils@^4.1.1":
   version "4.1.1"
   resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.1.1.tgz#1d4da86dd4eded15656a57d933fda2b9a08d47ec"
