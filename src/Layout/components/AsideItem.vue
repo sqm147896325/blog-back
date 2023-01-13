@@ -47,7 +47,7 @@ export default {
 				this.routesMenu = this.$store.state.aside.menu;
 				// 根据权限信息筛选去除
 				this.routesMenu = this.routesMenu.filter(e => {
-					if(this.$store.state.user.userInfo.power?.includes(e.name) || e.name == '首页'){
+					if(this.$store.state.user.userInfo.power?.includes(e.name) || e.name == 'dashboard'){
 						return true;
 					}else{
 						return false;

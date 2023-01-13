@@ -65,6 +65,7 @@ import PowerDialog from './components/PowerDialog.vue';
 import TableFormat from '@/components/TableFormat/TableFormat.vue';
 
 export default {
+	name: 'user',
 	components: { 'my-search': Search , 'my-form': From , 'my-pagination': Pagination , PowerDialog, TableFormat},
 	data(){
 		return {

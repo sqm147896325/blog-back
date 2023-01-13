@@ -34,7 +34,7 @@ import { apiPostLogin, apiToolEmailVerify, apiToolEmailSetUser } from '@/api/use
 import From from '@/components/Form/Form.vue';
 
 export default {
-	name: 'Login',
+	name: 'login',
 	components: { 'my-form': From },
 	data(){
 		return{

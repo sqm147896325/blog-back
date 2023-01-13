@@ -31,7 +31,7 @@ import VueGridLayout from 'vue-grid-layout'; // 引入vue-grid-layout布局
 import { apiGetBlogList , apiGetKeyword } from '@/api/blog.js'
 import * as echarts from 'echarts' // 引入echarts
 export default {
-    name: 'Dashboard',
+    name: 'dashboard',
     components: {
         GridLayout: VueGridLayout.GridLayout,
         GridItem: VueGridLayout.GridItem

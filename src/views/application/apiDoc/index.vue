@@ -26,6 +26,7 @@
 <script>
 import { apiGetApi } from '../../../api/app.js'
 export default {
+	name: 'apiDoc',
 	data() {
 		return {
 			tableData: []

@@ -58,6 +58,7 @@ import Pagination from '@/components/Pagination/Pagination.vue';
 import TableFormat from '@/components/TableFormat/TableFormat.vue';
 
 export default {
+	name: 'blog',
 	components: { 'my-search': Search , 'my-pagination': Pagination, TableFormat },
 	data(){
 		return {

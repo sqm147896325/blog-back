@@ -7,19 +7,25 @@
 				<el-breadcrumb-item v-for="item in matched" :key="item.path" :to="item.path">{{item.name}}</el-breadcrumb-item>
 			</el-breadcrumb>
 
-			<div class="main-left">
-				<el-badge :hidden="!msgNum || msgVisible" :value="msgNum" :max="99" class="left-msg">
-					<i :class="msgNum ? 'el-icon-chat-line-round' : 'el-icon-chat-round'" class="msg-icon" @click="msgOpen"></i>
-				</el-badge>
-				<el-dropdown @command="headMenu" class="left-dropdown">
-					<span class="dropdown-head">
-						<el-avatar shape="square" :size="36"> user </el-avatar>
-						<i class="el-icon-arrow-down el-icon--right"></i>
-					</span>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item v-for="( item , index ) in option" :key="index" :command="item.value">{{item.lable}}</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
+			<div class="main-container">
+				<div class="tag-container">
+					<HeadTag></HeadTag>
+				</div>
+
+				<div class="main-left">
+					<el-badge :hidden="!msgNum || msgVisible" :value="msgNum" :max="99" class="left-msg">
+						<i :class="msgNum ? 'el-icon-chat-line-round' : 'el-icon-chat-round'" class="msg-icon" @click="msgOpen"></i>
+					</el-badge>
+					<el-dropdown @command="headMenu" class="left-dropdown">
+						<span class="dropdown-head">
+							<el-avatar shape="square" :size="36"> user </el-avatar>
+							<i class="el-icon-arrow-down el-icon--right"></i>
+						</span>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item v-for="( item , index ) in option" :key="index" :command="item.value">{{item.lable}}</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
+				</div>
 			</div>
 
 		</el-header>
@@ -30,9 +36,10 @@
 
 <script>
 import Message from '@/components/Message/Message.vue'
+import HeadTag from '@/components/HeadTag/HeadTag.vue'
 export default {
 	name: 'Header',
-	components: { Message },
+	components: { Message, HeadTag },
 	data(){
 		return {
 			// 路由原型，存储路由父子级及重定向信息
@@ -88,7 +95,7 @@ export default {
 		routeChange(){
 			// 剔除首页
 			this.matched = this.$route.matched.filter(e => {
-				return e.name != '首页'
+				return e.name != 'dashboard'
 			});
 		},
 		setOpen(){
@@ -138,7 +145,7 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: 50px;
+	height: 60px;
 	position: relative;
 
 
@@ -148,26 +155,37 @@ export default {
 
 	}
 
-	.main-left{
-		position: absolute;
-		right: 20px;
+	.main-container{
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
-		.left-msg{
-			margin: 0 10px;
-			.msg-icon{
-				font-size: 20px;
+		padding-left: 20px;
+		flex: 1;
+		.tag-container{
+
+		}
+
+		.main-left{
+			// position: absolute;
+			// right: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.left-msg{
+				margin: 0 10px;
+				.msg-icon{
+					font-size: 20px;
+				}
+			}
+			.dropdown-head{
+				display: flex;
+				align-items: center;
+				padding: 10px;
+				border-radius: 6px;
 			}
 		}
 	}
 
-	.dropdown-head{
-		display: flex;
-		align-items: center;
-		padding: 10px;
-		border-radius: 6px;
-	}
 }
 
 .messge-dialog{

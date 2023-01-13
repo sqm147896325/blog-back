@@ -6,7 +6,7 @@
 				<l-header />
 				<el-main>
 					<transition name="fade" mode="out-in">
-						<keep-alive>
+						<keep-alive :include="keepName">
 							<router-view class="view"></router-view>
 						</keep-alive>
 					</transition>
@@ -21,6 +21,7 @@
 import Aside from './components/Aside.vue';
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'Layout',
@@ -28,6 +29,12 @@ export default {
 		'l-aside': Aside,
 		'l-header': Header,
 		'l-footer': Footer
+	},
+	computed: {
+		...mapState('alive', ['keepArr', 'keepName'])
+	},
+	mounted() {
+		console.log(this.keepArr, this.keepName)
 	},
 	watch: {
 		"$route":function(to,from){

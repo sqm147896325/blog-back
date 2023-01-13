@@ -7,6 +7,7 @@
 
 <script>
 export default {
+    name: 'comapp',
     methods: {
         error() {
             this.$message.error('未连接到子模块')

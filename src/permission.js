@@ -23,6 +23,14 @@ router.beforeEach((to,from,next) => {
 			*/ 
 			// todo 路径跳转时读取localStorage中的用户信息，这里应该监听关闭与初始化该页面进行数据持久化操作
 			store.commit('user/setUserInfo',userInfo);
+
+			// 跳转前
+			let keepArr = [ ...store.state.alive.keepArr]
+			if (!keepArr.some(e => e.fullPath === to.fullPath)) {
+				keepArr = [ ...keepArr, to ]
+			}
+			store.commit('alive/setKeepArr', keepArr)
+
 			// 正常跳转
 			next();
 		}
@@ -54,7 +62,7 @@ router.beforeEach((to,from,next) => {
 		return true;
 	}
 	// 访问首页直接访问
-	if(to.name == '首页'){
+	if(to.name == 'dashboard'){
 		next();
 		return true;
 	}

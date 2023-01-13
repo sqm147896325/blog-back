@@ -49,6 +49,7 @@ import readOneFile from '../../components/readOneFile/readOneFile.vue';
 import TagsInput from '../../components/TagsInput/TagsInput.vue';
 
 export default {
+	name: 'edit',
 	components: { readOneFile , TagsInput },
 	data(){
 		return {

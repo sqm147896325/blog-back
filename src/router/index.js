@@ -49,41 +49,41 @@ const constantRoutes = [
 const powerShowRouter = [
 	{
 		path: '',
-		name: '首页',
+		name: 'toDashboard',
 		icon: 'el-icon-s-home',
 		component: Layout,
 		redirect: '/dashboard',
 		children: [{
 			path: 'dashboard',
-			name: '首页',
+			name: 'dashboard',
 			icon: 'el-icon-s-home',
 			component: () => import('../views/main/dashboard.vue')
 		}]
 	},
 	{
 		path: '/application',
-		name: '应用',
+		name: 'toAppList',
 		icon: 'el-icon-menu',
 		component: Layout,
 		redirect: '/application/appList',
 		children: [{
 			path: 'appList',
-			name: '应用列表',
+			name: 'appList',
 			icon: 'el-icon-help',
 			component: () => import('../views/application/index.vue')
 		},{
 			path: 'apiDoc',
-			name: '接口文档',
+			name: 'apiDoc',
 			icon: 'el-icon-document',
 			component: () => import('../views/application/apiDoc/index.vue')
 		},{
 			path: 'networkDisk',
-			name: '网盘',
+			name: 'networkDisk',
 			icon: 'el-icon-upload',
 			component: () => import('../views/application/networkDisk/index.vue')
 		},{
 			path: 'comapp/:page*',
-			name: '组件归集',
+			name: 'comapp',
 			icon: 'el-icon-cherry',
 			component: () => import('../views/application/comapp/index.vue'),
 			meta: {
@@ -93,19 +93,19 @@ const powerShowRouter = [
 	},
 	{
 		path: '/manage',
-		name: '管理',
+		name: 'toBlog',
 		icon: 'el-icon-setting',
 		component: Layout,
 		redirect: '/manage/blog',
 		children: [{
 			path: 'blog',
-			name: '博客管理',
+			name: 'blog',
 			icon: 'el-icon-notebook-1',
 			component: () => import('../views/blog/blog.vue')
 		},
 		{
 			path: 'user',
-			name: '用户管理',
+			name: 'user',
 			icon: 'el-icon-user',
 			component: () => import('../views/user/user.vue')
 		}]
@@ -116,13 +116,13 @@ const powerShowRouter = [
 const powerHideRouter = [
 	{
 		path: '/edit',
-		name: '编辑',
+		name: 'toEdit',
 		component: Layout,
 		redirect: '/manage/blog',
 		children: [
 			{
 				path: ':id',
-				name: '博客编辑',
+				name: 'edit',
 				component: () => import('../views/blog/edit.vue')
 			}
 		],
@@ -136,7 +136,7 @@ const powerHideRouter = [
 ];
 
 // 鉴权白名单
-const whiteList = [ 'login' , '404' , '博客编辑' ];
+const whiteList = [ 'login' , '404' , 'edit' ];
 
 const router = new VueRouter({
 	mode: 'history',

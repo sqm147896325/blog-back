@@ -11,7 +11,6 @@ export default {
 		// 设置用户信息
 		setDebugSocket(state, data){
 			state.debug.socket = data;
-
 		},
 	},
 	actions: {
