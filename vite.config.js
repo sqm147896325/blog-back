@@ -17,7 +17,8 @@ try {
 
 export default defineConfig({
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    sourcemap: true
   },
   plugins: [
     createVuePlugin(),
