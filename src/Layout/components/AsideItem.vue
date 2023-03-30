@@ -3,16 +3,16 @@
 		<div class="aside-item" v-for="item in routesMenu" :key='item.name'>
 			<el-menu-item v-if="typeof item.children == 'undefined'" :index="getPath(item)" @click="chooseMenu(item)">
 				<i :class="item.icon || 'el-icon-menu'"></i>
-				<span slot="title">{{item.name}}</span>
+				<span slot="title">{{item.meta.title}}</span>
 			</el-menu-item>
 			<el-menu-item v-else-if="item.children.length == 1" :index="getPath(item)" @click="chooseMenu(item.children[0])">
 				<i :class="item.children[0].icon || 'el-icon-menu'"></i>
-				<span slot="title">{{item.children[0].name}}</span>
+				<span slot="title">{{item.children[0].meta.title}}</span>
 			</el-menu-item>
 			<el-submenu v-else :index="item.name"  @click="chooseMenu(item)">
 				<template slot="title">
 					<i :class="item.icon || 'el-icon-menu'"></i>
-					<span slot="title">{{item.name}}</span>
+					<span slot="title">{{item.meta.title}}</span>
 				</template>
 				<aside-item :itemMenu="item.children"/>
 			</el-submenu>
@@ -68,7 +68,7 @@ export default {
 		},
 		getPath(item) {
 			let path = item.path
-			if (item.meta) {
+			if (item.meta && item.meta.defaultPath) {
 				// 如果有菜单默认路径，按照默认路径跳转
 				path = item.meta.defaultPath
 			}

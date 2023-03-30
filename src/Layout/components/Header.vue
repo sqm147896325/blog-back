@@ -4,7 +4,7 @@
 			<i :class="collapse()?'el-icon-s-unfold':'el-icon-s-fold'" @click="setOpen"></i>
 			<el-breadcrumb class="breadcrumb" separator="/">
 				<el-breadcrumb-item to="/">首页</el-breadcrumb-item>
-				<el-breadcrumb-item v-for="item in matched" :key="item.path" :to="item.path">{{item.name}}</el-breadcrumb-item>
+				<el-breadcrumb-item v-for="item in matched" :key="item.path" :to="item.path">{{item.meta.title}}</el-breadcrumb-item>
 			</el-breadcrumb>
 
 			<div class="main-container">

@@ -32,7 +32,8 @@ const constantRoutes = [
 		name: 'login',
 		component: () => import('../views/main/login.vue'),
 		meta: {
-			show: false
+			show: false,
+			title: '登陆'
 		}
 	},
 	{
@@ -40,7 +41,8 @@ const constantRoutes = [
 		name: '404',
 		component: () => import('../views/main/404.vue'),
 		meta: {
-			show: false
+			show: false,
+			title: '404'
 		}
 	}
 ]
@@ -49,65 +51,93 @@ const constantRoutes = [
 const powerShowRouter = [
 	{
 		path: '',
-		name: 'toDashboard',
+		name: 'home',
 		icon: 'el-icon-s-home',
 		component: Layout,
 		redirect: '/dashboard',
+		meta: {
+			title: '首页'
+		},
 		children: [{
 			path: 'dashboard',
 			name: 'dashboard',
 			icon: 'el-icon-s-home',
-			component: () => import('../views/main/dashboard.vue')
+			component: () => import('../views/main/dashboard.vue'),
+			meta: {
+				title: '首页'	
+			},
 		}]
 	},
 	{
 		path: '/application',
-		name: 'toAppList',
+		name: 'application',
 		icon: 'el-icon-menu',
 		component: Layout,
 		redirect: '/application/appList',
+		meta: {
+			title: '应用'
+		},
 		children: [{
 			path: 'appList',
 			name: 'appList',
 			icon: 'el-icon-help',
-			component: () => import('../views/application/index.vue')
+			component: () => import('../views/application/index.vue'),
+			meta: {
+				title: '应用列表'
+			}
 		},{
 			path: 'apiDoc',
 			name: 'apiDoc',
 			icon: 'el-icon-document',
-			component: () => import('../views/application/apiDoc/index.vue')
+			component: () => import('../views/application/apiDoc/index.vue'),
+			meta: {
+				title: '接口文档'
+			}
 		},{
 			path: 'networkDisk',
 			name: 'networkDisk',
 			icon: 'el-icon-upload',
-			component: () => import('../views/application/networkDisk/index.vue')
+			component: () => import('../views/application/networkDisk/index.vue'),
+			meta: {
+				title: '网盘'
+			}
 		},{
 			path: 'comapp/:page*',
 			name: 'comapp',
 			icon: 'el-icon-cherry',
 			component: () => import('../views/application/comapp/index.vue'),
 			meta: {
-				defaultPath: '/application/comapp'
+				defaultPath: '/application/comapp',
+				title: '组件'
 			}
 		}]
 	},
 	{
 		path: '/manage',
-		name: 'toBlog',
+		name: 'manage',
 		icon: 'el-icon-setting',
 		component: Layout,
 		redirect: '/manage/blog',
+		meta: {
+			title: '管理'
+		},
 		children: [{
 			path: 'blog',
 			name: 'blog',
 			icon: 'el-icon-notebook-1',
-			component: () => import('../views/blog/blog.vue')
+			component: () => import('../views/blog/blog.vue'),
+			meta: {
+				title: '博客管理'
+			}
 		},
 		{
 			path: 'user',
 			name: 'user',
 			icon: 'el-icon-user',
-			component: () => import('../views/user/user.vue')
+			component: () => import('../views/user/user.vue'),
+			meta: {
+				title: '用户管理'
+			}
 		}]
 	}
 ]
