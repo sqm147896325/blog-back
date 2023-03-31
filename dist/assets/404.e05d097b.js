@@ -1,0 +1,1 @@
+import{n as o}from"./index.0727ac14.js";import"./vendor.53200e5a.js";var s=function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",{staticClass:"about"},[t._v(" 404\u9875 ")])},a=[];const _={},n={};var c=o(_,s,a,!1,i,null,null,null);function i(t){for(let e in n)this[e]=n[e]}var v=function(){return c.exports}();export{v as default};

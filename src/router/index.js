@@ -170,7 +170,7 @@ const whiteList = [ 'login' , '404' , 'edit' ];
 
 const router = new VueRouter({
 	mode: 'history',
-	// base: process.env.BASE_URL,
+	base: import.meta.env.VITE_APP_ROUTE_PATH, // 此时不能用 process.env
 	routes: [...constantRoutes,...powerShowRouter,...powerHideRouter],
 	whiteList
 })

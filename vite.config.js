@@ -16,9 +16,10 @@ try {
 }
 
 export default defineConfig({
+  base: process.env.VITE_APP_ROUTE_PATH,
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: process.env.NODE_ENV === 'production' ? false : true
   },
   plugins: [
     createVuePlugin(),

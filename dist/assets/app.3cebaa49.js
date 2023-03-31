@@ -1,2 +1,0 @@
-import{a as e}from"./request.b4fd6f0f.js";const a="";function r(t){return e({url:a+"/api/index",method:"get",data:t})}function n(t){return e({url:a+"/file/index",method:"post",data:t})}function u(t){return e({url:a+"/file/index",method:"delete",data:t})}function d(t){return e({headers:{"content-type":"multipart/form-data"},url:a+"/file/index",method:"put",data:t})}function o(t){return e({url:a+"/file/index",method:"put",data:t})}export{r as a,n as b,d as c,o as d,u as e};
-//# sourceMappingURL=app.3cebaa49.js.map
