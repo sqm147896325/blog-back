@@ -21,7 +21,7 @@
 import Aside from './components/Aside.vue';
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	name: 'Layout',
@@ -31,10 +31,11 @@ export default {
 		'l-footer': Footer
 	},
 	computed: {
-		...mapState('alive', ['keepArr', 'keepName'])
+		...mapGetters('alive', ['keepTitle']),
+		...mapGetters('alive', ['keepName']),
+		...mapState('alive', ['keepArr'])
 	},
 	mounted() {
-		console.log(this.keepArr, this.keepName)
 	},
 	watch: {
 		"$route":function(to,from){

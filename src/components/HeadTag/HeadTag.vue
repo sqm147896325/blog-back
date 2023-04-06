@@ -1,28 +1,29 @@
 <template>
     <div>
         <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
+            v-for="tag in keepTitle"
+            :key="tag.name"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)">
             {{tag}}
-            </el-tag>
+        </el-tag>
             <el-input
-            class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-        >
-        </el-input>
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+            >
+            </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新页签</el-button>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex';
 export default {
     name: 'HeadTag',
     data() {
@@ -32,9 +33,13 @@ export default {
             inputValue: ''
         };
     },
+    computed: {
+        ...mapGetters('alive', ['keepTitle'])
+    },
     methods: {
         handleClose(tag) {
-            this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            // this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            this.$store.commit('alive/closeKeep', tag)
         },
 
         showInput() {
@@ -47,7 +52,7 @@ export default {
         handleInputConfirm() {
             let inputValue = this.inputValue;
             if (inputValue) {
-            this.dynamicTags.push(inputValue);
+                this.dynamicTags.push(inputValue);
             }
             this.inputVisible = false;
             this.inputValue = '';
