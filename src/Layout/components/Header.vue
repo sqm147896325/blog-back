@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <el-header class="main">
+        <el-header height="40px" class="main">
 			<i :class="collapse()?'el-icon-s-unfold':'el-icon-s-fold'" @click="setOpen"></i>
 			<el-breadcrumb class="breadcrumb" separator="/">
 				<el-breadcrumb-item to="/">首页</el-breadcrumb-item>
@@ -8,9 +8,7 @@
 			</el-breadcrumb>
 
 			<div class="main-container">
-				<div class="tag-container">
-					<HeadTag></HeadTag>
-				</div>
+				<div></div>
 
 				<div class="main-left">
 					<el-badge :hidden="!msgNum || msgVisible" :value="msgNum" :max="99" class="left-msg">
@@ -18,7 +16,7 @@
 					</el-badge>
 					<el-dropdown @command="headMenu" class="left-dropdown">
 						<span class="dropdown-head">
-							<el-avatar shape="square" :size="36"> user </el-avatar>
+							<el-avatar shape="square" :size="32"> user </el-avatar>
 							<i class="el-icon-arrow-down el-icon--right"></i>
 						</span>
 						<el-dropdown-menu slot="dropdown">
@@ -29,6 +27,10 @@
 			</div>
 
 		</el-header>
+
+		<div class="tag-container">
+			<HeadTag></HeadTag>
+		</div>
 
 		<Message class="messge-dialog" :visible.sync="msgVisible"></Message>
     </div>
@@ -139,15 +141,20 @@ export default {
 <style lang="less" scoped>
 // header整体布局
 .header{
+	height: 60px;
+}
+// 页签栏位置
+.tag-container{
+	padding: 2px 10px;
 	border-bottom: solid 1px #e6e6e6;
 }
 .main{
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: 60px;
+	height: 40px;
 	position: relative;
-
+	border-bottom: solid 1px #e6e6e6;
 
 	// 面包屑位置
 	.breadcrumb{
@@ -161,9 +168,6 @@ export default {
 		align-items: center;
 		padding-left: 20px;
 		flex: 1;
-		.tag-container{
-
-		}
 
 		.main-left{
 			// position: absolute;

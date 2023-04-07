@@ -55,8 +55,8 @@ export default {
 	height: 100vh;
 }
 .view{
-	min-height: calc(100vh - 120px);
-	padding-bottom: 20px;
+	min-height: calc(100vh - 110px);
+	padding-bottom: 10px;
 }
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .2s;

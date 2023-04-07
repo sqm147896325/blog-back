@@ -1,3 +1,5 @@
+import router from '../../router/index';
+
 export default {
 	namespaced:true,
     state: {
@@ -19,12 +21,27 @@ export default {
 	},
 	mutations: {
 		setKeepArr(state, arr) {
-			state.keepArr = arr
+			if (arr.some(e => e.name === 'dashboard')) {
+				state.keepArr = arr
+			} else {
+				state.keepArr = [
+					{
+						name: 'dashboard',
+						fullPath: "/dashboard",
+						path: "/dashboard",
+						meta: {
+							title: '首页'
+						}
+					},
+					...arr
+				]
+			}
 		},
 		closeKeep(state, item) {
 			state.keepArr = state.keepArr.filter(e => {
-				return e.meta.title !== item
+				return e.meta.title !== item.meta.title
 			})
+			router.replace({ path: '/dashboard' })
 		}
 	},
 	actions: {
