@@ -45,6 +45,9 @@ axios.interceptors.request.use(config => {
         config.data = qs.stringify(config.data);
     }
 
+	// // qs 使 get 请求可以传递数组等 // 不用此方案，直接字符串逗号分割
+	// config.paramsSerializer = params => qs.stringify(params) 
+
 	return config;
 });
 
@@ -52,6 +55,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
 	// 响应处理
 	response => {
+		console.log('response', response)
 		const code = response.status;
 		// 自定义响应码，233为直接渲染显示自定义信息,默认为警告
 		if(code == 233){

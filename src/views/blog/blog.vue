@@ -71,6 +71,7 @@ export default {
 			/* 搜索组件 */
 			// 搜索类型
 			option: [
+				{label: '默认', value:''},
 				{label: '作者id', value:'author_id'},
 				{label: '标题', value:'title'},
 				{label: '内容', value:'content'},
@@ -78,7 +79,7 @@ export default {
 				{label: '关键字', value:'keyword'},
 				{label: '作者名', value:'author'},
 			],
-			defaultValue: this.$store.state.user.userInfo.id,
+			defaultValue: '',
 
 			/* 分页组件 */
 			// 分页搜索数据
@@ -86,7 +87,7 @@ export default {
 				page: 1,
 				pagesize: 5,
 				query: '',
-				key: 'author_id'
+				key: ''
 			},
 			// 页数
 			total: 0,
