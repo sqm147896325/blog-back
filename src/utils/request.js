@@ -4,21 +4,20 @@ import router from '@/router/index.js';
 import qs from 'qs';
 import crypto from 'crypto-js';
 
-// 请求基础路径
-axios.defaults.baseURL = ''; // 不在这里设置,基地址不唯一
-
-// 响应时间设置,由于有文件传输，这里设置为30秒
-axios.defaults.timeout = 30000;
+const service = axios.create({
+	baseURL: '', // 请求基础路径;不在这里设置,基地址不唯一
+	timeout: 30 * 1000, // 响应时间设置,由于有文件传输，这里设置为30秒
+})
 
 // 默认的post传参方式就是application/x-www-form-urlencoded;charset=UTF-8，不过使用该方式时需要用qs对post进行传参序列化
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 // token 白名单url
 const tokenWL = ['/user/login'];
 
 // request 请求拦截器
 //挂载请求拦截器 (相当于请求的预验证，请求到达服务器之前先验证这次请求)
-axios.interceptors.request.use(config => {
+service.interceptors.request.use(config => {
 
 	// 如果浏览器中有token且该地址不在白名单中，则为请求头添加token
 	if(localStorage.getItem("token") && !tokenWL.includes(config.url)){
@@ -52,7 +51,7 @@ axios.interceptors.request.use(config => {
 });
 
 // response 响应拦截器
-axios.interceptors.response.use(
+service.interceptors.response.use(
 	// 响应处理
 	response => {
 		console.log('response', response)
@@ -91,4 +90,4 @@ axios.interceptors.response.use(
 	}
 );
 
-export default axios;
+export default service;
