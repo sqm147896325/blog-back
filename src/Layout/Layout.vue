@@ -1,9 +1,9 @@
 <template>
 	<div class="Layout">
 		<el-container>
-				<l-aside />
+				<l-aside v-if="!fullScreen" />
 			<el-container class="container" direction="vertical">
-				<l-header />
+				<l-header v-if="!fullScreen" />
 				<el-main>
 					<transition name="fade" mode="out-in">
 						<keep-alive :include="keepName">
@@ -33,7 +33,10 @@ export default {
 	computed: {
 		...mapGetters('alive', ['keepTitle']),
 		...mapGetters('alive', ['keepName']),
-		...mapState('alive', ['keepArr'])
+		...mapState('alive', ['keepArr']),
+		fullScreen() {
+			return this.$route.meta && this.$route.meta.fullScreen
+		},
 	},
 	mounted() {
 	},
@@ -55,7 +58,7 @@ export default {
 	height: 100vh;
 }
 .view{
-	min-height: calc(100vh - 110px);
+	min-height: calc(100vh - 115px);
 	padding-bottom: 10px;
 }
 .fade-enter-active, .fade-leave-active {
@@ -66,7 +69,8 @@ export default {
 }
 // 覆盖el-main样式
 .el-main{
-	padding: 10px 10px 0 10px;
+	padding: 0 10px;
+	margin-top: 10px;
 	overflow-x: hidden;
 }
 </style>

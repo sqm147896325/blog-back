@@ -153,7 +153,10 @@ const powerHideRouter = [
 			{
 				path: ':id',
 				name: 'edit',
-				component: () => import('../views/blog/edit.vue')
+				component: () => import('../views/blog/edit.vue'),
+				meta: {
+					fullScreen: true
+				}
 			}
 		],
 		meta: {

@@ -142,11 +142,15 @@ export default {
 <style lang="less" scoped>
 // header整体布局
 .header{
-	height: 60px;
+	height: 70px;
 }
 // 页签栏位置
 .tag-container{
-	padding: 2px 10px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 0 10px;
+	height: 30px;
 	border-bottom: solid 1px #e6e6e6;
 }
 .main{
