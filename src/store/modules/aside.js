@@ -4,17 +4,17 @@ import router from '../../router/index';
 function recursiveMenu(value) {
 	 
 	for (let index = 0; index < value.length; index++) {
-		if(typeof value[index].children == 'undefined'){
+		const item = value[index]
+		if(typeof item.children == 'undefined'){
 			// 没有子集了
 			continue;
 		}
-		
-		for (let index2 = 0; index2 < value[index].children.length; index2++) {
+		for (let index2 = 0; index2 < item.children.length; index2++) {
 			// 拼接路径
-			value[index].children[index2].path = value[index].path + '/' + value[index].children[index2].path;
+			item.children[index2].path = item.path + '/' + item.children[index2].path;
 		}
 		// 递归调用
-		value[index].children = recursiveMenu(value[index].children);
+		item.children = recursiveMenu(item.children);
 	}
 	return value;
 };
