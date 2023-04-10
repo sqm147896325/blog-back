@@ -35,15 +35,6 @@ const constantRoutes = [
 			show: false,
 			title: '登陆'
 		}
-	},
-	{
-		path: '/404',
-		name: '404',
-		component: () => import('../views/main/404.vue'),
-		meta: {
-			show: false,
-			title: '404'
-		}
 	}
 ]
 
@@ -165,7 +156,7 @@ const powerHideRouter = [
 	},
 
 	// 404页一定要放在最后
-	{ path: '/*', name: '404', redirect: '/404', meta: { show: false } }
+	{ path: '/*', name: '404', redirect: '/404', meta: { show: false, title: '404' } }
 ];
 
 // 鉴权白名单
