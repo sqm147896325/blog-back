@@ -66,3 +66,6 @@ if (import.meta.env.NODE_ENV !== 'production') {
 	window.$debug = $debug // 开发环境始终开启
   store.commit('app/setDebugSocket', true) // socket的debug开关
 }
+
+// 首次执行的方法
+store.dispatch('theme/setTheme', 'default')

@@ -9,40 +9,63 @@
  * @description: 背景色方案，background
  */
 // 主要颜色，白色略灰
-@bg-main: #f3f3f3;
+@bg-main: var(--bgMain, #f3f3f3);
 // 功能条，群青色
-@bg-bar:#4e72b8;
+@bg-bar: var(--bgBar, #4e72b8);
 // 填充颜色，藤紫色
-@bg-fill: #9b95c9;
+@bg-fill: var(--bgFill, #9b95c9);
 // 另一颜色，堇色
-@bg-other: #6f60aa;
+@bg-other: var(--bgOther, #6f60aa);
 // 底色及不重要颜色，银鼠色
-@bg-space: #a1a3a6;
+@bg-space: var(--bgSpace, #a1a3a6);
 
 /**
  * @description: 文字颜色方案，color 
  */
 // 三种基础颜色
-@c-black: #303133;
-@c-gray: #606266;
-@c-white: #FFFFFF;
+@c-black: var(--cBlack, #303133);
+@c-gray: var(--cGray, #606266);
+@c-white: var(--cWhite, #FFFFFF);
 
 /**
  * @description: 文字大小方法，font-size
  */
 // 大标题
-@fz-big-title: 56px;
+@fz-big-title: var(--fzBigTitle, 56px);
 // 标题
-@fz-title: 36px;
+@fz-title: var(--fzTitle, 36px);
 // 大号文字
-@fz-big: 16px;
+@fz-big: var(--fzBig, 16px);
 // 通用文字大小
-@fz-normal: 14px;
+@fz-normal: var(--fzNormal, 14px);
 // 小号文字
-@fz-small: 12px;
+@fz-small: var(--fzSmall, 12px);
 
 // 功能颜色，借鉴element-ui配色，function-color
-@fc-success: #67C23A;
-@fc-warning: #E6A23C;
-@fc-danger: #F56C6C;
-@fc-info: #909399;
+@fc-success: var(--fcSuccess, #67C23A);
+@fc-warning: var(--fcWarning, #E6A23C);
+@fc-danger: var(--fcDanger, #F56C6C);
+@fc-info: var(--fcInfo, #909399);
+
+
+// 导出变量
+:export {
+    name: "less";
+    bg-main: @bg-main;
+    bg-bar: @bg-bar;
+    bg-fill: @bg-fill;
+    bg-other: @bg-other;
+    bg-space: @bg-space;
+    c-gray: @c-gray;
+    c-black: @c-black;
+    c-white: @c-white;
+    fz-big-title: @fz-big-title;
+    fz-title: @fz-title;
+    fz-big: @fz-big;
+    fz-normal: @fz-normal;
+    fz-small: @fz-small;
+    fc-success: @fc-success;
+    fc-warning: @fc-warning;
+    fc-danger: @fc-danger;
+    fc-info: @fc-info;
+}

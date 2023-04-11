@@ -47,14 +47,14 @@ export default {
 // 自定义侧边栏样式
 /deep/ .menu{
 	height: 100vh;
-	background: darken(@bg-bar,10%);
+	background: @bg-bar;
 	color: @c-white;
 	font-size: @fz-big;
 	/deep/ & i{
-		color: lighten(@c-black,5%);
+		color: @c-black;
 	}
 	/deep/ & span{
-		color: darken(@c-black,10%);
+		color: @c-black;
 	}
 	/deep/ & .el-menu-item.is-active{
 		color: @c-black;

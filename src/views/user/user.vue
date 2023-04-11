@@ -199,12 +199,9 @@ export default {
 		// 重置formdata
 		resetFormdata(){
 			this.row = {};
-			// for(let key in this.formdata){
-			// 	this.formdata[key].value = '';
-			// }
 		},
 		// 确定表单信息
-		async submitFrom(e,type){
+		async submitFrom(e,type) {
 			this.dialogVisible = false;
 			let response;
 			if(type == 1){
