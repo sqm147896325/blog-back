@@ -43,18 +43,21 @@ export default {
         ...mapState('aside', ['activeMenu']),
     },
     mounted() {
-        console.log('keepArr', this.keepArr)
     },
     methods: {
         // 关闭页签
         handleClose(tag) {
-            console.log('handleClose', tag)
-            this.$store.commit('alive/closeKeep', tag)
+            if (tag.fullPath === this.activeMenu) {
+                // 返回首页
+                this.$store.commit('alive/closeToHome', tag)
+            } else {
+                // 不返回首页
+                this.$store.commit('alive/closeKeep', tag)
+            }
         },
 
         // 点击页签
         handleClick(tag) {
-            console.log('handleClick', tag)
             this.$router.push({ name: tag.name })
         },
 

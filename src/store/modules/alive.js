@@ -41,6 +41,9 @@ export default {
 			state.keepArr = state.keepArr.filter(e => {
 				return e.meta.title !== item.meta.title
 			})
+		},
+		closeToHome(state, item) {
+			this.commit('alive/closeKeep', item)
 			router.replace({ path: '/dashboard' })
 		}
 	},
