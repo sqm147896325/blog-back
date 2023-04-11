@@ -39,7 +39,6 @@ export default {
 	},
 	actions: {
         setTheme(context ,themeName) {
-            console.log('setTheme', context ,themeName)
             localStorage.setItem('theme', themeName); // 保存主题到本地，下次进入使用该主题
             const themeConfig = context.state.themes[themeName];
             // 如果有主题名称，那么则采用我们定义的主题

@@ -131,7 +131,6 @@ export default {
 		// 勾选改变回调
 		checkChange(check) {
 			this.checkArr = check;
-			console.log(this.checkArr)
 		},
 
 		/* 上传文件遮罩 */

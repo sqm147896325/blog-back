@@ -48,7 +48,6 @@ export default {
 		},
 		// 设置默认激活的侧边栏菜单项
 		setActiveMenu(state,activeMenu){
-			console.log(state, activeMenu)
 			state.activeMenu = activeMenu;
 		},
 		// 侧边栏菜单信息设置

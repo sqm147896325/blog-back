@@ -74,7 +74,6 @@ export default {
 		}
 	},
 	mounted(){
-		console.log(this.slotsKey)
 		this.init();
 	},
 	methods: {

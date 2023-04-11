@@ -120,7 +120,6 @@ export default {
 		/* 注册登录相关 */
 		// 校验两次密码是否一致
 		reSure(rule, value, callback) {
-			console.log(this.$refs.myForm)
 			if (value === '') {
 				callback(new Error('请再次输入密码'))
 				// password 是表单上绑定的字段

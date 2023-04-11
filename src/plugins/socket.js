@@ -21,7 +21,6 @@ export default class MadderSocket{
         let IO = this.io = Vue.prototype.$socket = {}
         Vue.prototype.$MadderSocket = this;
         options.forEach(e => {
-            console.log(e.ip)
             IO[e.name] = io(e.ip)   //! socket.io从一开始注册的时候其实就连接了
             socket[e.name] = {}
         })
