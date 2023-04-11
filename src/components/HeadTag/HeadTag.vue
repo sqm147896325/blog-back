@@ -82,9 +82,8 @@ export default {
 <style lang="less" scoped>
 .tag-content{
     display: flex;
-    // height: 30px;
-    // justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .el-tag + .el-tag {
     margin-left: 10px;
