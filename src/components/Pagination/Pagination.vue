@@ -53,6 +53,6 @@ export default {
 
 <style lang="less" scoped>
 .pagination{
-	padding: 20px 0px
+	padding: 10px 0px
 }
 </style>

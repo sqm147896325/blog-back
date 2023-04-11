@@ -15,7 +15,7 @@
 
 
 		<!-- 表格区域 -->
-		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
+		<el-table :data="userList" border height="100%" style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
 			<template v-for="item in tableOption">
 				<el-table-column
 					v-if="item.cshow"
@@ -102,8 +102,8 @@ export default {
 					{ field: 'keyword', cname: '关键字', cshow: true, align: 'center', showname: '关键字', clock: false, width:160 },
 					{ field: 'lenght', cname: '字数', cshow: true, align: 'center', showname: '字数', clock: false, width:160 },
 					{ field: 'visited', cname: '访问次数', cshow: true, align: 'center', showname: '访问次数', clock: false, width:160 },
-					{ field: 'created_at', cname: '创建时间', cshow: true, align: 'center', showname: '创建时间', clock: false, width:120 },
-					{ field: 'updated_at', cname: '更新时间', cshow: true, align: 'center', showname: '更新时间', clock: false, width:160 },
+					{ field: 'created_at', cname: '创建时间', cshow: true, align: 'center', showname: '创建时间', clock: false, width: 'auto' },
+					{ field: 'updated_at', cname: '更新时间', cshow: true, align: 'center', showname: '更新时间', clock: false, width: 'auto' },
 					{ field: 'operation', cname: '操作', cshow: true, align: 'center', showname: '操作', clock: true, width:270 }
 			]
 		}
@@ -210,6 +210,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.blog{
+	display: flex;
+	flex-direction: column;
+}
 .row{
 	padding: 0 0 15px 0;
 }

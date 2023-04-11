@@ -7,7 +7,7 @@
 				<el-main>
 					<transition name="fade" mode="out-in">
 						<keep-alive :include="keepName">
-							<router-view class="view"></router-view>
+							<router-view :class="fullScreen ? 'view full-screen-view' : 'view'"></router-view>
 						</keep-alive>
 					</transition>
 					<l-footer />
@@ -60,6 +60,9 @@ export default {
 .view{
 	min-height: calc(100vh - 115px);
 	padding-bottom: 10px;
+}
+.full-screen-view{
+	min-height: calc(100vh - 45px);
 }
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .2s;

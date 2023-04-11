@@ -1,5 +1,5 @@
 <template>
-    <div class="blog">
+    <div class="user">
 
 		<!-- 功能栏 -->
 		<el-row :gutter="0" class="row">
@@ -16,7 +16,7 @@
 
 
 		<!-- 表格区域 -->
-		<el-table :data="userList" border style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
+		<el-table :data="userList" border height="100%" style="width: 100%" :stripe="true" :header-cell-style="{color:'#606266', fontFamily:'微软雅黑'}">
 			<template v-for="item in tableOption">
 				<el-table-column
 					v-if="item.cshow"
@@ -224,6 +224,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.user{
+	display: flex;
+	flex-direction: column;
+}
 .row{
 	padding: 0 0 20px 0;
 }

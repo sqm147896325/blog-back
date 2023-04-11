@@ -1,6 +1,6 @@
 <template>
 	<div class="api-doc">
-		<el-table :data="tableData" style="width: 100%">
+		<el-table height="100%" :data="tableData" style="width: 100%">
 			<el-table-column type="expand">
 				<template slot-scope="props">
 					<el-form label-position="left" inline class="demo-table-expand">
@@ -46,8 +46,8 @@ export default {
 
 <style lang="less" scoped>
 .api-doc{
-	// height: 84vh;
-	// overflow: scroll;
+	display: flex;
+    flex-direction: column;
 }
 .demo-table-expand {
 	font-size: 0;

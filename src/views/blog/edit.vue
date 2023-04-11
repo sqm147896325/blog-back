@@ -36,7 +36,7 @@
 		<!-- 功能按钮 -->
 		<div class="bottom-button">
 			<el-button type="success" size="small" @click="save" :disabled="dataChange">保存</el-button>
-			<el-button type="warning" size="small" @click="back">返回</el-button>
+			<!-- <el-button type="warning" size="small" @click="back">返回</el-button> -->
 		</div>
 	</div>
 </template>
@@ -85,7 +85,10 @@ export default {
 		}
 	},
 	mounted(){
-		
+		window.onbeforeunload = (e) => {
+			// 设置离开确认弹窗，return文字有时候不会给提示；该功能存在兼容性差异
+			return '确定离开此页吗？'; 
+		}
 	},
 	activated() {
 		this.init();
@@ -134,8 +137,8 @@ export default {
 		// 初始化Vditor编辑器
 		async initEdit(){
 			// 初始化编辑器
-			this.content = new Vditor("vditor",{
-				// height: 400,		// 编辑器高度, 这里不给在css自定义
+			this.content = new Vditor('vditor',{
+				height: '100%',		// 编辑器高度
 				toolbarConfig:{
 					pin:true
 				},
@@ -276,11 +279,8 @@ export default {
 ::v-deep .vditor-toolbar--pin{
 	position: relative;
 }
-#vditor{
-	height: calc(100vh - 270px);
-}
 .md-edit{
-	// height: 70vh;
+	height: calc(100vh - 200px);
 }
 
 // 上边距

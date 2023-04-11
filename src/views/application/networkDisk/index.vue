@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="network-disk">
 	<div class="title-bar">
 		<div class="left">
 			<el-button :disabled="backId.length == 0" type="primary" size="small" @click="back">返回</el-button>
@@ -11,7 +11,7 @@
 			<el-button type="primary" size="small" @click="upload">上传</el-button>
 		</div>
 	</div>
-	<el-table ref="table" highlight-current-row :data="tableData" @row-dblclick="rowDblclick" @row-click="rowClick" @selection-change="checkChange">
+	<el-table ref="table" highlight-current-row height="100%" :data="tableData" @row-dblclick="rowDblclick" @row-click="rowClick" @selection-change="checkChange">
 		<el-table-column type="selection" width="55"></el-table-column>
 		<el-table-column label="名称" width="200">
 			<template slot-scope="{ row }">
@@ -188,6 +188,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.network-disk{
+	display: flex;
+    flex-direction: column;
+}
 .title-bar{
 	display: flex;
 	justify-content: space-between;
