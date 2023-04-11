@@ -13,6 +13,10 @@ function recursiveMenu(value) {
 			// 拼接路径
 			item.children[index2].path = item.path + '/' + item.children[index2].path;
 		}
+		if (item.path === '') {
+			// 首页的特殊处理逻辑
+			item.path = '/dashboard'
+		}
 		// 递归调用
 		item.children = recursiveMenu(item.children);
 	}
@@ -44,6 +48,7 @@ export default {
 		},
 		// 设置默认激活的侧边栏菜单项
 		setActiveMenu(state,activeMenu){
+			console.log(state, activeMenu)
 			state.activeMenu = activeMenu;
 		},
 		// 侧边栏菜单信息设置
