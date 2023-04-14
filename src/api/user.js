@@ -3,35 +3,35 @@ import axios from '../utils/request'
 const baseUrl = import.meta.env.VITE_APP_BASE_PATH
 
 /**
- * @description: 登录接口 
+ * @description: 登录接口
  * @param {*} params
  * @return {*}
  */
-export function apiPostLogin(params) {
-	return axios({
-		url: baseUrl + '/login',
-		method: 'POST',
-		data: params,
-		config: {
-			md5: ['password']
-		}
-	})
+export function apiPostLogin (params) {
+  return axios({
+    url: baseUrl + '/login',
+    method: 'POST',
+    data: params,
+    config: {
+      md5: ['password']
+    }
+  })
 };
 
 /**
  * @description: 获取用户列表
- * @param {*}		page		要搜索的页码
- * @param {*}		pagesize	每页大小
- * @param {*}		query		查询内容
- * @param {*}		key			查询字段
+ * @param {*}    page    要搜索的页码
+ * @param {*}    pagesize  每页大小
+ * @param {*}    query    查询内容
+ * @param {*}    key      查询字段
  * @return {*}
  */
-export function apiGetUserList(params) {
-	return axios({
-		url: baseUrl + '/user/list',
-		method: 'GET',
-		params: params
-	})
+export function apiGetUserList (params) {
+  return axios({
+    url: baseUrl + '/user/list',
+    method: 'GET',
+    params
+  })
 }
 
 /**
@@ -39,15 +39,15 @@ export function apiGetUserList(params) {
  * @param {*}
  * @return {*}
  */
- export function apiPutUser(params) {
-	return axios({
-		url: baseUrl + '/user',
-		method: 'PUT',
-		data: params,
-		config: {
-			md5: ['password']
-		}
-	})
+export function apiPutUser (params) {
+  return axios({
+    url: baseUrl + '/user',
+    method: 'PUT',
+    data: params,
+    config: {
+      md5: ['password']
+    }
+  })
 }
 
 /**
@@ -55,15 +55,15 @@ export function apiGetUserList(params) {
  * @param {*}
  * @return {*}
  */
- export function apiPostUser(params) {
-	return axios({
-		url: baseUrl + '/user',
-		method: 'POST',
-		data: params,
-		config: {
-			md5: ['password']
-		}
-	})
+export function apiPostUser (params) {
+  return axios({
+    url: baseUrl + '/user',
+    method: 'POST',
+    data: params,
+    config: {
+      md5: ['password']
+    }
+  })
 }
 
 /**
@@ -71,12 +71,12 @@ export function apiGetUserList(params) {
  * @param {*}
  * @return {*}
  */
-export function apiGetUser(params) {
-	return axios({
-		url: baseUrl + '/user',
-		method: 'GET',
-		params: params
-	})
+export function apiGetUser (params) {
+  return axios({
+    url: baseUrl + '/user',
+    method: 'GET',
+    params
+  })
 }
 
 /**
@@ -84,12 +84,12 @@ export function apiGetUser(params) {
  * @param {*}
  * @return {*}
  */
- export function apiDeleteUser(params) {
-	return axios({
-		url: baseUrl + '/user',
-		method: 'DELETE',
-		data: params
-	})
+export function apiDeleteUser (params) {
+  return axios({
+    url: baseUrl + '/user',
+    method: 'DELETE',
+    data: params
+  })
 }
 
 /**
@@ -97,39 +97,39 @@ export function apiGetUser(params) {
  * @param {*}
  * @return {*}
  */
- export function apiPostPower(params) {
-	return axios({
-		url: baseUrl + '/user/power',
-		method: 'POST',
-		data: params
-	})
+export function apiPostPower (params) {
+  return axios({
+    url: baseUrl + '/user/power',
+    method: 'POST',
+    data: params
+  })
 }
 
 /**
  * @description: 发送用户验证码
- * @param {*}	params
+ * @param {*}  params
  * @return {*}
  */
- export function apiToolEmailVerify(params) {
-	return axios({
-		url: baseUrl + '/user/emailVerify',
-		method: 'post',
-		data: params
-	})
+export function apiToolEmailVerify (params) {
+  return axios({
+    url: baseUrl + '/user/emailVerify',
+    method: 'post',
+    data: params
+  })
 };
 
 /**
  * @description: 邮箱验证码设置用户信息
- * @param {*}	params
+ * @param {*}  params
  * @return {*}
  */
- export function apiToolEmailSetUser(params) {
-	return axios({
-		url: baseUrl + '/user/emailSetUser',
-		method: 'post',
-		data: params,
-		config: {
-			md5: ['password']
-		}
-	})
+export function apiToolEmailSetUser (params) {
+  return axios({
+    url: baseUrl + '/user/emailSetUser',
+    method: 'post',
+    data: params,
+    config: {
+      md5: ['password']
+    }
+  })
 };

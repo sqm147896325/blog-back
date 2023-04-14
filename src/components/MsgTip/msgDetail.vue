@@ -1,53 +1,65 @@
 <template>
-  <div class="main" @click="visiable ? close() : open()">
-      <h2 class="msg-title">
-          <span>{{title}}&nbsp;</span>
-          <i :class="visiable ? 'el-icon-caret-top' : 'el-icon-caret-bottom'" />
-      </h2>
-      <div v-if="visiable" class="msg-list">
-        <div v-for="(value, key) in map" :key="key" class="list-item">{{value[0]}}:{{value[1]}}</div>
+  <div
+    class="main"
+    @click="visiable ? close() : open()"
+  >
+    <h2 class="msg-title">
+      <span>{{ title }}&nbsp;</span>
+      <i :class="visiable ? 'el-icon-caret-top' : 'el-icon-caret-bottom'" />
+    </h2>
+    <div
+      v-if="visiable"
+      class="msg-list"
+    >
+      <div
+        v-for="(value, key) in map"
+        :key="key"
+        class="list-item"
+      >
+        {{ value[0] }}:{{ value[1] }}
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'MsgDetail',
-    props: {
-        title: {
-            type: String,
-            default: ''
-        },
-        msgMap: {
-            type: Object,
-            default: () => {}
-        },
-        dataInfo: {
-            type: Object,
-            default: () => {}
-        }
+  name: 'MsgDetail',
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
-    data() {
-        return {
-            map: [],
-            visiable: false
-        }
+    msgMap: {
+      type: Object,
+      default: () => {}
     },
-    mounted() {
-        this.map = new Map() // 这里初始化map，对象地址不改变vue没法动态刷新
-        const keys = Object.keys(this.msgMap)
-        keys.map(e => {
-            this.map.set(this.msgMap[e], this.dataInfo[e])
-        })
-    },
-    methods: {
-        open() {
-            this.visiable = true
-        },
-        close() {
-            this.visiable = false
-        }
+    dataInfo: {
+      type: Object,
+      default: () => {}
     }
+  },
+  data () {
+    return {
+      map: [],
+      visiable: false
+    }
+  },
+  mounted () {
+    this.map = new Map() // 这里初始化map，对象地址不改变vue没法动态刷新
+    const keys = Object.keys(this.msgMap)
+    keys.forEach(e => {
+      this.map.set(this.msgMap[e], this.dataInfo[e])
+    })
+  },
+  methods: {
+    open () {
+      this.visiable = true
+    },
+    close () {
+      this.visiable = false
+    }
+  }
 }
 </script>
 

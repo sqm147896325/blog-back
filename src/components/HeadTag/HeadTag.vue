@@ -1,84 +1,90 @@
 <template>
-    <div class="tag-content">
-        <el-tag
-            v-for="tag in keepArr"
-            :key="tag.name"
-            :closable="tag.meta.title !== '首页'"
-            :disable-transitions="false"
-            size="mini"
-            :hit="false"
-            :effect="activeMenu === tag.fullPath ? 'dark' : 'plain'"
-            @click="handleClick(tag)"
-            @close="handleClose(tag)"
-        >
-            {{tag.meta.title}}
-        </el-tag>
-        <el-input
-            class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="mini"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-        >
-        </el-input>
-        <el-button v-else class="button-new-tag" size="mini" @click="showInput">+ 新页签</el-button>
-    </div>
+  <div class="tag-content">
+    <el-tag
+      v-for="tag in keepArr"
+      :key="tag.name"
+      :closable="tag.meta.title !== '首页'"
+      :disable-transitions="false"
+      size="mini"
+      :hit="false"
+      :effect="activeMenu === tag.fullPath ? 'dark' : 'plain'"
+      @click="handleClick(tag)"
+      @close="handleClose(tag)"
+    >
+      {{ tag.meta.title }}
+    </el-tag>
+    <el-input
+      v-if="inputVisible"
+      ref="saveTagInput"
+      v-model="inputValue"
+      class="input-new-tag"
+      size="mini"
+      @keyup.enter.native="handleInputConfirm"
+      @blur="handleInputConfirm"
+    />
+    <el-button
+      v-else
+      class="button-new-tag"
+      size="mini"
+      @click="showInput"
+    >
+      + 新页签
+    </el-button>
+  </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex'
 export default {
-    name: 'HeadTag',
-    data() {
-        return {
-            inputVisible: false,
-            inputValue: ''
-        };
-    },
-    computed: {
-        // ...mapGetters('alive', ['keepTitle']),
-        ...mapState('alive', ['keepArr']),
-        ...mapState('aside', ['activeMenu']),
-    },
-    mounted() {
-    },
-    methods: {
-        // 关闭页签
-        handleClose(tag) {
-            if (tag.fullPath === this.activeMenu) {
-                // 返回首页
-                this.$store.commit('alive/closeToHome', tag)
-            } else {
-                // 不返回首页
-                this.$store.commit('alive/closeKeep', tag)
-            }
-        },
-
-        // 点击页签
-        handleClick(tag) {
-            this.$router.push({ name: tag.name })
-        },
-
-        showInput() {
-            this.inputVisible = true;
-            this.$nextTick(_ => {
-            this.$refs.saveTagInput.$refs.input.focus();
-            });
-        },
-
-        handleInputConfirm() {
-            let inputValue = this.inputValue;
-            if (inputValue) {
-                // 这里回车确认可能触发两次，判断是否有值阻止第二次
-                console.log('inputValue', inputValue)
-                this.$message.info('开发中')
-            }
-            this.inputVisible = false;
-            this.inputValue = '';
-        }
+  name: 'HeadTag',
+  data () {
+    return {
+      inputVisible: false,
+      inputValue: ''
     }
+  },
+  computed: {
+    // ...mapGetters('alive', ['keepTitle']),
+    ...mapState('alive', ['keepArr']),
+    ...mapState('aside', ['activeMenu'])
+  },
+  mounted () {
+  },
+  methods: {
+    // 关闭页签
+    handleClose (tag) {
+      if (tag.fullPath === this.activeMenu) {
+        // 返回首页
+        this.$store.commit('alive/closeToHome', tag)
+      } else {
+        // 不返回首页
+        this.$store.commit('alive/closeKeep', tag)
+      }
+    },
+
+    // 点击页签
+    handleClick (tag) {
+      this.$router.push({ name: tag.name })
+    },
+
+    showInput () {
+      this.inputVisible = true
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
+    },
+
+    handleInputConfirm () {
+      const inputValue = this.inputValue
+      if (inputValue) {
+        // 这里回车确认可能触发两次，判断是否有值阻止第二次
+        console.log('inputValue', inputValue)
+        this.$message.info('开发中')
+      }
+      this.inputVisible = false
+      this.inputValue = ''
+    }
+  }
 }
 </script>
 
@@ -100,7 +106,7 @@ export default {
 }
 .input-new-tag {
     width: 90px;
-    
+
     margin-left: 10px;
     vertical-align: bottom;
 }

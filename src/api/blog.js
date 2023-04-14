@@ -7,12 +7,12 @@ const baseUrl = import.meta.env.VITE_APP_BASE_PATH
  * @param {*}
  * @return {*}
  */
-export function apiGetBlogList(params) {
-	return axios({
-		url: baseUrl + '/blog/list',
-		method: 'GET',
-		params: params
-	})
+export function apiGetBlogList (params) {
+  return axios({
+    url: baseUrl + '/blog/list',
+    method: 'GET',
+    params
+  })
 }
 
 /**
@@ -20,12 +20,12 @@ export function apiGetBlogList(params) {
  * @param {*}
  * @return {*}
  */
- export function apiPutBlog(params) {
-	return axios({
-		url: baseUrl + '/blog',
-		method: 'PUT',
-		data: params
-	})
+export function apiPutBlog (params) {
+  return axios({
+    url: baseUrl + '/blog',
+    method: 'PUT',
+    data: params
+  })
 }
 
 /**
@@ -33,12 +33,12 @@ export function apiGetBlogList(params) {
  * @param {*}
  * @return {*}
  */
- export function apiPostBlog(params) {
-	return axios({
-		url: baseUrl + '/blog',
-		method: 'POST',
-		data: params
-	})
+export function apiPostBlog (params) {
+  return axios({
+    url: baseUrl + '/blog',
+    method: 'POST',
+    data: params
+  })
 }
 
 /**
@@ -46,12 +46,12 @@ export function apiGetBlogList(params) {
  * @param {*}
  * @return {*}
  */
-export function apiGetBlog(params) {
-	return axios({
-		url: baseUrl + '/blog',
-		method: 'GET',
-		params: params
-	})
+export function apiGetBlog (params) {
+  return axios({
+    url: baseUrl + '/blog',
+    method: 'GET',
+    params
+  })
 }
 
 /**
@@ -59,24 +59,24 @@ export function apiGetBlog(params) {
  * @param {*}
  * @return {*}
  */
- export function apiDeleteBlog(params) {
-	return axios({
-		url: baseUrl + '/blog',
-		method: 'DELETE',
-		data: params
-	})
+export function apiDeleteBlog (params) {
+  return axios({
+    url: baseUrl + '/blog',
+    method: 'DELETE',
+    data: params
+  })
 }
 
 /**
  * @author sqm
  * @description 获取所有标签及标签下对应的博客数量
  * @param {*}
- * @backDes 
+ * @backDes
  */
- export function apiGetKeyword(params) {
-	return axios({
-		url: baseUrl + '/blog/keyword',
-		method: 'get',
-		data: params
-	})
+export function apiGetKeyword (params) {
+  return axios({
+    url: baseUrl + '/blog/keyword',
+    method: 'get',
+    data: params
+  })
 }

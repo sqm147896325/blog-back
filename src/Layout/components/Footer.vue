@@ -1,17 +1,24 @@
 <template>
-    <div class="footer-main">
-      <div class="main-copyright row">Copyright © 2019-{{(new Date).getFullYear()}} 孙启萌 版权所有</div>
-      <div class="main-record row" @click="go">鄂ICP备19018246号-1</div>
+  <div class="footer-main">
+    <div class="main-copyright row">
+      Copyright © 2019-{{ (new Date).getFullYear() }} 孙启萌 版权所有
     </div>
+    <div
+      class="main-record row"
+      @click="go"
+    >
+      鄂ICP备19018246号-1
+    </div>
+  </div>
 </template>
 
 <script>
-export default{
-  name: 'Footer',
-  mounted() {},
+export default {
+  name: 'FooterCom',
+  mounted () {},
   methods: {
-    go() {
-      window.open('https://beian.miit.gov.cn');
+    go () {
+      window.open('https://beian.miit.gov.cn')
     }
   }
 }
@@ -25,14 +32,14 @@ export default{
   align-items: center;
   position: relative;
   &::before{
-	  position: absolute;
-	  top: 0;
-	  content: '';
-	  display: block;
-	  border: 1px;
-	  width: 100%;
+    position: absolute;
+    top: 0;
+    content: '';
+    display: block;
+    border: 1px;
+    width: 100%;
     background: #3333;
-	  height: 1px;
+    height: 1px;
   }
   .main-copyright{
     cursor: default;
