@@ -137,13 +137,14 @@ export default {
     }
   },
   mounted () {
+    this.init()
     window.onbeforeunload = (_e) => {
       // 设置离开确认弹窗，return文字有时候不会给提示；该功能存在兼容性差异
       return '确定离开此页吗？'
     }
   },
   activated () {
-    this.init()
+    // this.init() 非内嵌页面
   },
   methods: {
     async init () {

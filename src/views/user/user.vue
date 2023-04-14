@@ -78,13 +78,13 @@
               <el-button
                 type="danger"
                 size="small"
-                @click="del(row)"
+                @click="del(scope.row)"
               >
                 删除
               </el-button>
             </div>
             <span v-else>
-              {{ row[item.field] }}
+              {{ scope.row[item.field] }}
             </span>
           </template>
         </el-table-column>
