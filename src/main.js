@@ -69,5 +69,3 @@ if (import.meta.env.NODE_ENV !== 'production') {
 
 // 首次执行的方法
 store.dispatch('theme/setTheme', 'default')
-
-console.log(666)
