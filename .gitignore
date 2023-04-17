@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
-# /dist
+# 忽略 dist 下的文件但是，/dist/dist.zip 不忽略，作为上传文件
+/dist
+!/dist/dist.zip
 
 
 # local env files
