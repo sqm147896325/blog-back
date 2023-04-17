@@ -6,7 +6,8 @@
 		"dev": "cross-env NODE_ENV=development vite serve",
 		"dev:beta": "cross-env NODE_ENV=beta vite serve --mode beta",
 		"build": "vite build --base=/page/back/",
-		"lint": "eslint --fix --ext .js,.vue src"
+		"lint": "eslint --fix --ext .js,.vue src",
+		"release": "vite build --base=/page/back/ && git commit -a -m publish && git push"
 	},
 	"dependencies": {
 		"@micro-zoe/micro-app": "^0.8.10",
