@@ -74,6 +74,20 @@
         prop="upload_time"
         label="上传时间"
       />
+      <el-table-column
+        label="操作"
+        align="center"
+      >
+        <template #default="{ row }">
+          <el-button
+            v-if="row.file_type !== 'dir'"
+            type="primary"
+            @click.stop="preview(row)"
+          >
+            预览
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-dialog
       title="上传文件"
@@ -160,9 +174,20 @@ export default {
     },
     // 下载
     async downFile () {
-      const downloadArr = this.checkArr.map(e => e.uuid)
-      // 使用window.open()下载文件流
-      window.open(`${import.meta.env.VITE_APP_BASE_PATH}/file/download?downloadArr=${downloadArr}&user_id=${this.$store.state.user.userInfo.id}`)
+      let isDir = false
+      const downloadArr = this.checkArr.map(e => {
+        if (e.file_type === 'dir') {
+          isDir = true
+        }
+        return e.uuid
+      })
+      if (!isDir && downloadArr.length === 1) {
+        // 下载单文件的接口
+        window.open(`${import.meta.env.VITE_APP_BASE_PATH}/file/fileLink?fileId=${downloadArr[0]}&user_id=${this.$store.state.user.userInfo.id}&download=true`)
+      } else {
+        // 下载压缩包
+        window.open(`${import.meta.env.VITE_APP_BASE_PATH}/file/downloadZip?downloadArr=${downloadArr}&user_id=${this.$store.state.user.userInfo.id}`)
+      }
     },
     // 创建文件夹
     async mkdir () {
@@ -210,6 +235,9 @@ export default {
     // 勾选改变回调
     checkChange (check) {
       this.checkArr = check
+    },
+    preview (row) {
+      window.open(`${import.meta.env.VITE_APP_BASE_PATH}/file/fileLink?fileId=${row.uuid}&user_id=${this.$store.state.user.userInfo.id}`)
     },
 
     /* 上传文件遮罩 */

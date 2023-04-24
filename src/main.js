@@ -23,7 +23,7 @@ import msgTip from '@/utils/msgTip.js'
 
 // 导入微前端
 import microApp from '@micro-zoe/micro-app'
-Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'small' })
 Vue.use(new MadderSocket({
   vuex: store,
   options: [{ name: 'msg', ip: `${import.meta.env.VITE_SOCKET_URL}/msg` }, { name: 'chat', ip: `${import.meta.env.VITE_SOCKET_URL}/chat` }, { name: 'term', ip: `${import.meta.env.VITE_SOCKET_URL}/term` }]

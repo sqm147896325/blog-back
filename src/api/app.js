@@ -76,7 +76,7 @@ export function apiPutDir (params) {
 export function apiFileDownload (params, success) {
   return axios({
     responseType: 'blob',
-    url: baseUrl + '/file/download',
+    url: baseUrl + '/file/downloadZip',
     method: 'get',
     data: params
   })
