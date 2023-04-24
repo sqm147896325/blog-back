@@ -93,6 +93,7 @@
       title="上传文件"
       :visible="visible"
       width="400"
+      @close="visible = false"
     >
       <el-upload
         class="upload-center"
