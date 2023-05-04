@@ -40,7 +40,7 @@ export default {
   mounted () {
     // 初始化openai
     const configuration = new Configuration({
-      apiKey: process.env.VITE_APP_OPENAI_KEY
+      apiKey: import.meta.env.VITE_APP_OPENAI_KEY
     })
     this.openai = new OpenAIApi(configuration)
   },

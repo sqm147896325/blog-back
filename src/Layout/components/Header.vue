@@ -72,6 +72,7 @@
     <Message
       class="messge-dialog"
       :visible="msgVisible"
+      @close="msgVisible = false"
     />
   </div>
 </template>
