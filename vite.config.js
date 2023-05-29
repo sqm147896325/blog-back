@@ -3,7 +3,8 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import dotenv from 'dotenv'
 import path from 'path'
 import fs from 'fs'
-import viteZip from './src/utils/viteZip'
+import viteZip from './plugins/viteZip'
+// import viteSourcemap from './plugins/viteSourcemap'
 
 // 根据环境变量加载环境变量文件
 try {
@@ -20,7 +21,7 @@ export default defineConfig({
   base: process.env.VITE_APP_ROUTE_PATH,
   build: {
     outDir: 'dist',
-    sourcemap: process.env.NODE_ENV !== 'production'
+    sourcemap: process.env.NODE_ENV !== 'production' ? true : 'hidden'
   },
   plugins: [
     createVuePlugin(),

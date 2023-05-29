@@ -79,7 +79,7 @@ const powerShowRouter = [
     }, {
       path: 'apiDoc',
       name: 'apiDoc',
-      icon: 'el-icon-coordinate',
+      icon: 'el-icon-document',
       component: () => import('../views/application/apiDoc/index.vue'),
       meta: {
         title: '接口文档'
@@ -87,7 +87,7 @@ const powerShowRouter = [
     }, {
       path: 'openAi',
       name: 'openAi',
-      icon: 'el-icon-document',
+      icon: 'el-icon-coordinate',
       component: () => import('../views/application/openAi/index.vue'),
       meta: {
         title: 'Ai助手'

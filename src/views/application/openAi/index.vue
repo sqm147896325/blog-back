@@ -11,6 +11,22 @@
         <!--eslint-enable-->
       </h3>
     </div>
+    <el-row>
+      <el-col>
+        <el-select
+          v-model="selectModel"
+          value-key="id"
+          placeholder="请选择你要使用的模型"
+        >
+          <el-option
+            v-for="item in modelList"
+            :key="item.id"
+            :label="item.id"
+            :value="item.id"
+          />
+        </el-select>
+      </el-col>
+    </el-row>
     <el-input
       v-model="msg"
       v-loading.fullscreen.lock="fullscreenLoading"
@@ -20,6 +36,44 @@
       placeholder="输入内容，回车键发送！"
       @keydown.enter.native="send"
     />
+
+    <el-table
+      :data="modelList"
+      border
+      stripe
+    >
+      <el-table-column
+        prop="permission"
+        label="permission"
+        type="expand"
+        width="120"
+      >
+        <template slot-scope="scope">
+          <el-table
+            :data="scope.row.permission"
+            border
+            stripe
+          >
+            <el-table-column
+              v-for="expandCol in Object.keys(scope.row.permission[0])"
+              :key="expandCol"
+              :prop="expandCol"
+              :label="expandCol"
+              :formatter="(row, column, cellValue) => cellValue + ''"
+              width="160"
+            />
+          </el-table>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-for="col in Object.keys(modelList[0]).filter(e => e !== 'permission')"
+        :key="col"
+        :prop="col"
+        :label="col"
+        min-width="160"
+        :width="['object', 'created', 'owned_by', 'parent'].includes(col) ? 120 : 'auto'"
+      />
+    </el-table>
   </div>
 </template>
 
@@ -31,10 +85,12 @@ export default {
   name: 'OpenAi',
   data () {
     return {
-      msg: '',
-      messages: [],
-      openai: null,
-      fullscreenLoading: false
+      msg: '', // 当前消息
+      messages: [], // 消息列表
+      openai: null, // openai示例
+      fullscreenLoading: false, // 是否全屏loading
+      modelList: [{}], // 模型列表
+      selectModel: 'gpt-3.5-turbo' // 选择的模型
     }
   },
   mounted () {
@@ -43,6 +99,10 @@ export default {
       apiKey: import.meta.env.VITE_APP_OPENAI_KEY
     })
     this.openai = new OpenAIApi(configuration)
+    // 获取模型列表
+    this.openai.listModels().then(res => {
+      this.modelList = res.data.data
+    })
   },
   methods: {
     async send () {
@@ -54,7 +114,7 @@ export default {
       this.fullscreenLoading = true
 
       const completion = await this.openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
+        model: this.selectModel,
         messages: this.messages
       }).finally(() => {
         this.fullscreenLoading = false
@@ -75,7 +135,7 @@ export default {
 <style lang="less" scoped>
 .open-ai{
   display: flex;
-  height: 100%;
+  min-height: calc(100vh - 115px);
   flex-direction: column;
   padding: 0 20px;
   .input{
@@ -83,8 +143,10 @@ export default {
     width: 100%;
   }
   .messages-content{
-    padding: 10px 0;
-    height: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 50vh;
+    background: #eee;
     overflow: auto;
   }
 }

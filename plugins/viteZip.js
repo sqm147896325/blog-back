@@ -6,7 +6,7 @@
  * @returns {Object}
  */
 const plugin = function (fileName = 'dist', output) {
-  const nowWhere = '../../dist/'
+  const nowWhere = '../dist/'
   const path = require('path')
   if (!output) output = path.resolve(__dirname, nowWhere)
   fileName += '.zip'
