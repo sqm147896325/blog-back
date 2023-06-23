@@ -11,22 +11,6 @@
         <!--eslint-enable-->
       </h3>
     </div>
-    <el-row>
-      <el-col>
-        <el-select
-          v-model="selectModel"
-          value-key="id"
-          placeholder="请选择你要使用的模型"
-        >
-          <el-option
-            v-for="item in modelList"
-            :key="item.id"
-            :label="item.id"
-            :value="item.id"
-          />
-        </el-select>
-      </el-col>
-    </el-row>
     <el-input
       v-model="msg"
       v-loading.fullscreen.lock="fullscreenLoading"
@@ -36,50 +20,13 @@
       placeholder="输入内容，回车键发送！"
       @keydown.enter.native="send"
     />
-
-    <el-table
-      :data="modelList"
-      border
-      stripe
-    >
-      <el-table-column
-        prop="permission"
-        label="permission"
-        type="expand"
-        width="120"
-      >
-        <template slot-scope="scope">
-          <el-table
-            :data="scope.row.permission"
-            border
-            stripe
-          >
-            <el-table-column
-              v-for="expandCol in Object.keys(scope.row.permission[0])"
-              :key="expandCol"
-              :prop="expandCol"
-              :label="expandCol"
-              :formatter="(row, column, cellValue) => cellValue + ''"
-              width="160"
-            />
-          </el-table>
-        </template>
-      </el-table-column>
-      <el-table-column
-        v-for="col in Object.keys(modelList[0]).filter(e => e !== 'permission')"
-        :key="col"
-        :prop="col"
-        :label="col"
-        min-width="160"
-        :width="['object', 'created', 'owned_by', 'parent'].includes(col) ? 120 : 'auto'"
-      />
-    </el-table>
   </div>
 </template>
 
 <script>
-import { Configuration, OpenAIApi } from 'openai'
 import { marked } from 'marked'
+import { converse, getConversationHistory } from '@/api/openai.js'
+import { mapState } from 'vuex'
 
 export default {
   name: 'OpenAi',
@@ -87,21 +34,18 @@ export default {
     return {
       msg: '', // 当前消息
       messages: [], // 消息列表
-      openai: null, // openai示例
-      fullscreenLoading: false, // 是否全屏loading
-      modelList: [{}], // 模型列表
-      selectModel: 'gpt-3.5-turbo' // 选择的模型
+      fullscreenLoading: false // 是否全屏loading
     }
   },
+  computed: {
+    ...mapState('user', ['userInfo'])
+  },
   mounted () {
-    // 初始化openai
-    const configuration = new Configuration({
-      apiKey: import.meta.env.VITE_APP_OPENAI_KEY
-    })
-    this.openai = new OpenAIApi(configuration)
-    // 获取模型列表
-    this.openai.listModels().then(res => {
-      this.modelList = res.data.data
+    console.log('this.userInfo', this.userInfo)
+    getConversationHistory({
+      userId: this.userInfo.id
+    }).then(e => {
+      this.messages = e.conversationHistory
     })
   },
   methods: {
@@ -113,14 +57,17 @@ export default {
 
       this.fullscreenLoading = true
 
-      const completion = await this.openai.createChatCompletion({
-        model: this.selectModel,
-        messages: this.messages
+      const res = await converse({
+        userId: this.userInfo.id,
+        message: this.msg
       }).finally(() => {
         this.fullscreenLoading = false
       })
 
-      this.messages.push(completion.data.choices[0].message)
+      this.messages.push({
+        role: 'assistant',
+        content: res.reply
+      })
 
       this.msg = '' // 清除消息
     },
