@@ -3,8 +3,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import dotenv from 'dotenv'
 import path from 'path'
 import fs from 'fs'
-import viteZip from './plugins/viteZip'
-// import viteSourcemap from './plugins/viteSourcemap'
+import viteBuild from './plugins/viteBuild'
 
 // 根据环境变量加载环境变量文件
 try {
@@ -25,7 +24,7 @@ export default defineConfig({
   },
   plugins: [
     createVuePlugin(),
-    viteZip()
+    viteBuild()
   ],
   server: {
     // 是否自动打开浏览器
