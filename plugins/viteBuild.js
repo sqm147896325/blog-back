@@ -64,7 +64,6 @@ const moveSourcemap = (distOutput, sourcemapOutput) => {
     })
 
     Promise.all(promiseArr).then(res => {
-      console.log('完成', distOutput)
       resolve(res)
     }).catch(e => {
       reject(e)
