@@ -119,7 +119,7 @@
 
     <!-- 格式 -->
     <table-format
-      :visible="formatVisible"
+      :visible.sync="formatVisible"
       :table-option="tableOption"
       @setTableOption="setTableOption"
     />
