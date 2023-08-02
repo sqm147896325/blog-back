@@ -197,7 +197,7 @@ export default {
         },
         after: async () => {
           // 加载后执行的内容
-          if (this.id !== 0) {
+          if (this.id !== '0') {
             // 如果不是新增则发送请求获取数据
             await this.initData()
           } else {
@@ -232,7 +232,7 @@ export default {
         keyword: this.keyword.toString(),
         lenght: this.contentLenght
       }
-      if (this.id !== 0) {
+      if (this.id !== '0') {
         // 修改模式
         params.id = this.id
         await apiPostBlog(params)

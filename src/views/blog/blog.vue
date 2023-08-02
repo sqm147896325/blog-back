@@ -217,7 +217,7 @@ export default {
     },
     // 添加
     add () {
-      // this.$router.push(`/edit/0?type=0`)
+      // this.$router.push('/edit/0?type=0')
       window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/edit/0?type=0`)
     },
     // 打开格式遮罩
