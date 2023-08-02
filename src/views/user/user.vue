@@ -112,7 +112,7 @@
     <!-- 权限遮罩 -->
     <power-dialog
       :id="powerId"
-      :show="powerVisible"
+      :show.sync="powerVisible"
       :power-data="powerData"
       @save="init"
     />
