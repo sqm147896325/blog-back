@@ -38,6 +38,12 @@ export default defineConfig({
         changeOrigin: true,
         ws: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/comapp': {
+        target: 'http://localhost:3010/comapp/', // 子应用静态资源需要代理，否则父应用无法找到
+        changeOrigin: true,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/comapp/, '')
       }
     }
   },
