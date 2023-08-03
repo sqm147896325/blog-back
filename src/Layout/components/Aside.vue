@@ -42,7 +42,7 @@ export default {
     /* store中的状态 */
     // 默认选中的菜单
     defaultActive () {
-      return this.$store.state.aside.activeMenu
+      return this.$store.state.aside.activeMenu.path
     },
     // 侧边栏是否展开
     collapse () {

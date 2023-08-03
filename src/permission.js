@@ -5,7 +5,7 @@ import store from './store'
 // token验证
 router.beforeEach((to, from, next) => {
   // 传入活动的菜单栏
-  store.commit('aside/setActiveMenu', to.path)
+  store.commit('aside/setActiveMenu', to)
 
   const token = localStorage.getItem('token')
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))

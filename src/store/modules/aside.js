@@ -37,7 +37,7 @@ export default {
   namespaced: true,
   state: {
     asideClose: true, // 控制侧边栏的展开折叠，true折叠，false展开
-    activeMenu: '', // 默认活动的菜单
+    activeMenu: {}, // 默认活动的菜单
     menu: routes // 侧边栏菜单显示所需要的数据
   },
   mutations: {
@@ -47,6 +47,9 @@ export default {
     },
     // 设置默认激活的侧边栏菜单项
     setActiveMenu (state, activeMenu) {
+      if (!activeMenu.fullPath) {
+        activeMenu.fullPath = activeMenu.path
+      }
       state.activeMenu = activeMenu
     },
     // 侧边栏菜单信息设置

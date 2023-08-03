@@ -7,7 +7,7 @@
     >
       <el-menu-item
         v-if="typeof item.children == 'undefined'"
-        :index="getPath(item)"
+        :index="setPath(item).path"
         @click="chooseMenu(item)"
       >
         <i :class="item.icon || 'el-icon-menu'" />
@@ -15,7 +15,7 @@
       </el-menu-item>
       <el-menu-item
         v-else-if="item.children.length == 1"
-        :index="getPath(item)"
+        :index="setPath(item).path"
         @click="chooseMenu(item.children[0])"
       >
         <i :class="item.children[0].icon || 'el-icon-menu'" />
@@ -82,18 +82,19 @@ export default {
         })
       }
     },
-    getPath (item) {
+    setPath (item) {
       let path = item.path
       if (item.meta && item.meta.defaultPath) {
         // 如果有菜单默认路径，按照默认路径跳转
         path = item.meta.defaultPath
       }
-      return path
+      item.path = path
+      return item
     },
     // 选择菜单子项时的点击事件
     chooseMenu (item) {
-      const path = this.getPath(item)
-      this.$store.commit('aside/setActiveMenu', path)
+      item = this.setPath(item)
+      this.$store.commit('aside/setActiveMenu', item)
     }
   }
 }

@@ -7,7 +7,7 @@
       :disable-transitions="false"
       size="mini"
       :hit="false"
-      :effect="activeMenu === tag.fullPath ? 'dark' : 'plain'"
+      :effect="activeMenu.fullPath === tag.fullPath ? 'dark' : 'plain'"
       @click="handleClick(tag)"
       @close="handleClose(tag)"
     >
@@ -53,7 +53,7 @@ export default {
   methods: {
     // 关闭页签
     handleClose (tag) {
-      if (tag.fullPath === this.activeMenu) {
+      if (tag.fullPath === this.activeMenu.fullPath) {
         // 返回首页
         this.$store.commit('alive/closeToHome', tag)
       } else {
@@ -64,7 +64,8 @@ export default {
 
     // 点击页签
     handleClick (tag) {
-      this.$router.push({ name: tag.name })
+      // console.log('tag', tag)
+      this.$router.push({ path: tag.fullPath })
     },
 
     showInput () {
