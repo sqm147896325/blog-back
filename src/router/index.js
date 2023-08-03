@@ -100,13 +100,14 @@ const powerShowRouter = [
       meta: {
         title: '网盘'
       }
-    }, {
+    },
+    {
       path: 'comapp/:page*',
       name: 'comapp',
       icon: 'el-icon-cherry',
       component: () => import('../views/application/comapp/index.vue'),
       meta: {
-        defaultPath: '/application/comapp',
+        defaultPath: '/application/comapp/#/', // 自定义地址栏与跳转地址
         title: '组件'
       }
     }]
