@@ -64,7 +64,7 @@
       <el-button
         type="success"
         size="small"
-        :disabled="dataChange"
+        :disabled="dataNoChange"
         @click="save"
       >
         保存
@@ -87,7 +87,7 @@ export default {
   // 组件路由守卫（离开）
   beforeRouteLeave (to, _from, next) {
     // 离开页面提示
-    if (to.path === '/login' || to.query.save === 'true' || this.dataChange === true) {
+    if (to.path === '/login' || to.query.save === 'true' || this.dataNoChange === true) {
       // 跳转首页时，设置query的save为true时，值未发生改变时；这三种情况直接跳转
       next()
       return false
@@ -128,7 +128,7 @@ export default {
     }
   },
   computed: {
-    dataChange () {
+    dataNoChange () {
       // 判断数据是否发生了改变
       const titleFalg = this.title === this.constTitle
       const keywordFlag = JSON.stringify(this.keyword) === JSON.stringify(this.constKeyword)
@@ -138,10 +138,16 @@ export default {
   },
   mounted () {
     this.init()
-    window.onbeforeunload = (_e) => {
+    window.addEventListener('beforeunload', (_e) => {
       // 设置离开确认弹窗，return文字有时候不会给提示；该功能存在兼容性差异
-      return '确定离开此页吗？'
-    }
+      if (!this.dataNoChange) {
+        // 如果数据发生了改变进行提示是否离开
+        return '确定离开此页吗？'
+      }
+    })
+  },
+  destroyed () {
+    window.removeEventListener('beforeunload')
   },
   activated () {
     // this.init() 非内嵌页面
