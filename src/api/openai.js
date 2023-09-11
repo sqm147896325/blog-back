@@ -7,9 +7,9 @@ const baseUrl = import.meta.env.VITE_APP_BASE_PATH
  * @param {*} data
  * @return {*}
  */
-export function converse (data) {
+export function conversation (data) {
   return axios({
-    url: baseUrl + '/openai/converse',
+    url: baseUrl + '/openai/conversation',
     method: 'post',
     data
   })

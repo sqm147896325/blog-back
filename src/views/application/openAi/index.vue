@@ -27,7 +27,7 @@
 
 <script>
 import { marked } from 'marked'
-import { converse, getConversationHistory } from '@/api/openai.js'
+import { conversation, getConversationHistory } from '@/api/openai.js'
 import { mapState } from 'vuex'
 
 export default {
@@ -59,7 +59,7 @@ export default {
 
       this.fullscreenLoading = true
 
-      const res = await converse({
+      const res = await conversation({
         userId: this.userInfo.id,
         message: this.msg
       }).finally(() => {
