@@ -1,25 +1,27 @@
 <template>
   <div class="open-ai">
-    <div class="messages-content">
-      <h3
-        v-for="(item, index) in messages"
-        :key="index"
-      >
-        <span>{{ item.role }}：</span>
-        <!-- eslint-disable vue/no-v-html -->
-        <span v-html="toMarked(item.content)" />
-        <!--eslint-enable-->
-      </h3>
+    <div class="ai-content">
+      <div class="messages-content">
+        <h3
+          v-for="(item, index) in messages"
+          :key="index"
+        >
+          <span>{{ item.role }}：</span>
+          <!-- eslint-disable vue/no-v-html -->
+          <span v-html="toMarked(item.content)" />
+          <!--eslint-enable-->
+        </h3>
+      </div>
+      <el-input
+        v-model="msg"
+        v-loading.fullscreen.lock="fullscreenLoading"
+        class="input"
+        type="textarea"
+        :rows="3"
+        placeholder="输入内容，回车键发送！"
+        @keydown.enter.native="send"
+      />
     </div>
-    <el-input
-      v-model="msg"
-      v-loading.fullscreen.lock="fullscreenLoading"
-      class="input"
-      type="textarea"
-      :rows="3"
-      placeholder="输入内容，回车键发送！"
-      @keydown.enter.native="send"
-    />
   </div>
 </template>
 
@@ -45,7 +47,7 @@ export default {
     getConversationHistory({
       userId: this.userInfo.id
     }).then(e => {
-      this.messages = e.conversationHistory
+      this.messages = e.dataInfo
     })
   },
   methods: {
@@ -62,14 +64,13 @@ export default {
         message: this.msg
       }).finally(() => {
         this.fullscreenLoading = false
+        this.msg = '' // 清除消息
       })
 
       this.messages.push({
         role: 'assistant',
-        content: res.reply
+        content: res.dataInfo
       })
-
-      this.msg = '' // 清除消息
     },
 
     toMarked (e) {
@@ -81,20 +82,26 @@ export default {
 
 <style lang="less" scoped>
 .open-ai{
-  display: flex;
-  min-height: calc(100vh - 115px);
-  flex-direction: column;
-  padding: 0 20px;
+  // min-height: calc(100vh - 115px);
+  // padding: 0 20px;
+  .ai-content{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
   .input{
     padding: 10px 0;
-    width: 100%;
   }
   .messages-content{
     padding: 10px;
     margin-bottom: 10px;
-    height: 50vh;
     background: #eee;
     overflow: auto;
+    flex: 1;
   }
 }
 </style>

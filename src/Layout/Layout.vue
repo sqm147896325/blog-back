@@ -64,6 +64,7 @@ export default {
     height: 100vh;
 }
 .view{
+    position: relative;
     min-height: calc(100vh - 115px);
     padding-bottom: 10px;
 }
