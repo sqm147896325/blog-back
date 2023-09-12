@@ -114,6 +114,7 @@ import { apiGetBlogList, apiDeleteBlog } from '@/api/blog.js'
 import Search from '@/components/Search/Search.vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
 import TableFormat from '@/components/TableFormat/TableFormat.vue'
+import manageMixin from '../manageMixin.js'
 
 export default {
   name: 'BlogView',
@@ -140,6 +141,7 @@ export default {
       };
     }
   },
+  mixins: [manageMixin],
   data () {
     return {
       // that
@@ -160,17 +162,6 @@ export default {
         { label: '作者名', value: 'author' }
       ],
       defaultValue: '',
-
-      /* 分页组件 */
-      // 分页搜索数据
-      query: {
-        page: 1,
-        pagesize: 5,
-        query: '',
-        key: ''
-      },
-      // 页数
-      total: 0,
 
       /* 格式组件 */
       formatVisible: false,
@@ -244,25 +235,8 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
-    },
-
-    /* 分页器组件 */
-    // 翻页
-    async turnPage (e) {
-      this.query.page = e
-      this.search()
-    },
-    // 改变页面大小
-    async changePagesize (e) {
-      this.query.pagesize = e
-      this.search()
-    },
-
-    /* 格式组件 */
-    // 设置格式回调
-    setTableOption (tableOption) {
-      this.tableOption = tableOption
     }
+
   }
 }
 </script>

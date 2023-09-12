@@ -133,10 +133,12 @@ import From from '@/components/Form/Form.vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
 import PowerDialog from './components/PowerDialog.vue'
 import TableFormat from '@/components/TableFormat/TableFormat.vue'
+import manageMixin from '../manageMixin.js'
 
 export default {
   name: 'UserView',
   components: { 'my-search': Search, 'my-form': From, 'my-pagination': Pagination, PowerDialog, TableFormat },
+  mixins: [manageMixin],
   data () {
     return {
       userList: [], // 需要渲染的数据
@@ -148,15 +150,6 @@ export default {
         { label: '账号id', value: 'id' },
         { label: '电话', value: 'tel' }
       ], // 搜索类型
-
-      /* 分页组件 */
-      query: {
-        page: 1,
-        pagesize: 5,
-        query: '',
-        key: 'username'
-      }, // 分页搜索数据
-      total: 0, // 页数
 
       /* 表单组件及遮罩 */
       dialogVisible: false, // 遮罩
@@ -191,6 +184,7 @@ export default {
     }
   },
   mounted () {
+    this.query.key = 'username'
     this.init()
   },
   methods: {
@@ -249,18 +243,6 @@ export default {
       })
     },
 
-    /* 分页器组件 */
-    // 翻页
-    async turnPage (e) {
-      this.query.page = e
-      this.search()
-    },
-    // 改变每页大小
-    async changePagesize (e) {
-      this.query.pagesize = e
-      this.search()
-    },
-
     /* 表单组件 */
     // 取消遮罩
     cancelForm () {
@@ -281,13 +263,8 @@ export default {
         await apiPutUser(e) // 发送添加用户
       }
       await this.init() // 添加后重新初始化
-    },
-
-    /* 格式组件 */
-    // 设置格式回调
-    setTableOption (tableOption) {
-      this.tableOption = tableOption
     }
+
   }
 }
 </script>
