@@ -77,9 +77,9 @@
 <script>
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
-import { apiGetBlog, apiPostBlog, apiPutBlog, apiGetKeyword } from '../../api/blog'
-import readOneFile from '../../components/readOneFile/readOneFile.vue'
-import TagsInput from '../../components/TagsInput/TagsInput.vue'
+import { apiGetBlog, apiPostBlog, apiPutBlog, apiGetKeyword } from '@/api/blog'
+import readOneFile from '@/components/readOneFile/readOneFile.vue'
+import TagsInput from '@/components/TagsInput/TagsInput.vue'
 
 export default {
   name: 'EditView',

@@ -28,6 +28,8 @@
 <script>
 import { marked } from 'marked'
 import { conversation, getConversationHistory } from '@/api/openai.js'
+import { conversationList } from '@/api/conversation.js'
+// conversationCreate, conversationDelete
 import { mapState } from 'vuex'
 
 export default {
@@ -44,6 +46,11 @@ export default {
   },
   mounted () {
     console.log('this.userInfo', this.userInfo)
+    conversationList({
+      userId: this.userInfo.id
+    }).then(res => {
+      console.log('res>>', res)
+    })
     getConversationHistory({
       userId: this.userInfo.id
     }).then(e => {

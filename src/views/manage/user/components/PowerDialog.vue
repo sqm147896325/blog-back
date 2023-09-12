@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { apiPostPower } from '../../../api/user.js'
+import { apiPostPower } from '@/api/user.js'
 
 export default {
   name: 'PowerDialog',

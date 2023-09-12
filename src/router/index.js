@@ -122,10 +122,19 @@ const powerShowRouter = [
       title: '管理'
     },
     children: [{
+      path: 'conversation',
+      name: 'conversation',
+      icon: 'el-icon-chat-line-round',
+      component: () => import('../views/manage/conversation/index.vue'),
+      meta: {
+        title: '对话管理'
+      }
+    },
+    {
       path: 'blog',
       name: 'blog',
       icon: 'el-icon-notebook-1',
-      component: () => import('../views/blog/blog.vue'),
+      component: () => import('../views/manage/blog/index.vue'),
       meta: {
         title: '博客管理'
       }
@@ -134,7 +143,7 @@ const powerShowRouter = [
       path: 'user',
       name: 'user',
       icon: 'el-icon-user',
-      component: () => import('../views/user/user.vue'),
+      component: () => import('../views/manage/user/index.vue'),
       meta: {
         title: '用户管理'
       }
@@ -153,7 +162,7 @@ const powerHideRouter = [
       {
         path: ':id',
         name: 'edit',
-        component: () => import('../views/blog/edit.vue'),
+        component: () => import('../views/manage/blog/edit.vue'),
         meta: {
           fullScreen: true
         }
