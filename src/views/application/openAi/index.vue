@@ -71,6 +71,7 @@ export default {
 
       if (!this.uuid) {
         this.uuid = res.dataInfo.uuid
+        this.$router.replace({ name: 'openAi', query: { uuid: res.dataInfo.uuid } })
       }
 
       this.messages.push({

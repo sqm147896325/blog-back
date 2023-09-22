@@ -191,7 +191,11 @@ export default {
     /* 表格 */
     // 查看/修改
     change (row) {
-      this.$router.push({ name: 'openAi', query: { uuid: row.uuid } })
+      if (row.type === 'ai') {
+        window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi?uuid=${row.uuid}`)
+      } else {
+        this.$message(row.type)
+      }
     },
     // 删除
     del (row) {

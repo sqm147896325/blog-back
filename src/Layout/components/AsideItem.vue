@@ -88,11 +88,19 @@ export default {
         // 如果有菜单默认路径，按照默认路径跳转
         path = item.meta.defaultPath
       }
+      if (item.meta && item.meta.newPage) {
+        // 如果有打开新页面标志，则打开新页面;防止当前页直接打开
+        path = ''
+      }
       item.path = path
       return item
     },
     // 选择菜单子项时的点击事件
     chooseMenu (item) {
+      if (item.meta && item.meta.newPage) {
+        // 如果有打开新页面标志，则打开新页面
+        window.open(item.meta.newPage)
+      }
       item = this.setPath(item)
       this.$store.commit('aside/setActiveMenu', item)
     }

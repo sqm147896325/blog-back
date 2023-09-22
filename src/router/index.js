@@ -90,7 +90,9 @@ const powerShowRouter = [
       icon: 'el-icon-coordinate',
       component: () => import('../views/application/openAi/index.vue'),
       meta: {
-        title: 'Ai助手'
+        title: 'Ai助手',
+        fullScreen: true,
+        newPage: `${location.origin}${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`
       }
     }, {
       path: 'networkDisk',
