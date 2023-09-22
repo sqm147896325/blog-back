@@ -6,7 +6,7 @@ import crypto from 'crypto-js'
 
 const service = axios.create({
   baseURL: '', // 请求基础路径;不在这里设置,基地址不唯一
-  timeout: 30 * 1000 // 响应时间设置,由于有文件传输，这里设置为30秒
+  timeout: 45 * 1000 // 响应时间设置,由于有文件传输和openai接口调用，这里设置为45秒
 })
 
 // 默认的post传参方式就是application/x-www-form-urlencoded;charset=UTF-8，不过使用该方式时需要用qs对post进行传参序列化

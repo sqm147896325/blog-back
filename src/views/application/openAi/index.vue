@@ -28,8 +28,6 @@
 <script>
 import { marked } from 'marked'
 import { conversation, getConversationHistory } from '@/api/openai.js'
-import { conversationList } from '@/api/conversation.js'
-// conversationCreate, conversationDelete
 import { mapState } from 'vuex'
 
 export default {
@@ -38,21 +36,17 @@ export default {
     return {
       msg: '', // 当前消息
       messages: [], // 消息列表
-      fullscreenLoading: false // 是否全屏loading
+      fullscreenLoading: false, // 是否全屏loading
+      uuid: '' // 当前对话uuid
     }
   },
   computed: {
     ...mapState('user', ['userInfo'])
   },
   mounted () {
-    console.log('this.userInfo', this.userInfo)
-    conversationList({
-      userId: this.userInfo.id
-    }).then(res => {
-      console.log('res>>', res)
-    })
+    this.uuid = this.$route.query.uuid || ''
     getConversationHistory({
-      userId: this.userInfo.id
+      uuid: this.uuid
     }).then(e => {
       this.messages = e.dataInfo
     })
@@ -68,15 +62,20 @@ export default {
 
       const res = await conversation({
         userId: this.userInfo.id,
-        message: this.msg
+        message: this.msg,
+        uuid: this.uuid
       }).finally(() => {
         this.fullscreenLoading = false
         this.msg = '' // 清除消息
       })
 
+      if (!this.uuid) {
+        this.uuid = res.dataInfo.uuid
+      }
+
       this.messages.push({
         role: 'assistant',
-        content: res.dataInfo
+        content: res.dataInfo.result || ''
       })
     },
 

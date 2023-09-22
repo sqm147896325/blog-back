@@ -29,7 +29,7 @@ export function conversationCreate (data) {
 };
 
 /**
- * @description: 创建对话
+ * @description: 删除对话
  * @param {*} data
  * @return {*}
  */
