@@ -63,22 +63,14 @@ export default {
         this.routesMenu = this.$store.state.aside.menu
         // 根据权限信息筛选去除
         this.routesMenu = this.routesMenu.filter(e => {
-          if (this.$store.state.user.userInfo.power?.includes(e.name) || e.name === 'dashboard') {
-            return true
-          } else {
-            return false
-          }
+          return this.$store.state.user.userInfo.power?.includes(e.name) || e.name === 'dashboard'
         })
       } else {
         // 递归调用时，使用递归的props进行生成
         this.routesMenu = this.itemMenu
         // 根据权限信息筛选去除
         this.routesMenu = this.routesMenu.filter(e => {
-          if (this.$store.state.user.userInfo.power?.includes(e.name)) {
-            return true
-          } else {
-            return false
-          }
+          return this.$store.state.user.userInfo.power?.includes(e.name)
         })
       }
     },
