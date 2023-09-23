@@ -5,11 +5,13 @@
       width="100%"
     >
       <el-menu
+        :key="key"
         :default-active="defaultActive()"
         class="menu"
         :collapse="collapse()"
         :router="true"
         @open="handleOpen"
+        @select="selectMenu"
       >
         <aside-item />
       </el-menu>
@@ -25,6 +27,7 @@ export default {
   components: { AsideItem },
   data () {
     return {
+      key: 0
     }
   },
   mounted () {
@@ -42,11 +45,19 @@ export default {
     /* store中的状态 */
     // 默认选中的菜单
     defaultActive () {
+      console.log('this.$store.state.aside.activeMenu.path', this.$store.state.aside.activeMenu.path)
       return this.$store.state.aside.activeMenu.path
     },
     // 侧边栏是否展开
     collapse () {
       return this.$store.state.aside.asideClose
+    },
+    // 菜单激活回调
+    selectMenu (index, indexPath) {
+      if (!index) {
+        // 如果 index 为空，判断为外部链接，不应该进行导航栏切换
+        this.key++
+      }
     }
   }
 }

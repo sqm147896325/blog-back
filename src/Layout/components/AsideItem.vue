@@ -100,9 +100,10 @@ export default {
       if (item.meta && item.meta.newPage) {
         // 如果有打开新页面标志，则打开新页面
         window.open(item.meta.newPage)
+      } else {
+        item = this.setPath(item)
+        this.$store.commit('aside/setActiveMenu', item)
       }
-      item = this.setPath(item)
-      this.$store.commit('aside/setActiveMenu', item)
     }
   }
 }
