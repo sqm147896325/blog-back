@@ -219,7 +219,6 @@ export default {
     /* 表格 */
     // 修改
     change (row) {
-      // this.$router.push(`/edit/${row.id}?type=1`);
       window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/edit/${row.id}?type=1`)
     },
     // 删除

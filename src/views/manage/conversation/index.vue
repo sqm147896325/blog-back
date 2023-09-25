@@ -23,6 +23,18 @@
         <el-button
           type="success"
           size="small"
+          class="el-icon-plus"
+          @click="add"
+        >
+          添加
+        </el-button>
+      </el-col>
+      <el-col
+        :span="2"
+      >
+        <el-button
+          type="success"
+          size="small"
           @click="format"
         >
           格式
@@ -105,6 +117,7 @@ import Search from '@/components/Search/Search.vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
 import TableFormat from '@/components/TableFormat/TableFormat.vue'
 import manageMixin from '../manageMixin.js'
+import SelectConfirm from './components/SelectConfirm.vue'
 
 export default {
   name: 'BlogView',
@@ -182,6 +195,26 @@ export default {
       const { dataInfo } = await conversationList(this.query)
       this.total = dataInfo.count
       this.userList = dataInfo.rows
+    },
+    // 添加
+    add () {
+      const selectConfirmComponent = this.$createElement(SelectConfirm)
+      /* $msgbox疑似会缓存组件导致无法释放，不应该用其中的挂载、卸载生命周期，不可靠 */
+      this.$msgbox({
+        title: '消息',
+        message: selectConfirmComponent,
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        callback: (action, instance) => {
+          const type = selectConfirmComponent.componentInstance?._data?.selectValue || ''
+          if (action === 'confirm' && type === 'ai') {
+            setTimeout(() => {
+              window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`)
+            }, 200)
+          }
+        }
+      })
     },
     // 打开格式遮罩
     format () {
