@@ -95,6 +95,14 @@ const powerShowRouter = [
         newPage: `${location.origin}${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`
       }
     }, {
+      path: 'aiPainter',
+      name: 'aiPainter',
+      icon: 'el-icon-picture-outline-round',
+      component: () => import('../views/application/aiPainter/index.vue'),
+      meta: {
+        title: 'Ai画师'
+      }
+    }, {
       path: 'networkDisk',
       name: 'networkDisk',
       icon: 'el-icon-upload',

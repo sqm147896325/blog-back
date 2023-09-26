@@ -27,3 +27,16 @@ export function getConversationHistory (data) {
     data
   })
 };
+
+/**
+ * @description: 发送ai绘画请求
+ * @param {*} data
+ * @return {*}
+ */
+export function painter (data) {
+  return axios({
+    url: baseUrl + '/openai/painter',
+    method: 'post',
+    data
+  })
+};
