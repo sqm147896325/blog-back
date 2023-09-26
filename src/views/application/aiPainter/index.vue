@@ -7,20 +7,20 @@
       type="textarea"
       :rows="3"
       clearable
-      @keydown.enter.native="send"
+      @keydown.enter.native.prevent="send"
     />
-    <div
-      v-for="(item, index) in painterList"
-      :key="index"
-    >
-      <el-image
-        class="image-item"
-        :src="item.url"
-        :preview-src-list="painterList.map(e => e.url)"
-      />
-      <div class="image-item-text">
-        {{ item.prompt }}
-      </div>
+    <div class="images-list">
+      <el-tooltip
+        v-for="(item, index) in painterList"
+        :key="index"
+        :content="item.prompt"
+      >
+        <el-image
+          class="item-img"
+          :src="item.url"
+          :preview-src-list="painterList.map(e => e.url)"
+        />
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -58,13 +58,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.image-item{
+.images-list{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .item-img{
+    padding: 4px;
+    margin: 6px;
     height: 200px;
     width: 200px;
-    margin: 10px;
-}
-.image-item-text{
-    width: 200px;
-    margin: 10px;
+  }
 }
 </style>
