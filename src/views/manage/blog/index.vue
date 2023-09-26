@@ -230,6 +230,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         await apiDeleteBlog({ id: row.id })
+        this.query.page = 1
         this.init()
       }).catch((err) => {
         console.log(err)

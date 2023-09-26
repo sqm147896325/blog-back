@@ -239,6 +239,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         await conversationDelete({ uuid: row.uuid })
+        this.query.page = 1
         this.init()
       }).catch((err) => {
         console.log(err)

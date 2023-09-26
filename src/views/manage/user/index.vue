@@ -237,6 +237,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         await apiDeleteUser({ id: row.id })
+        this.query.page = 1
         this.init()
       }).catch(() => {
         this.$message.info(`已取消${msg}`)
