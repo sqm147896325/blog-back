@@ -85,12 +85,24 @@
 </template>
 
 <script>
-import { apiPostLogin, apiToolEmailVerify, apiToolEmailSetUser } from '@/api/user.js'
+import { apiPostLogin, apiToolEmailVerify, apiToolEmailSetUser, apiGetUser } from '@/api/user.js'
 import From from '@/components/Form/Form.vue'
 
 export default {
   name: 'LoginView',
   components: { 'my-form': From },
+
+  beforeRouteEnter (to, from, next) {
+    console.log(to, from, next)
+    if (to.query && to.query.token) {
+      // todo 授权免登录
+      // apiGetUser({ token: to.query.token }).then(res => {
+      //   console.log('res', res)
+      // })
+    }
+    next()
+  },
+
   data () {
     return {
       loginInfo: {
@@ -136,6 +148,7 @@ export default {
       verificationData: ''
     }
   },
+
   mounted () {
     this.init()
   },

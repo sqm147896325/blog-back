@@ -93,7 +93,7 @@
       title="上传文件"
       :visible="visible"
       width="400"
-      @close="visible = false"
+      @close="uploadClose"
     >
       <el-upload
         class="upload-center"
@@ -102,6 +102,7 @@
         :http-request="uploadSectionFile"
         :on-change="flieChange"
         :on-remove="flieChange"
+        :file-list="fileList"
         multiple
       >
         <i class="el-icon-upload" />
@@ -218,6 +219,11 @@ export default {
     // 点击上传
     upload () {
       this.visible = true
+    },
+    // 上传关闭
+    uploadClose () {
+      this.fileList = []
+      this.visible = false
     },
 
     /* 表格相关 */

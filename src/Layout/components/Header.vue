@@ -164,7 +164,7 @@ export default {
         case -1:
           localStorage.removeItem('token')
           this.$router.replace('/login')
-          this.$commit('alive/setKeepArr', [])
+          this.$store.commit('alive/setKeepArr', [])
           this.$message.success('退出成功')
           break
           // 个人中心
