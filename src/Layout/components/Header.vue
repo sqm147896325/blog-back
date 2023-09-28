@@ -158,13 +158,11 @@ export default {
     },
 
     // 头像菜单选项
-    headMenu (command) {
+    async headMenu (command) {
       switch (command) {
         // 登出操作
         case -1:
-          localStorage.removeItem('token')
-          this.$router.replace('/login')
-          this.$store.commit('alive/setKeepArr', [])
+          await this.$store.dispatch('user/exitLogin')
           this.$message.success('退出成功')
           break
           // 个人中心

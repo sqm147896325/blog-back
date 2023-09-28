@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import router from '@/router/index.js'
+// import router from '@/router/index.js'
+import store from '@/store/index.js'
 import qs from 'qs'
 import crypto from 'crypto-js'
 
@@ -77,13 +78,11 @@ service.interceptors.response.use(
   // 响应错误拦截
   error => {
     // 鉴权失败
+    console.log('error', error, JSON.parse(JSON.stringify(error)))
     if (error && error?.response?.status === 401) {
       Message.warning(error.response.data.msg)
-      localStorage.removeItem('token')
-      router.push({
-        path: '/login'
-      })
-      return false
+      store.dispatch('user/exitTo')
+      return Promise.reject(error)
     }
     return Promise.reject(error)
   }

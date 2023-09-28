@@ -19,6 +19,17 @@ export function apiPostLogin (params) {
 };
 
 /**
+ * @description: 退出登录
+ * @return {*}
+ */
+export function exit () {
+  return axios({
+    url: baseUrl + '/exit',
+    method: 'POST'
+  })
+}
+
+/**
  * @description: 获取用户列表
  * @param {*}    page    要搜索的页码
  * @param {*}    pagesize  每页大小

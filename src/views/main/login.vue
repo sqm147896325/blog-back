@@ -67,6 +67,7 @@
       :visible="dialogVisible"
       @cancelForm="handleClose"
       @submitFrom="submitFrom"
+      @close="dialogVisible = false"
     >
       <template #verification="{ allRow, rowKey }">
         <el-input v-model="allRow[rowKey]">
@@ -93,14 +94,29 @@ export default {
   components: { 'my-form': From },
 
   beforeRouteEnter (to, from, next) {
-    console.log(to, from, next)
-    if (to.query && to.query.token) {
-      // todo 授权免登录
-      // apiGetUser({ token: to.query.token }).then(res => {
-      //   console.log('res', res)
-      // })
+    let redirect = ''
+    if (to.query && to.query.redirect) {
+      redirect = to.query.redirect
     }
-    next()
+    console.log(redirect)
+    if (to.query && to.query.token) {
+      localStorage.setItem('token', to.query.token)
+      apiGetUser().then(res => {
+        const userInfo = res.dataInfo
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        next(vm => {
+          vm.$store.commit('user/setUserInfo', userInfo)
+          vm.$message.success('授权免登录成功')
+          vm.$router.replace({ path: '/' })
+        })
+      }).catch(e => {
+        console.log('免登录失败', e)
+        localStorage.removeItem('token') // 401 时会自动提示，这里防止产生其他问题
+        next()
+      })
+    } else {
+      next()
+    }
   },
 
   data () {
@@ -179,7 +195,7 @@ export default {
       this.title = '注册/忘记密码'
     },
     handleClose () {
-
+      this.dialogVisible = false
     },
     async submitFrom (data, type) {
       await apiToolEmailSetUser({ email: data.email, verification: data.verification, password: data.password })

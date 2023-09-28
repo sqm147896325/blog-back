@@ -35,6 +35,15 @@ const constantRoutes = [
       show: false,
       title: '登陆'
     }
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('../views/main/404.vue'),
+    meta: {
+      show: false,
+      title: '404'
+    }
   }
 ]
 
