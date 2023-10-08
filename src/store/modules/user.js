@@ -37,7 +37,7 @@ export default {
       router.replace({
         name: 'login',
         query: {
-          redirect: router.currentRoute.fullPath
+          redirect: router?.query?.redirect || router.currentRoute.fullPath
         }
       })
       context.commit('alive/setKeepArr', [], { root: true })

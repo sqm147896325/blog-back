@@ -94,11 +94,10 @@ export default {
   components: { 'my-form': From },
 
   beforeRouteEnter (to, from, next) {
-    let redirect = ''
+    let redirect = '/'
     if (to.query && to.query.redirect) {
       redirect = to.query.redirect
     }
-    console.log(redirect)
     if (to.query && to.query.token) {
       localStorage.setItem('token', to.query.token)
       apiGetUser().then(res => {
@@ -107,7 +106,7 @@ export default {
         next(vm => {
           vm.$store.commit('user/setUserInfo', userInfo)
           vm.$message.success('授权免登录成功')
-          vm.$router.replace({ path: '/' })
+          vm.$router.replace({ path: redirect })
         })
       }).catch(e => {
         console.log('免登录失败', e)
@@ -184,7 +183,11 @@ export default {
             const userInfo = res.dataInfo.userInfo
             localStorage.setItem('userInfo', JSON.stringify(userInfo))
             this.$store.commit('user/setUserInfo', userInfo)
-            this.$router.push('/')
+            let redirect = '/'
+            if (this.$route.query && this.$route.query.redirect) {
+              redirect = this.$route.query.redirect
+            }
+            this.$router.push(redirect)
             this.$message.success('登录成功')
           }
         }
