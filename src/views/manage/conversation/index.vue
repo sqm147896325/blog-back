@@ -22,8 +22,7 @@
       >
         <el-button
           type="success"
-          size="small"
-          class="el-icon-plus"
+          icon="Plus"
           @click="add"
         >
           添加
@@ -34,7 +33,6 @@
       >
         <el-button
           type="success"
-          size="small"
           @click="format"
         >
           格式
@@ -63,8 +61,8 @@
         >
           <template #default="{ row }">
             <div v-if="item.field === 'created_at' || item.field === 'updated_at'">
-              <div>{{ row.created_at | dateFilter(0) }}</div>
-              <div>{{ row.created_at | dateFilter(1) }}</div>
+              <div>{{ dateFilter(row.created_at, 0) }}</div>
+              <div>{{ dateFilter(row.created_at, 1) }}</div>
             </div>
             <div
               v-else-if="item.field === 'operation'"
@@ -72,16 +70,14 @@
             >
               <el-button
                 type="success"
-                size="small"
-                :disabled="row.author_id | notMyBlog(that)"
+                :disabled="notMyBlog(row.author_id)"
                 @click="change(row)"
               >
                 查看
               </el-button>
               <el-button
                 type="danger"
-                size="small"
-                :disabled="row.author_id | notMyBlog(that)"
+                :disabled="notMyBlog(row.author_id)"
                 @click="del(row)"
               >
                 删除
@@ -98,20 +94,21 @@
     <!-- 分页器 -->
     <my-pagination
       :total="total"
-      @turnPage="turnPage"
-      @changePagesize="changePagesize"
+      @turn-page="turnPage"
+      @change-pagesize="changePagesize"
     />
 
     <!-- 格式 -->
     <table-format
-      :visible.sync="formatVisible"
+      v-model="formatVisible"
       :table-option="tableOption"
-      @setTableOption="setTableOption"
+      @set-table-option="setTableOption"
     />
   </div>
 </template>
 
 <script>
+import { h } from 'vue'
 import { conversationList, conversationDelete } from '@/api/conversation.js'
 import Search from '@/components/Search/Search.vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
@@ -122,28 +119,6 @@ import SelectConfirm from './components/SelectConfirm.vue'
 export default {
   name: 'BlogView',
   components: { 'my-search': Search, 'my-pagination': Pagination, TableFormat },
-  filters: {
-    // 判断当前博客是否可以控制
-    notMyBlog (e, that) {
-      if (that.$store.state.user.isAdmin) {
-        // 超级管理员可以访问所有
-        return false
-      }
-      return e !== that.$store.state.user.userInfo.id
-    },
-    // 时间过滤器
-    dateFilter (date, type) {
-      if (!date) {
-        // 如果没有这一字段直接返回''
-        return ''
-      }
-      if (type === 0) {
-        return date.split('T')[0]
-      } else {
-        return date.split('T')[1].split('.')[0]
-      };
-    }
-  },
   mixins: [manageMixin],
   data () {
     return {
@@ -198,7 +173,7 @@ export default {
     },
     // 添加
     add () {
-      const selectConfirmComponent = this.$createElement(SelectConfirm)
+      const selectConfirmComponent = h(SelectConfirm)
       /* $msgbox疑似会缓存组件导致无法释放，不应该用其中的挂载、卸载生命周期，不可靠 */
       this.$msgbox({
         title: '消息',
@@ -207,7 +182,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         callback: (action, instance) => {
-          const type = selectConfirmComponent.componentInstance?._data?.selectValue || ''
+          const type = selectConfirmComponent.component?.data?.selectValue || ''
           if (action === 'confirm' && type === 'ai') {
             setTimeout(() => {
               window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`)
@@ -244,6 +219,27 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+
+    // 判断当前博客是否可以控制
+    notMyBlog (e) {
+      if (this.$store.state.user.isAdmin) {
+        // 超级管理员可以访问所有
+        return false
+      }
+      return e !== this.$store.state.user.userInfo.id
+    },
+    // 时间过滤器
+    dateFilter (date, type) {
+      if (!date) {
+        // 如果没有这一字段直接返回''
+        return ''
+      }
+      if (type === 0) {
+        return date.split('T')[0]
+      } else {
+        return date.split('T')[1].split('.')[0]
+      };
     }
 
   }

@@ -4,10 +4,10 @@
       height="40px"
       class="main"
     >
-      <i
-        :class="collapse()?'el-icon-s-unfold':'el-icon-s-fold'"
-        @click="setOpen"
-      />
+      <el-icon @click="setOpen">
+        <Expand v-if="collapse()" />
+        <Fold v-else />
+      </el-icon>
       <el-breadcrumb
         class="breadcrumb"
         separator="/"
@@ -34,11 +34,12 @@
             :max="99"
             class="left-msg"
           >
-            <i
-              :class="msgNum ? 'el-icon-chat-line-round' : 'el-icon-chat-round'"
+            <el-icon
               class="msg-icon"
               @click="msgOpen"
-            />
+            >
+              <component :is="msgNum ? 'ChatLineRound' : 'ChatRound'" />
+            </el-icon>
           </el-badge>
           <el-dropdown
             class="left-dropdown"
@@ -49,17 +50,21 @@
                 shape="square"
                 :size="32"
               > user </el-avatar>
-              <i class="el-icon-arrow-down el-icon--right" />
+              <el-icon>
+                <ArrowDown />
+              </el-icon>
             </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="( item , index ) in option"
-                :key="index"
-                :command="item.value"
-              >
-                {{ item.lable }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="( item , index ) in option"
+                  :key="index"
+                  :command="item.value"
+                >
+                  {{ item.lable }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </div>
       </div>
@@ -70,19 +75,28 @@
     </div>
 
     <Message
+      v-model="msgVisible"
       class="messge-dialog"
-      :visible="msgVisible"
       @close="msgVisible = false"
     />
   </div>
 </template>
 
 <script>
+import { defineComponent } from 'vue'
+import { mapStores } from 'pinia'
+import aliveStore from '@/store/modules/alive.js'
+import userStore from '@/store/modules/user.js'
+import asideStore from '@/store/modules/aside.js'
 import Message from '@/components/Message/Message.vue'
 import HeadTag from '@/components/HeadTag/HeadTag.vue'
-export default {
+
+export default defineComponent({
   name: 'HeaderCom',
-  components: { Message, HeadTag },
+  components: {
+    Message,
+    HeadTag
+  },
   data () {
     return {
       // 路由原型，存储路由父子级及重定向信息
@@ -97,6 +111,9 @@ export default {
       msgArr: [] // 消息栈
     }
   },
+  computed: {
+    ...mapStores(aliveStore, asideStore, userStore)
+  },
   watch: {
     // 监听路由
     $route () {
@@ -110,22 +127,21 @@ export default {
     // 客户端接收后台传输的socket事件
     msg: {
       res (data) {
-        if (this.debug.socket) console.log('res', data.dataInfo)
       },
       '233' (data) {
-        if (this.debug.socket) console.log('233', data)
+        if (import.meta.env.NODE_ENV !== 'production') console.log('233', data)
         this.$msgTip('success', data)
       },
       '250' (data) {
-        if (this.debug.socket) console.log('250', data)
+        if (import.meta.env.NODE_ENV !== 'production') console.log('250', data)
         this.$msgTip('error', data, 0)
       },
       reconnect () {
-        if (this.debug.socket) console.log('reconnect 重新连接')
+        if (import.meta.env.NODE_ENV !== 'production') console.log('reconnect 重新连接')
         this.sokcet('msg', 'init') // 重新连接时重新发送init
       },
       disconnect () {
-        if (this.debug.socket) console.log('断开连接')
+        if (import.meta.env.NODE_ENV !== 'production') console.log('断开连接')
       }
     }
   },
@@ -143,13 +159,13 @@ export default {
     },
     setOpen () {
       // 使vuex中侧边栏状态取反
-      this.$store.commit('aside/setOpen', !this.$store.state.aside.asideClose)
+      this.asideStore.setOpen(!this.asideStore.asideClose)
     },
 
     /* 获取store中状态 */
     // 侧边栏是否展开
     collapse () {
-      return this.$store.state.aside.asideClose
+      return this.asideStore.asideClose
     },
 
     // 消息组件开启
@@ -162,7 +178,8 @@ export default {
       switch (command) {
         // 登出操作
         case -1:
-          await this.$store.dispatch('user/exitLogin')
+          await this.userStore.exitLogin()
+          this.aliveStore.setKeepArr([])
           this.$message.success('退出成功')
           break
           // 个人中心
@@ -175,7 +192,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>
@@ -237,6 +254,6 @@ export default {
 }
 
 .messge-dialog{
-  min-width: 1050px;
+  min-width: 768px;
 }
 </style>

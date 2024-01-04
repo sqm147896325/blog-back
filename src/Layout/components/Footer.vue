@@ -13,7 +13,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'FooterCom',
   mounted () {},
   methods: {
@@ -21,7 +23,7 @@ export default {
       window.open('https://beian.miit.gov.cn')
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>

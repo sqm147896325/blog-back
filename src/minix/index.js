@@ -1,10 +1,4 @@
-import { mapState } from 'vuex'
-
 export default {
-  computed: {
-    // debug标志
-    ...mapState('app', ['debug'])
-  },
   methods: {
     // 混入socket标准化传输格式
     sokcet (nsp, type = 'init', data = {}) {

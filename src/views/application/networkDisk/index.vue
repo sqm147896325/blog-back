@@ -5,7 +5,6 @@
         <el-button
           :disabled="backId.length == 0"
           type="primary"
-          size="small"
           @click="back"
         >
           返回
@@ -13,7 +12,6 @@
         <el-button
           :disabled="checkArr.length == 0"
           type="danger"
-          size="small"
           @click="del"
         >
           删除
@@ -23,21 +21,18 @@
         <el-button
           :disabled="checkArr.length == 0"
           type="primary"
-          size="small"
           @click="downFile"
         >
           下载
         </el-button>
         <el-button
           type="success"
-          size="small"
           @click="mkdir"
         >
           新建文件夹
         </el-button>
         <el-button
           type="primary"
-          size="small"
           @click="upload"
         >
           上传
@@ -62,7 +57,7 @@
         width="200"
       >
         <template #default="{ row }">
-          {{ row | filterFlieName }}
+          {{ filterFlieName(row) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -105,28 +100,29 @@
         :file-list="fileList"
         multiple
       >
-        <i class="el-icon-upload" />
+        <el-icon>
+          <Upload />
+        </el-icon>
         <div class="el-upload__text">
           将文件拖到此处，或<em>点击上传</em>
         </div>
-        <div
-          slot="tip"
-          class="el-upload__tip"
-        >
-          只能上传文件，且单个大小不超过100mb
-        </div>
+        <template #tip>
+          <div class="el-upload__tip">
+            只能上传文件，且单个大小不超过100mb
+          </div>
+        </template>
       </el-upload>
-      <span slot="footer">
-        <el-button
-          size="small"
-          @click="visible = false"
-        >取消</el-button>
-        <el-button
-          type="primary"
-          size="small"
-          @click="save"
-        >上传至此</el-button>
-      </span>
+      <template #footer>
+        <span>
+          <el-button
+            @click="visible = false"
+          >取消</el-button>
+          <el-button
+            type="primary"
+            @click="save"
+          >上传至此</el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -135,14 +131,6 @@
 import { apiPostFlie, apiPutFlie, apiDeleteFile, apiPutDir } from '@/api/app.js'
 export default {
   name: 'NetworkDisk',
-  filters: {
-    filterFlieName (row) {
-      if (row.file_type === 'dir') {
-        return row.name
-      }
-      return row.name + row.file_type
-    }
-  },
   data () {
     return {
       visible: false,
@@ -295,6 +283,14 @@ export default {
     // 删除文件或文件夹
     async deleteFile (params) {
       await apiDeleteFile(params)
+    },
+
+    /* 过滤函数 */
+    filterFlieName (row) {
+      if (row.file_type === 'dir') {
+        return row.name
+      }
+      return row.name + row.file_type
     }
   }
 }

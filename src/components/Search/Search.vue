@@ -1,36 +1,35 @@
 <template>
   <el-input
     class="input-with-select"
-    size="small"
     v-bind="$attrs"
     :placeholder="'请输入' + option[select].label"
     :clearable="true"
-    v-on="$listeners"
     @clear="search"
-    @keydown.enter.native="search"
+    @keydown.enter="search"
   >
-    <el-select
-      slot="prepend"
-      v-model="select"
-      placeholder="请选择"
-      @change="selectchange"
-    >
-      <el-option
-        v-for="(item , index) in option"
-        :key="index"
-        :label="item.label"
-        :value="index"
-      />
-    </el-select>
-    <el-button
-      slot="append"
-      type="primary"
-      size="small"
-      icon="el-icon-search"
-      @click="search"
-    >
-      搜索
-    </el-button>
+    <template #prepend>
+      <el-select
+        v-model="select"
+        placeholder="请选择"
+        @change="selectchange"
+      >
+        <el-option
+          v-for="(item , index) in option"
+          :key="index"
+          :label="item.label"
+          :value="index"
+        />
+      </el-select>
+    </template>
+    <template #append>
+      <el-button
+        type="primary"
+        icon="Search"
+        @click="search"
+      >
+        搜索
+      </el-button>
+    </template>
   </el-input>
 </template>
 
@@ -49,6 +48,7 @@ export default {
       default: () => []
     }
   },
+  emits: ['selectchange', 'search'],
   data () {
     return {
       input: '',

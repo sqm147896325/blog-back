@@ -1,10 +1,11 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    'cypress/globals': true
   },
   extends: [
-    'plugin:vue/recommended',
+    'plugin:vue/vue3-recommended',
     'standard'
   ],
   overrides: [
@@ -14,7 +15,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'vue'
+    'vue',
+    'cypress'
   ],
   rules: {
   }

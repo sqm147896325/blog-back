@@ -1,74 +1,55 @@
-import './logger'
+// import './logger' // 自定义输出，弃用
 
-import Vue from 'vue'
+// vue 主要库导入
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import { createPinia } from 'pinia'
+import storeFun from './store'
 
-// 导入element-ui
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// ui库导入
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+// 其他导入
+import VueGridLayout from 'vue-grid-layout'
+// 导入工具方法
+import msgTip from '@/utils/msgTip.js'
 // 导入权限控制
 import '@/permission'
+// 导入微前端
+import '@/micro'
 
 // 导入自定义socket.io
 import MadderSocket from './plugins/socket'
-
 // 混入逻辑
 import minix from '@/minix'
 
-// 导入工具方法
-import msgTip from '@/utils/msgTip.js'
+const app = createApp(App)
 
-// 导入微前端
-import microApp from '@micro-zoe/micro-app'
-Vue.use(ElementUI, { size: 'small' })
-Vue.use(new MadderSocket({
-  vuex: store,
+app.use(ElementPlus, {
+  size: 'small'
+})
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+app.use(createPinia())
+app.use(router)
+app.use(VueGridLayout) // 引入vue-grid-layout布局
+app.use(new MadderSocket({
+  vuex: storeFun(),
   options: [{ name: 'msg', ip: `${import.meta.env.VITE_SOCKET_URL}/msg` }, { name: 'chat', ip: `${import.meta.env.VITE_SOCKET_URL}/chat` }, { name: 'term', ip: `${import.meta.env.VITE_SOCKET_URL}/term` }]
 }))
-Vue.mixin(minix)
+app.mount('#app')
 
-Vue.config.productionTip = false
-Vue.prototype.$msgTip = msgTip
-microApp.start({
-  plugins: {
-    modules: {
-      comapp: [
-        {
-          loader (code) {
-            if (['development'].includes(process.env.NODE_ENV)) {
-              // 这里 basename 需要和子应用vite.config.js中base的配置保持一致
-              code = code.replace(/(from|import)(\s*['"])(\/comapp\/)/g, all => {
-                // 关于 import ... from ... 的替换
-                return all.replace('/comapp/', 'http://localhost:3010/comapp/')
-              }).replace(/(from|import)(\(['"])(\/comapp\/)/g, all => {
-                // 关于 import() 的替换
-                return all.replace('/comapp/', 'http://localhost:3010/comapp/')
-              }).replace(/(\.\.\/)/g, all => {
-                // 关于 @com 的替换
-                return all.replace('../', 'http://localhost:3010/comapp/')
-              })
-            }
-            return code
-          }
-        }
-      ]
-    }
-  }
-})
+// 挂载自定义方法
+app.config.globalProperties.$store = storeFun()
+app.config.globalProperties.$msgTip = msgTip
+
+app.mixin(minix)
 
 // 方便调试
-const $debug = new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
 if (import.meta.env.NODE_ENV !== 'production') {
-  window.$debug = $debug // 开发环境始终开启
-  store.commit('app/setDebugSocket', true) // socket的debug开关
+  window.$debug = app // 开发环境始终开启
 }
-
-// 首次执行的方法
-store.dispatch('theme/setTheme', 'default')

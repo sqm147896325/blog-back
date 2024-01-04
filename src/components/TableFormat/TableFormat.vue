@@ -3,26 +3,22 @@
     title="格式"
     v-bind="$attrs"
     width="560px"
-    v-on="$listeners"
   >
     <div class="format-row">
       <el-button
         type="primary"
-        size="small"
         @click="sure"
       >
         确定
       </el-button>
       <el-button
         type="primary"
-        size="small"
         @click="reset"
       >
         重置
       </el-button>
       <el-button
         type="primary"
-        size="small"
         :disabled="currIndex === null"
         @click="move('top')"
       >
@@ -30,7 +26,6 @@
       </el-button>
       <el-button
         type="primary"
-        size="small"
         :disabled="currIndex === null"
         @click="move('up')"
       >
@@ -38,7 +33,6 @@
       </el-button>
       <el-button
         type="primary"
-        size="small"
         :disabled="currIndex === null"
         @click="move('down')"
       >
@@ -46,7 +40,6 @@
       </el-button>
       <el-button
         type="primary"
-        size="small"
         :disabled="currIndex === null"
         @click="move('lowest')"
       >
@@ -98,14 +91,12 @@
           <template #default="{ row }">
             <el-select
               v-model="row.align"
-              size="small"
             >
               <el-option
                 v-for="item in alignList"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-                size="small"
               />
             </el-select>
           </template>
@@ -120,7 +111,6 @@
           <template #default="{ row }">
             <el-input
               v-model="row.showname"
-              size="small"
             />
           </template>
         </el-table-column>
@@ -149,6 +139,7 @@ export default {
       default: () => []
     }
   },
+  emits: ['setTableOption', 'update:visible'],
   data () {
     return {
       alignList: [

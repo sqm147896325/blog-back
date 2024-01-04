@@ -1,3 +1,5 @@
+import { defineStore } from 'pinia'
+
 const changeStyle = (obj) => {
   for (const key in obj) {
     document
@@ -6,10 +8,9 @@ const changeStyle = (obj) => {
   }
 }
 
-// 主题模块
-export default {
+const useThemeStore = defineStore('theme', {
   namespaced: true,
-  state: {
+  state: () => ({
     themes: {
       // default 需要与 var 中的回退值保持一致
       default: {
@@ -34,13 +35,11 @@ export default {
       dark: {},
       light: {}
     }
-  },
-  mutations: {
-  },
+  }),
   actions: {
-    setTheme (context, themeName) {
+    setTheme (themeName) {
       localStorage.setItem('theme', themeName) // 保存主题到本地，下次进入使用该主题
-      const themeConfig = context.state.themes[themeName]
+      const themeConfig = this.themes[themeName]
       // 如果有主题名称，那么则采用我们定义的主题
       if (themeConfig) {
         Object.keys(e => {
@@ -56,4 +55,6 @@ export default {
       }
     }
   }
-}
+})
+
+export default useThemeStore

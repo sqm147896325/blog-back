@@ -5,7 +5,6 @@
       :key="tag.name"
       :closable="tag.meta.title !== '首页'"
       :disable-transitions="false"
-      size="mini"
       :hit="false"
       :effect="activeMenu.fullPath === tag.fullPath ? 'dark' : 'plain'"
       @click="handleClick(tag)"
@@ -18,14 +17,12 @@
       ref="saveTagInput"
       v-model="inputValue"
       class="input-new-tag"
-      size="mini"
-      @keyup.enter.native="handleInputConfirm"
+      @keyup.enter="handleInputConfirm"
       @blur="handleInputConfirm"
     />
     <el-button
       v-else
       class="button-new-tag"
-      size="mini"
       @click="showInput"
     >
       + 新页签
@@ -34,7 +31,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapStores } from 'pinia'
+import aliveStore from '@/store/modules/alive.js'
+import asideStore from '@/store/modules/aside.js'
+
 export default {
   name: 'HeadTag',
   data () {
@@ -45,8 +45,9 @@ export default {
   },
   computed: {
     // ...mapGetters('alive', ['keepTitle']),
-    ...mapState('alive', ['keepArr']),
-    ...mapState('aside', ['activeMenu'])
+    ...mapState(aliveStore, ['keepArr']),
+    ...mapState(asideStore, ['activeMenu']),
+    ...mapStores(aliveStore, asideStore)
   },
   mounted () {
   },
@@ -55,16 +56,15 @@ export default {
     handleClose (tag) {
       if (tag.fullPath === this.activeMenu.fullPath) {
         // 返回首页
-        this.$store.commit('alive/closeToHome', tag)
+        this.aliveStore.closeToHome(tag)
       } else {
         // 不返回首页
-        this.$store.commit('alive/closeKeep', tag)
+        this.aliveStore.closeKeep(tag)
       }
     },
 
     // 点击页签
     handleClick (tag) {
-      // console.log('tag', tag)
       this.$router.push({ path: tag.fullPath })
     },
 
@@ -79,7 +79,6 @@ export default {
       const inputValue = this.inputValue
       if (inputValue) {
         // 这里回车确认可能触发两次，判断是否有值阻止第二次
-        console.log('inputValue', inputValue)
         this.$message.info('开发中')
       }
       this.inputVisible = false

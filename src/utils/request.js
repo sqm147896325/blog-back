@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
-// import router from '@/router/index.js'
-import store from '@/store/index.js'
+import { ElMessage } from 'element-plus'
+import storeFun from '../store/index.js'
 import qs from 'qs'
 import crypto from 'crypto-js'
 
@@ -58,7 +57,7 @@ service.interceptors.response.use(
     const code = response.status
     // 自定义响应码，233为直接渲染显示自定义信息,默认为警告
     if (code === 233) {
-      Message[response.data.dataInfo.type ? response.data.dataInfo.type : 'warning'](response.data.msg)
+      ElMessage[response.data.dataInfo.type ? response.data.dataInfo.type : 'warning'](response.data.msg)
       return response.data
     }
     // 自定义响应码，仅在控制台输出错误信息
@@ -68,7 +67,7 @@ service.interceptors.response.use(
     }
     if (code === 200) {
       if (typeof response.data.dataInfo !== 'object') {
-        Message.success(response.data.msg) // 200且没有数据信息时则需要渲染成功的提示消息
+        ElMessage.success(response.data.msg) // 200且没有数据信息时则需要渲染成功的提示消息
       }
       return response.data
     }
@@ -78,10 +77,11 @@ service.interceptors.response.use(
   // 响应错误拦截
   error => {
     // 鉴权失败
+    const store = storeFun()
     console.log('error', error, JSON.parse(JSON.stringify(error)))
     if (error && error?.response?.status === 401) {
-      Message.warning(error.response.data.msg)
-      store.dispatch('user/exitTo')
+      ElMessage.warning(error.response.data.msg)
+      store.user.exitTo()
       return Promise.reject(error)
     }
     return Promise.reject(error)

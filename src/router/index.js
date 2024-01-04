@@ -1,15 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Layout from '../Layout/Layout.vue'
 
-Vue.use(VueRouter)
-
-// 解决标题栏路由导航冗余报错问题
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (location) {
-  return originalPush.call(this, location).catch(err => err)
-}
+// // 解决标题栏路由导航冗余报错问题
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
 /** 路由说明
  *
@@ -52,7 +49,7 @@ const powerShowRouter = [
   {
     path: '',
     name: 'home',
-    icon: 'el-icon-s-home',
+    icon: 'HomeFilled',
     component: Layout,
     redirect: '/dashboard',
     meta: {
@@ -61,7 +58,7 @@ const powerShowRouter = [
     children: [{
       path: 'dashboard',
       name: 'dashboard',
-      icon: 'el-icon-s-home',
+      icon: 'HomeFilled',
       component: () => import('../views/main/dashboard.vue'),
       meta: {
         title: '首页'
@@ -71,7 +68,7 @@ const powerShowRouter = [
   {
     path: '/application',
     name: 'application',
-    icon: 'el-icon-menu',
+    icon: 'Menu',
     component: Layout,
     redirect: '/application/appList',
     meta: {
@@ -80,7 +77,7 @@ const powerShowRouter = [
     children: [{
       path: 'appList',
       name: 'appList',
-      icon: 'el-icon-help',
+      icon: 'Help',
       component: () => import('../views/application/index.vue'),
       meta: {
         title: '应用列表'
@@ -88,7 +85,7 @@ const powerShowRouter = [
     }, {
       path: 'apiDoc',
       name: 'apiDoc',
-      icon: 'el-icon-document',
+      icon: 'Document',
       component: () => import('../views/application/apiDoc/index.vue'),
       meta: {
         title: '接口文档'
@@ -96,7 +93,7 @@ const powerShowRouter = [
     }, {
       path: 'openAi',
       name: 'openAi',
-      icon: 'el-icon-coordinate',
+      icon: 'Coordinate',
       component: () => import('../views/application/openAi/index.vue'),
       meta: {
         title: 'Ai助手',
@@ -106,7 +103,7 @@ const powerShowRouter = [
     }, {
       path: 'aiPainter',
       name: 'aiPainter',
-      icon: 'el-icon-picture-outline-round',
+      icon: 'PictureRounded',
       component: () => import('../views/application/aiPainter/index.vue'),
       meta: {
         title: 'Ai画师'
@@ -114,7 +111,7 @@ const powerShowRouter = [
     }, {
       path: 'networkDisk',
       name: 'networkDisk',
-      icon: 'el-icon-upload',
+      icon: 'UploadFilled',
       component: () => import('../views/application/networkDisk/index.vue'),
       meta: {
         title: '网盘'
@@ -123,7 +120,7 @@ const powerShowRouter = [
     {
       path: 'comapp/:page*',
       name: 'comapp',
-      icon: 'el-icon-cherry',
+      icon: 'Cherry',
       component: () => import('../views/application/comapp/index.vue'),
       meta: {
         defaultPath: '/application/comapp/#/', // 自定义地址栏与跳转地址
@@ -134,7 +131,7 @@ const powerShowRouter = [
   {
     path: '/manage',
     name: 'manage',
-    icon: 'el-icon-setting',
+    icon: 'Setting',
     component: Layout,
     redirect: '/manage/blog',
     meta: {
@@ -143,7 +140,7 @@ const powerShowRouter = [
     children: [{
       path: 'conversation',
       name: 'conversation',
-      icon: 'el-icon-chat-line-round',
+      icon: 'ChatLineRound',
       component: () => import('../views/manage/conversation/index.vue'),
       meta: {
         title: '对话管理'
@@ -152,7 +149,7 @@ const powerShowRouter = [
     {
       path: 'blog',
       name: 'blog',
-      icon: 'el-icon-notebook-1',
+      icon: 'Notebook',
       component: () => import('../views/manage/blog/index.vue'),
       meta: {
         title: '博客管理'
@@ -161,7 +158,7 @@ const powerShowRouter = [
     {
       path: 'user',
       name: 'user',
-      icon: 'el-icon-user',
+      icon: 'User',
       component: () => import('../views/manage/user/index.vue'),
       meta: {
         title: '用户管理'
@@ -196,14 +193,9 @@ const powerHideRouter = [
   { path: '/*', name: '404', redirect: '/404', meta: { show: false, title: '404' } }
 ]
 
-// 鉴权白名单
-const whiteList = ['login', '404', 'edit']
-
-const router = new VueRouter({
-  mode: 'history',
-  base: import.meta.env.VITE_APP_ROUTE_PATH, // 此时不能用 process.env
-  routes: [...constantRoutes, ...powerShowRouter, ...powerHideRouter],
-  whiteList
+const router = createRouter({
+  history: createWebHistory(import.meta.env.VITE_APP_ROUTE_PATH), // 此时不能用 process.env
+  routes: [...constantRoutes, ...powerShowRouter, ...powerHideRouter]
 })
 
 export default router

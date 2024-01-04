@@ -17,7 +17,7 @@
           <el-input
             v-model="loginInfo.id"
             placeholder="请输入id或邮箱"
-            @keyup.enter.native="login"
+            @keyup.enter="login"
           >
             <template #prepend>
               账号
@@ -32,7 +32,7 @@
             v-model="loginInfo.password"
             placeholder="请输入密码"
             show-password
-            @keyup.enter.native="login"
+            @keyup.enter="login"
           >
             <template #prepend>
               密码
@@ -49,7 +49,6 @@
           </el-button>
           <div
             class="function-btn"
-            size="small"
             type="text"
             @click="registerOrForget"
           >
@@ -60,25 +59,26 @@
     </div>
     <my-form
       ref="myForm"
+      v-model="dialogVisible"
       :title="title"
       :formdata="formdata"
       :row="bindData"
       :rules="rules"
-      :visible="dialogVisible"
-      @cancelForm="handleClose"
-      @submitFrom="submitFrom"
+      @cancel-form="handleClose"
+      @submit-from="submitFrom"
       @close="dialogVisible = false"
     >
       <template #verification="{ allRow, rowKey }">
         <el-input v-model="allRow[rowKey]">
-          <el-button
-            slot="append"
-            :disabled="verificationText !== '获取验证码'"
-            :loading="verificationText === 'loading'"
-            @click="getVerification"
-          >
-            {{ ['获取验证码', 'loading'].includes(verificationText) ? '获取验证码' : verificationText + '秒后可再次获取' }}
-          </el-button>
+          <template #append>
+            <el-button
+              :disabled="verificationText !== '获取验证码'"
+              :loading="verificationText === 'loading'"
+              @click="getVerification"
+            >
+              {{ ['获取验证码', 'loading'].includes(verificationText) ? '获取验证码' : verificationText + '秒后可再次获取' }}
+            </el-button>
+          </template>
         </el-input>
       </template>
     </my-form>
@@ -86,12 +86,12 @@
 </template>
 
 <script>
+import { defineComponent, defineAsyncComponent } from 'vue'
 import { apiPostLogin, apiToolEmailVerify, apiToolEmailSetUser, apiGetUser } from '@/api/user.js'
-import From from '@/components/Form/Form.vue'
 
-export default {
+export default defineComponent({
   name: 'LoginView',
-  components: { 'my-form': From },
+  components: { 'my-form': defineAsyncComponent(() => import('@/components/Form/Form.vue')) },
 
   beforeRouteEnter (to, from, next) {
     let redirect = '/'
@@ -104,7 +104,7 @@ export default {
         const userInfo = res.dataInfo
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
         next(vm => {
-          vm.$store.commit('user/setUserInfo', userInfo)
+          vm.$store.user.setUserInfo(userInfo)
           vm.$message.success('授权免登录成功')
           vm.$router.replace({ path: redirect })
         })
@@ -182,7 +182,7 @@ export default {
             localStorage.setItem('token', res.dataInfo.token)
             const userInfo = res.dataInfo.userInfo
             localStorage.setItem('userInfo', JSON.stringify(userInfo))
-            this.$store.commit('user/setUserInfo', userInfo)
+            this.$store.user.setUserInfo(userInfo)
             let redirect = '/'
             if (this.$route.query && this.$route.query.redirect) {
               redirect = this.$route.query.redirect
@@ -219,7 +219,7 @@ export default {
     // 获取验证码
     async getVerification () {
       this.$refs.myForm.$refs.form.validateField('email', async (errorMessage) => {
-        if (!errorMessage) {
+        if (errorMessage) {
           apiToolEmailVerify({ email: this.$refs.myForm.rowData.email }).then(() => {
             this.verificationText = 60
             const timer = setInterval(() => {
@@ -239,7 +239,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>

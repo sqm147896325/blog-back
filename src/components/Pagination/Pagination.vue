@@ -1,9 +1,9 @@
 <template>
   <!--  -->
   <el-pagination
+    v-model:current-page="currentPage"
+    v-model:page-sizes="pageSizes"
     class="pagination"
-    :current-page="currentPage"
-    :page-sizes="pageSizes"
     :page-size="pageSize"
     layout="total, sizes, prev, pager, next, jumper"
     :total="total"
@@ -27,6 +27,7 @@ export default {
       default: 0
     }
   },
+  emits: ['changePagesize', 'turnPage'],
   data () {
     return {
       currentPage: 1, // 当前页数

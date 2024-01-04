@@ -5,7 +5,9 @@
   >
     <h2 class="msg-title">
       <span>{{ title }}&nbsp;</span>
-      <i :class="visiable ? 'el-icon-caret-top' : 'el-icon-caret-bottom'" />
+      <el-icon>
+        <component :is="visiable ? 'CaretTop' : 'CaretBottom'" />
+      </el-icon>
     </h2>
     <div
       v-if="visiable"

@@ -1,7 +1,6 @@
 <template>
   <div class="aside">
     <el-aside
-      class="main"
       width="100%"
     >
       <el-menu
@@ -13,39 +12,43 @@
         @open="handleOpen"
         @select="selectMenu"
       >
-        <aside-item />
+        <aside-item :item-menu="routesMenu" />
       </el-menu>
     </el-aside>
   </div>
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import AsideItem from './AsideItem.vue'
 
-export default {
+export default defineComponent({
   name: 'AsideCom',
   components: { AsideItem },
   data () {
     return {
-      key: 0
+      key: 0,
+      routesMenu: []
     }
   },
   mounted () {
+    this.routesMenu = this.$store.state.aside.menu
+    // 根据权限信息筛选去除
+    this.routesMenu = this.routesMenu.filter(e => {
+      return this.$store.state.user.userInfo.power?.includes(e.name) || e.name === 'dashboard'
+    })
   },
   methods: {
     // 打开菜单回调
     handleOpen (key, keyPath) {
-      console.log(key, keyPath)
     },
     // 关闭菜单回调
     handleClose (key, keyPath) {
-      console.log(key, keyPath)
     },
 
     /* store中的状态 */
     // 默认选中的菜单
     defaultActive () {
-      console.log('this.$store.state.aside.activeMenu.path', this.$store.state.aside.activeMenu.path)
       return this.$store.state.aside.activeMenu.path
     },
     // 侧边栏是否展开
@@ -60,35 +63,38 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang='less' scoped>
 // 自定义侧边栏样式
-/deep/ .menu{
+::v-deep(.menu){
     height: 100vh;
     background: @bg-bar;
     color: @c-white;
     font-size: @fz-big;
-    /deep/ & i{
+    i{
         color: @c-black;
     }
-    /deep/ & span{
+    span{
         color: @c-black;
     }
-    /deep/ & .el-menu-item.is-active{
+    .el-menu-item.is-active{
         color: @c-black;
         span,i {
             font-weight: 1000;
         }
     }
     // 消除侧边栏聚焦颜色
-    /deep/ & .el-menu-item:focus {
+    .el-menu-item:focus {
         background: rgba(0, 0, 0, 0);
     }
 }
 // 自定义展开时宽度
-/deep/ .el-menu:not(.el-menu--collapse){
+::v-deep(.el-menu):not(.el-menu--collapse){
     width: 200px;
 }
+// ::v-deep(.el-menu.el-menu--collapse .el-sub-menu__title span){
+//   display: none;
+// }
 </style>

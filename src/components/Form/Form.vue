@@ -2,7 +2,7 @@
   <el-dialog
     :title="title"
     v-bind="$attrs"
-    width="33%"
+    width="60%"
     :close-on-click-modal="false"
     @close="cancel"
     @closed="closed"
@@ -13,7 +13,6 @@
       :rules="rules"
       label-width="80px"
       :inline="false"
-      size="small"
     >
       <!-- 用于屏蔽自动填充用户名密码 -->
       <input
@@ -93,6 +92,7 @@ export default {
       default: '标题'
     }
   },
+  emits: ['update:visible', 'submitFrom', 'cancelForm'],
   data () {
     return {
       // ? 深拷贝row为子组件内部数据

@@ -16,6 +16,7 @@
 <script>
 export default {
   name: 'SelectConfirm',
+  emits: ['select'],
   data () {
     return {
       selectValue: '',
@@ -27,9 +28,6 @@ export default {
   mounted () {
     this.selectValue = this.options[0]?.value || ''
     this.$emit('select', this.selectValue)
-  },
-  destroyed () {
-    // $msgbox 中 作为vnode使用不走destroyed
   },
   methods: {
   }

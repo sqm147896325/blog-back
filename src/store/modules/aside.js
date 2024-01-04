@@ -1,3 +1,5 @@
+import { defineStore } from 'pinia'
+
 import router from '../../router/index'
 
 // 递归算法对菜单路径进行正确连接
@@ -33,30 +35,30 @@ let routes = router.options.routes.filter(e => {
 // 递归路径拼接
 routes = recursiveMenu(routes)
 
-export default {
+const useAsideStore = defineStore('aside', {
   namespaced: true,
-  state: {
+  state: () => ({
     asideClose: true, // 控制侧边栏的展开折叠，true折叠，false展开
     activeMenu: {}, // 默认活动的菜单
     menu: routes // 侧边栏菜单显示所需要的数据
-  },
-  mutations: {
+  }),
+  actions: {
     // 控制侧边栏开启关闭
-    setOpen (state, open) {
-      state.asideClose = open
+    setOpen (open) {
+      this.asideClose = open
     },
     // 设置默认激活的侧边栏菜单项
-    setActiveMenu (state, activeMenu) {
+    setActiveMenu (activeMenu) {
       if (!activeMenu.fullPath) {
         activeMenu.fullPath = activeMenu.path
       }
-      state.activeMenu = activeMenu
+      this.activeMenu = activeMenu || {}
     },
     // 侧边栏菜单信息设置
-    setMenu (state, menu) {
-      state.menu = menu
+    setMenu (menu) {
+      this.menu = menu
     }
-  },
-  actions: {
   }
-}
+})
+
+export default useAsideStore

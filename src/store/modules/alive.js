@@ -1,10 +1,11 @@
+import { defineStore } from 'pinia'
 import router from '../../router/index'
 
-export default {
+const useAliveStore = defineStore('alive', {
   namespaced: true,
-  state: {
+  state: () => ({
     keepArr: [] // 保存缓存的路由对象
-  },
+  }),
   getters: {
     // 保存缓存的路由的标题
     keepTitle: state => {
@@ -19,12 +20,12 @@ export default {
       })
     }
   },
-  mutations: {
-    setKeepArr (state, arr) {
+  actions: {
+    setKeepArr (arr) {
       if (arr.some(e => e.name === 'dashboard')) {
-        state.keepArr = arr
+        this.keepArr = arr
       } else {
-        state.keepArr = [
+        this.keepArr = [
           {
             name: 'dashboard',
             fullPath: '/dashboard',
@@ -37,16 +38,16 @@ export default {
         ]
       }
     },
-    closeKeep (state, item) {
-      state.keepArr = state.keepArr.filter(e => {
+    closeKeep (item) {
+      this.keepArr = this.keepArr.filter(e => {
         return e.meta.title !== item.meta.title
       })
     },
-    closeToHome (state, item) {
-      this.commit('alive/closeKeep', item)
+    closeToHome (item) {
+      this.closeKeep(item)
       router.replace({ path: '/dashboard' })
     }
-  },
-  actions: {
   }
-}
+})
+
+export default useAliveStore

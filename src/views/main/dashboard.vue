@@ -40,15 +40,12 @@
 </template>
 
 <script>
-import VueGridLayout from 'vue-grid-layout' // 引入vue-grid-layout布局
+import { defineComponent } from 'vue'
 import { apiGetBlogList, apiGetKeyword } from '@/api/blog.js'
 import * as echarts from 'echarts' // 引入echarts
-export default {
+
+export default defineComponent({
   name: 'DashboardView',
-  components: {
-    GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
-  },
   data () {
     return {
       // 新增博客相关
@@ -135,7 +132,7 @@ export default {
     }
   }
 
-}
+})
 </script>
 
 <style lang="less" scoped>

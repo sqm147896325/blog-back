@@ -7,7 +7,7 @@
       type="textarea"
       :rows="3"
       clearable
-      @keydown.enter.native.prevent="send"
+      @keydown.enter.prevent="send"
     />
     <div class="images-list">
       <el-tooltip

@@ -5,7 +5,6 @@
     filterable
     allow-create
     default-first-option
-    size="small"
     :placeholder="placeholder"
   >
     <el-option
@@ -41,6 +40,7 @@ export default {
       default: () => []
     }
   },
+  emits: ['change'],
   data () {
     return {}
   },

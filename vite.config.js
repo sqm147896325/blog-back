@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
 import path from 'path'
 import fs from 'fs'
@@ -23,12 +23,12 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV !== 'production' ? true : 'hidden'
   },
   plugins: [
-    createVuePlugin(),
+    vue(),
     viteBuild()
   ],
   server: {
     // 是否自动打开浏览器
-    open: true,
+    open: false,
     // 服务器主机名，如果允许外部访问，可设置为"0.0.0.0"
     host: '0.0.0.0',
     port: 3000,
@@ -44,6 +44,12 @@ export default defineConfig({
         changeOrigin: true,
         ws: true,
         rewrite: (path) => path.replace(/^\/comapp/, '')
+      },
+      '/socket.io': {
+        target: process.env.VITE_SOCKET_URL, // socket.io 对应配置
+        changeOrigin: true,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/socket.io/, '')
       }
     }
   },

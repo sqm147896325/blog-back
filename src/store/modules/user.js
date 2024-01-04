@@ -1,38 +1,37 @@
+import { defineStore } from 'pinia'
 import router from '../../router/index'
 import { exit } from '@/api/user.js'
 
-export default {
+const useUserStore = defineStore('user', {
   namespaced: true,
-  state: {
+  state: () => ({
     userInfo: {}, // 用户信息
     isAdmin: false // 是否超级管理员
-  },
-  mutations: {
+  }),
+  actions: {
     // 设置用户信息
-    setUserInfo (state, userInfo) {
-      state.userInfo = userInfo
+    setUserInfo (userInfo) {
+      this.userInfo = userInfo
       if (userInfo.power && userInfo.power.includes('user')) {
         // 这里读取用户权限，如果拥有用户管理这一权限，则视为超级管理员
-        state.isAdmin = true
+        this.isAdmin = true
       } else {
         // 置false
-        state.isAdmin = false
+        this.isAdmin = false
       }
-    }
-  },
-  actions: {
+    },
     // 退出登录，手动使token失效
-    exitLogin (context) {
+    exitLogin () {
       return new Promise(resolve => {
         exit().finally(() => {
-          context.dispatch('user/exitTo', {}, { root: true })
+          this.exitTo()
         })
         resolve()
       })
     },
 
     // 退出跳转到对应路由
-    exitTo (context) {
+    exitTo () {
       localStorage.removeItem('token')
       router.replace({
         name: 'login',
@@ -40,7 +39,8 @@ export default {
           redirect: router?.query?.redirect || router.currentRoute.fullPath
         }
       })
-      context.commit('alive/setKeepArr', [], { root: true })
     }
   }
-}
+})
+
+export default useUserStore

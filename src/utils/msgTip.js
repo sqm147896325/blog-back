@@ -1,19 +1,14 @@
-import { Notification } from 'element-ui'
-// import { Message } from 'element-ui'
+import { ElNotification } from 'element-plus'
 import msgDetail from '@/components/MsgTip/msgDetail.vue'
-import Vue from 'vue'
-const vm = new Vue()
-const h = vm.$createElement
+import { h } from 'vue'
 
-export default function msgTip (type, res, duration = 15000) {
-  Notification({
+export default function msgTip (type, res = {}, duration = 15000) {
+  ElNotification({
     type,
     message: h(msgDetail, {
-      props: {
-        title: res.msg,
-        msgMap: res.msgMap,
-        dataInfo: res.dataInfo
-      }
+      title: res.msg || '',
+      msgMap: res.msgMap || {},
+      dataInfo: res.dataInfo || {}
     }),
     duration,
     position: 'bottom-right'

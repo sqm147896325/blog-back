@@ -22,8 +22,7 @@
       >
         <el-button
           type="success"
-          size="small"
-          class="el-icon-plus"
+          icon="Plus"
           @click="add"
         >
           添加
@@ -32,7 +31,6 @@
       <el-col :span="2">
         <el-button
           type="success"
-          size="small"
           @click="format"
         >
           格式
@@ -63,21 +61,18 @@
             <div v-if="item.field === 'operation'">
               <el-button
                 type="primary"
-                size="small"
                 @click="change(scope.row)"
               >
                 修改信息
               </el-button>
               <el-button
                 type="primary"
-                size="small"
                 @click="changePower(scope.row)"
               >
                 修改权限
               </el-button>
               <el-button
                 type="danger"
-                size="small"
                 @click="del(scope.row)"
               >
                 删除
@@ -94,34 +89,34 @@
     <!-- 分页器 -->
     <my-pagination
       :total="total"
-      @turnPage="turnPage"
-      @changePagesize="changePagesize"
+      @turn-page="turnPage"
+      @change-pagesize="changePagesize"
     />
 
     <!-- 表单遮罩 -->
     <my-form
+      v-model="dialogVisible"
       title="修改账号"
       :formdata="formdata"
       :row="row"
       :rules="rules"
-      :visible="dialogVisible"
-      @cancelForm="cancelForm"
-      @submitFrom="submitFrom"
+      @cancel-form="cancelForm"
+      @submit-from="submitFrom"
     />
 
     <!-- 权限遮罩 -->
     <power-dialog
       :id="powerId"
-      :show.sync="powerVisible"
+      v-model:show="powerVisible"
       :power-data="powerData"
       @save="init"
     />
 
     <!-- 格式 -->
     <table-format
-      :visible.sync="formatVisible"
+      v-model="formatVisible"
       :table-option="tableOption"
-      @setTableOption="setTableOption"
+      @set-table-option="setTableOption"
     />
   </div>
 </template>

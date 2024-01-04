@@ -22,8 +22,7 @@
       >
         <el-button
           type="success"
-          size="small"
-          class="el-icon-plus"
+          icon="Plus"
           @click="add"
         >
           添加
@@ -32,7 +31,6 @@
       <el-col :span="2">
         <el-button
           type="success"
-          size="small"
           @click="format"
         >
           格式
@@ -61,8 +59,8 @@
         >
           <template #default="{ row }">
             <div v-if="item.field === 'created_at' || item.field === 'updated_at'">
-              <div>{{ row.created_at | dateFilter(0) }}</div>
-              <div>{{ row.created_at | dateFilter(1) }}</div>
+              <div>{{ dateFilter(row.created_at, 0) }}</div>
+              <div>{{ dateFilter(row.created_at, 1) }}</div>
             </div>
             <div
               v-else-if="item.field === 'operation'"
@@ -70,16 +68,14 @@
             >
               <el-button
                 type="success"
-                size="small"
-                :disabled="row.author_id | notMyBlog(that)"
+                :disabled="notMyBlog(row.author_id, that)"
                 @click="change(row)"
               >
                 查看
               </el-button>
               <el-button
                 type="danger"
-                size="small"
-                :disabled="row.author_id | notMyBlog(that)"
+                :disabled="notMyBlog(row.author_id)"
                 @click="del(row)"
               >
                 删除
@@ -96,15 +92,15 @@
     <!-- 分页器 -->
     <my-pagination
       :total="total"
-      @turnPage="turnPage"
-      @changePagesize="changePagesize"
+      @turn-page="turnPage"
+      @change-pagesize="changePagesize"
     />
 
     <!-- 格式 -->
     <table-format
-      :visible.sync="formatVisible"
+      v-model="formatVisible"
       :table-option="tableOption"
-      @setTableOption="setTableOption"
+      @set-table-option="setTableOption"
     />
   </div>
 </template>
@@ -119,28 +115,6 @@ import manageMixin from '../manageMixin.js'
 export default {
   name: 'BlogView',
   components: { 'my-search': Search, 'my-pagination': Pagination, TableFormat },
-  filters: {
-    // 判断当前博客是否可以控制
-    notMyBlog (e, that) {
-      if (that.$store.state.user.isAdmin) {
-        // 超级管理员可以访问所有
-        return false
-      }
-      return e !== that.$store.state.user.userInfo.id
-    },
-    // 时间过滤器
-    dateFilter (date, type) {
-      if (!date) {
-        // 如果没有这一字段直接返回''
-        return ''
-      }
-      if (type === 0) {
-        return date.split('T')[0]
-      } else {
-        return date.split('T')[1].split('.')[0]
-      };
-    }
-  },
   mixins: [manageMixin],
   data () {
     return {
@@ -235,6 +209,28 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+
+    /* 过滤器 */
+    // 判断当前博客是否可以控制
+    notMyBlog (e) {
+      if (this.$store.state.user.isAdmin) {
+        // 超级管理员可以访问所有
+        return false
+      }
+      return e !== this.$store.state.user.userInfo.id
+    },
+    // 时间过滤器
+    dateFilter (date, type) {
+      if (!date) {
+        // 如果没有这一字段直接返回''
+        return ''
+      }
+      if (type === 0) {
+        return date.split('T')[0]
+      } else {
+        return date.split('T')[1].split('.')[0]
+      };
     }
 
   }

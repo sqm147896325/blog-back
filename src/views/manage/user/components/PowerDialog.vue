@@ -1,7 +1,7 @@
 <template>
   <el-dialog
+    :model-value="show"
     title="设置权限"
-    :visible="show"
     :show-close="false"
     width="350px"
   >
@@ -15,14 +15,16 @@
       :props="defaultProps"
       @check="powerCheck"
     />
-    <span slot="footer">
-      <el-button @click="cancel">取消</el-button>
-      <el-button
-        type="primary"
-        :disabled="equally"
-        @click="save"
-      >确定</el-button>
-    </span>
+    <template #footer>
+      <span>
+        <el-button @click="cancel">取消</el-button>
+        <el-button
+          type="primary"
+          :disabled="equally"
+          @click="save"
+        >确定</el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
@@ -46,6 +48,7 @@ export default {
       default: 0
     }
   },
+  emits: ['save', 'update:show'],
   data () {
     return {
       // el-tree 显示的格式设置

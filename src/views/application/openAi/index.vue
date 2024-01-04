@@ -1,25 +1,27 @@
 <template>
   <div class="open-ai">
     <div class="ai-content">
-      <div class="messages-content">
-        <h3
+      <div ref="list" class="messages-content">
+        <div
           v-for="(item, index) in messages"
           :key="index"
+          :class="item.role === 'user' ? 'user-msg' : 'other-msg'"
         >
-          <span>{{ item.role }}：</span>
-          <!-- eslint-disable vue/no-v-html -->
-          <span v-html="toMarked(item.content)" />
-          <!--eslint-enable-->
-        </h3>
+          <div class="msg-item">
+            <!-- eslint-disable vue/no-v-html -->
+            <span class="item-text" v-html="toMarked(item.content)" />
+            <!--eslint-enable-->
+          </div>
+        </div>
       </div>
       <el-input
         v-model="msg"
-        v-loading.fullscreen.lock="fullscreenLoading"
+        v-loading.lock="fullscreenLoading"
         class="input"
         type="textarea"
         :rows="3"
         placeholder="输入内容，回车键发送！"
-        @keydown.enter.native="send"
+        @keydown.enter="send"
       />
     </div>
   </div>
@@ -28,7 +30,8 @@
 <script>
 import { marked } from 'marked'
 import { conversation, getConversationHistory } from '@/api/openai.js'
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
+import useUserStore from '@/store/modules/user.js'
 
 export default {
   name: 'OpenAi',
@@ -41,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['userInfo'])
+    ...mapState(useUserStore, ['userInfo'])
   },
   mounted () {
     this.uuid = this.$route.query.uuid || ''
@@ -49,6 +52,7 @@ export default {
       uuid: this.uuid
     }).then(e => {
       this.messages = e.dataInfo
+      this.toBottom()
     })
   },
   methods: {
@@ -78,10 +82,20 @@ export default {
         role: 'assistant',
         content: res.dataInfo.result || ''
       })
+
+      this.toBottom()
     },
 
     toMarked (e) {
       return marked.parse(e)
+    },
+
+    // 控制到最底部
+    toBottom () {
+      const listDom = this.$refs.list
+      this.$nextTick(() => {
+        listDom.scrollTop = listDom.scrollHeight
+      })
     }
   }
 }
@@ -103,12 +117,45 @@ export default {
   .input{
     padding: 10px 0;
   }
-  .messages-content{
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #eee;
-    overflow: auto;
-    flex: 1;
+}
+
+.messages-content{
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #eee;
+  overflow: auto;
+  flex: 1;
+  .msg-item{
+    padding: 0px 20px;
+    border-radius: 10px;
+    font-size: @fz-normal;
+    min-height: 40px;
+    .item-text{
+      display: inline-flex;
+      flex-direction: column;
+    }
+  }
+  .user-msg{
+    display: flex;
+    align-items: center;
+    margin: 10px 0 10px 20%;
+    text-align: end;
+    justify-content: flex-end;
+    .msg-item{
+      background-color: rgba(0, 128, 0, 0.72);
+      color: #fff;
+    }
+  }
+  .other-msg{
+    display: flex;
+    align-items: center;
+    margin: 10px 20% 10px 0;
+    text-align: start;
+    justify-content: flex-start;
+    .msg-item{
+      background-color: rgba(0, 0, 0, 0.72);
+      color: #ffffff;
+    }
   }
 }
 </style>

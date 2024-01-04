@@ -7,13 +7,16 @@
     :on-change="changeFile"
     :http-request="uploadHandler"
   >
-    <el-button
-      slot="trigger"
-      plain
-      size="small"
-    >
-      <i class="el-icon-upload font-size-14" />读取文件
-    </el-button>
+    <template #trigger>
+      <el-button
+        plain
+      >
+        <el-icon size="14">
+          <Upload />
+        </el-icon>
+        <span>读取文件</span>
+      </el-button>
+    </template>
     <div class="text-info">
       仅支持{{ accept }}后缀文件上传，最大2MB
     </div>
@@ -36,6 +39,7 @@ export default {
       required: true
     }
   },
+  emits: ['readText'],
   data () {
     return {
       fileName: ''

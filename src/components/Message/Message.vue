@@ -5,24 +5,34 @@
     top="5vh"
     :close-on-click-modal="false"
     v-bind="$attrs"
-    v-on="$listeners"
   >
     <div class="message-content">
       <el-tabs :stretch="true">
         <el-tab-pane>
-          <span slot="label"><i class="el-icon-cpu" />系统</span>
-          <SysMsg />
-        </el-tab-pane>
-        <el-tab-pane>
-          <span slot="label"><i class="el-icon-user" />用户</span>
+          <template #label>
+            <el-icon>
+              <User />
+            </el-icon>
+            <span>用户</span>
+          </template>
           <UserMsg />
         </el-tab-pane>
         <el-tab-pane>
-          <span slot="label"><i class="el-icon-bell" />通知</span>
+          <template #label>
+            <el-icon>
+              <Bell />
+            </el-icon>
+            <span>通知</span>
+          </template>
           <NoticeMsg />
         </el-tab-pane>
         <el-tab-pane>
-          <span slot="label"><i class="el-icon-connection" />聊天室</span>
+          <template #label>
+            <el-icon>
+              <Connection />
+            </el-icon>
+            <span>聊天室</span>
+          </template>
           <RoomMsg />
         </el-tab-pane>
       </el-tabs>
@@ -31,13 +41,12 @@
 </template>
 
 <script>
-import SysMsg from './components/SysMsg.vue'
 import UserMsg from './components/UserMsg.vue'
 import NoticeMsg from './components/NoticeMsg.vue'
 import RoomMsg from './components/RoomMsg.vue'
 export default {
   name: 'MessageCom',
-  components: { SysMsg, UserMsg, NoticeMsg, RoomMsg },
+  components: { UserMsg, NoticeMsg, RoomMsg },
   data () {
     return {
 

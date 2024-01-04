@@ -9,7 +9,6 @@
           <el-input
             v-model="title"
             class="input-normal"
-            size="small"
           />
         </el-row>
 
@@ -36,7 +35,6 @@
         <el-input
           v-model="des"
           type="textarea"
-          size="small"
           class="textarea-input"
           :rows="4"
         />
@@ -63,7 +61,6 @@
     <div class="bottom-button">
       <el-button
         type="success"
-        size="small"
         :disabled="dataNoChange"
         @click="save"
       >
@@ -155,7 +152,7 @@ export default {
   methods: {
     async init () {
       // 缩入菜单栏
-      this.$store.commit('aside/setOpen', true)
+      this.$store.aside.setOpen(true)
       // 重新为data赋值
       this.id = this.$route.params.id
       await this.initEdit()

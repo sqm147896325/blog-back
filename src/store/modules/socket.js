@@ -1,18 +1,9 @@
-// vuex中一般接收指令数据
-export default {
+import { defineStore } from 'pinia'
+
+const useSocketStore = defineStore('socket', {
   namespaced: true,
-  state: {
-  },
-  mutations: {
-    MSG_RES (e, value) {
-    },
-    MSG_200 (e, value) {
-    },
-    MSG_233 (e, value) {
-    },
-    MSG_250 (e, value) {
-    }
-  },
+  state: () => ({
+  }),
   actions: {
     MSG_RES (e, value) {
     },
@@ -26,4 +17,6 @@ export default {
     MSG_250 (e, value) {
     }
   }
-}
+})
+
+export default useSocketStore

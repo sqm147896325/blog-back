@@ -24,22 +24,21 @@
 </template>
 
 <script>
-import Aside from './components/Aside.vue'
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-import { mapState, mapGetters } from 'vuex'
+import { defineComponent, defineAsyncComponent } from 'vue'
+import { mapState } from 'pinia'
+import useAliveStore from '@/store/modules/alive.js'
 
-export default {
+export default defineComponent({
   name: 'LayoutCom',
   components: {
-    'l-aside': Aside,
-    'l-header': Header,
-    'l-footer': Footer
+    'l-aside': defineAsyncComponent(() => import('./components/Aside.vue')),
+    'l-header': defineAsyncComponent(() => import('./components/Header.vue')),
+    'l-footer': defineAsyncComponent(() => import('./components/Footer.vue'))
   },
   computed: {
-    ...mapGetters('alive', ['keepTitle']),
-    ...mapGetters('alive', ['keepName']),
-    ...mapState('alive', ['keepArr']),
+    ...mapState(useAliveStore, ['keepTitle']),
+    ...mapState(useAliveStore, ['keepName']),
+    ...mapState(useAliveStore, ['keepArr']),
     fullScreen () {
       return this.$route.meta && this.$route.meta.fullScreen
     }
@@ -53,12 +52,12 @@ export default {
   },
   mounted () {
   }
-}
+})
 </script>
 
 <style lang="less" scoped>
 .Layout{
-    min-width: 1050px;
+    min-width: 768px;
 }
 .container{
     height: 100vh;

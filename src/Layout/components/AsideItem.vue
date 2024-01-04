@@ -1,44 +1,52 @@
 <template>
-  <div>
-    <div
-      v-for="item in routesMenu"
-      :key="item.name"
-      class="aside-item"
+  <template
+    v-for="item in routesMenu"
+    :key="item.name"
+  >
+    <el-menu-item
+      v-if="typeof item.children == 'undefined'"
+      :index="setPath(item).path"
+      @click="chooseMenu(item)"
     >
-      <el-menu-item
-        v-if="typeof item.children == 'undefined'"
-        :index="setPath(item).path"
-        @click="chooseMenu(item)"
-      >
-        <i :class="item.icon || 'el-icon-menu'" />
-        <span slot="title">{{ item.meta.title }}</span>
-      </el-menu-item>
-      <el-menu-item
-        v-else-if="item.children.length == 1"
-        :index="setPath(item).path"
-        @click="chooseMenu(item.children[0])"
-      >
-        <i :class="item.children[0].icon || 'el-icon-menu'" />
-        <span slot="title">{{ item.children[0].meta.title }}</span>
-      </el-menu-item>
-      <el-submenu
-        v-else
-        :index="item.name"
-        @click="chooseMenu(item)"
-      >
-        <template #title>
-          <i :class="item.icon || 'el-icon-menu'" />
-          <span slot="title">{{ item.meta.title }}</span>
-        </template>
-        <aside-item :item-menu="item.children" />
-      </el-submenu>
-    </div>
-  </div>
+      <el-icon>
+        <component :is="item.icon || 'Menu'" />
+      </el-icon>
+      <template #title>
+        <span>{{ item.meta.title }}</span>
+      </template>
+    </el-menu-item>
+    <el-menu-item
+      v-else-if="item.children.length == 1"
+      :index="setPath(item).path"
+      @click="chooseMenu(item.children[0])"
+    >
+      <el-icon>
+        <component :is="item.children[0].icon || 'Menu'" />
+      </el-icon>
+      <template #title>
+        <span>{{ item.children[0].meta.title }}</span>
+      </template>
+    </el-menu-item>
+    <el-sub-menu
+      v-else
+      :index="item.name"
+      @click="chooseMenu(item)"
+    >
+      <template #title>
+        <el-icon>
+          <component :is="item.icon || 'Menu'" />
+        </el-icon>
+        <span>{{ item.meta.title }}</span>
+      </template>
+      <aside-item :item-menu="item.children" />
+    </el-sub-menu>
+  </template>
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   // 递归调用AsideItem组件完成菜单的创建,组件递归调用自己时仅需要name
   name: 'AsideItem',
   props: {
@@ -94,11 +102,11 @@ export default {
         window.open(item.meta.newPage)
       } else {
         item = this.setPath(item)
-        this.$store.commit('aside/setActiveMenu', item)
+        this.$store.aside.setActiveMenu(item)
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>
@@ -106,7 +114,7 @@ export default {
 * 这里将element菜单组件单独提出使用会导致收起时样式不正常,
 * 这里自定义收起样式解决该问题
 */
-.el-menu.el-menu--collapse .el-submenu__title span{
-  display: none;
-}
+// ::v-deep(.el-menu.el-menu--collapse .el-sub-menu__title span){
+//   display: none;
+// }
 </style>
