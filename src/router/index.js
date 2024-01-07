@@ -75,7 +75,7 @@ const powerShowRouter = [
       title: '应用'
     },
     children: [{
-      path: 'appList',
+      path: 'app-list',
       name: 'appList',
       icon: 'Help',
       component: () => import('../views/application/index.vue'),
@@ -83,7 +83,7 @@ const powerShowRouter = [
         title: '应用列表'
       }
     }, {
-      path: 'apiDoc',
+      path: 'api-doc',
       name: 'apiDoc',
       icon: 'Document',
       component: () => import('../views/application/apiDoc/index.vue'),
@@ -91,7 +91,7 @@ const powerShowRouter = [
         title: '接口文档'
       }
     }, {
-      path: 'openAi',
+      path: 'open-ai',
       name: 'openAi',
       icon: 'Coordinate',
       component: () => import('../views/application/openAi/index.vue'),
@@ -101,7 +101,7 @@ const powerShowRouter = [
         newPage: `${location.origin}${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`
       }
     }, {
-      path: 'aiPainter',
+      path: 'ai-painter',
       name: 'aiPainter',
       icon: 'PictureRounded',
       component: () => import('../views/application/aiPainter/index.vue'),
@@ -109,7 +109,7 @@ const powerShowRouter = [
         title: 'Ai画师'
       }
     }, {
-      path: 'networkDisk',
+      path: 'network-disk',
       name: 'networkDisk',
       icon: 'UploadFilled',
       component: () => import('../views/application/networkDisk/index.vue'),

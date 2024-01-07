@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-describe('登录测试', () => {
+describe('网盘测试', () => {
   it('正确用户名密码登录', () => {
     cy.visit('https://sunqm.com/page/back')
 
@@ -17,7 +17,7 @@ describe('登录测试', () => {
     cy.get('.el-button')
       .click()
 
-    // 定位到首页
-    cy.location('pathname').should('eq', '/page/back/dashboard')
+    // 定位到网盘页
+    cy.visit('https://sunqm.com/page/back/network-disk')
   })
 })
