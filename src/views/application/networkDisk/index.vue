@@ -85,8 +85,8 @@
       </el-table-column>
     </el-table>
     <el-dialog
+      :model-value="visible"
       title="上传文件"
-      :visible="visible"
       width="400"
       @close="uploadClose"
     >

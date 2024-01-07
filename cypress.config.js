@@ -31,6 +31,5 @@ module.exports = defineConfig({
     }
   },
 
-  targetEnv: 'beta',
   env: config
 })
