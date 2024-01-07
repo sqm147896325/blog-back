@@ -2,7 +2,6 @@
 
 // 获取环境变量的值
 const visitUrl = Cypress.env('visitUrl')
-// const apiUrl = Cypress.env('apiUrl')
 
 describe('网盘测试', () => {
   beforeEach(() => {
