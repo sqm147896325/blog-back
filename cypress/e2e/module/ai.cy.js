@@ -1,6 +1,7 @@
+/// <reference types="Cypress" />
 describe('登录测试', () => {
   it('正确用户名密码登录', () => {
-    cy.visit('http://localhost:3000')
+    cy.visit('https://sunqm.com/page/back')
 
     cy.location('pathname').should('eq', '/page/back/login')
 

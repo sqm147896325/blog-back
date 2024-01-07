@@ -8,9 +8,11 @@
 		"build": "vite build --base=/page/back/",
 		"lint": "eslint --fix --ext .js,.vue src",
 		"release": "vite build --base=/page/back/ && git commit -a -m publish && git push",
-		"test:cypress": "cypress open --e2e --browser chrome"
+		"cypress": "cypress open --e2e --browser chrome",
+		"cypress:beta": "cross-env NODE_ENV=beta cypress open --e2e --browser chrome"
 	},
 	"dependencies": {
+		"@element-plus/icons-vue": "^2.3.1",
 		"@micro-zoe/micro-app": "^0.8.10",
 		"axios": "^0.24.0",
 		"core-js": "^3.19.3",
