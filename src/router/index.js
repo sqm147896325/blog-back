@@ -2,12 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Layout from '../Layout/Layout.vue'
 
-// // 解决标题栏路由导航冗余报错问题
-// const originalPush = VueRouter.prototype.push
-// VueRouter.prototype.push = function push (location) {
-//   return originalPush.call(this, location).catch(err => err)
-// }
-
 /** 路由说明
  *
  * 两种路由：
@@ -17,7 +11,9 @@ import Layout from '../Layout/Layout.vue'
  * 自定义字段meta：
  *  show 标志是否在aside侧边栏展示，false时不显示，true或省缺时显示
  *  defaultPath 实际跳转和在地址栏上显示的字段，以取代path
- *
+ *  newPage 使用window.open打开新页面
+ *  fullScreen 全屏显示
+ *  title 标题
  */
 
 // ! 不要用name字段表示名称，而要在meta中定义这些额外的信息
