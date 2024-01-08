@@ -93,10 +93,10 @@ describe('权限测试', () => {
 
     cy.wait(1000)
 
-    cy.visit(`${visitUrl}/application/appList`)
+    cy.visit(`${visitUrl}/application/app-list`)
 
     // 可以正常跳转其他页面
-    cy.location('pathname').should('eq', '/page/back/application/appList')
+    cy.location('pathname').should('eq', '/page/back/application/app-list')
 
     cy.get('.view').contains('appList').should('exist')
   })

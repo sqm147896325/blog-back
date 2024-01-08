@@ -29,7 +29,21 @@ describe('ai助手测试', () => {
     })
   })
 
-  it('正确用户名密码登录', () => {
-    cy.visit(`${visitUrl}`)
+  it('ai对话 可用性测试', () => {
+    cy.visit(`${visitUrl}/application/open-ai`)
+
+    cy.get('.el-textarea').type('用js写一段输出 hello world 的代码').type('{enter}')
+
+    cy.get('.other-msg > .msg-item', { timeout: 3 * 1000 }).should('contain', 'console.log')
+  })
+
+  it('ai绘图 可用性测试', () => {
+    cy.visit(`${visitUrl}/application/ai-painter`)
+
+    cy.get('.el-textarea').type('落霞与孤鹜齐飞，秋水共长天一色').type('{enter}')
+
+    cy.get('.el-image__inner', { timeout: 45 * 1000 }).last().trigger('mouseenter')
+
+    cy.get('.el-popper').contains('落霞与孤鹜齐飞，秋水共长天一色').should('be.visible')
   })
 })

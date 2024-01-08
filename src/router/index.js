@@ -70,7 +70,7 @@ const powerShowRouter = [
     name: 'application',
     icon: 'Menu',
     component: Layout,
-    redirect: '/application/appList',
+    redirect: '/application/app-list',
     meta: {
       title: '应用'
     },
