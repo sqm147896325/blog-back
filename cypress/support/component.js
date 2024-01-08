@@ -19,9 +19,24 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+// ui库导入
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { mount } from 'cypress/vue'
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('mount', (component, options = {}) => {
+  options.global = options.global || {}
+  options.global.plugins = options.global.plugins || []
+  options.global.plugins.push({
+    install (app) {
+      app.use(ElementPlus)
+      app.use(ElementPlusIconsVue)
+    }
+  })
+
+  return mount(component, options)
+})
 
 // Example use:
 // cy.mount(MyComponent)

@@ -92,7 +92,7 @@ export default {
       default: '标题'
     }
   },
-  emits: ['update:visible', 'submitFrom', 'cancelForm'],
+  emits: ['update:modelValue', 'submitFrom', 'cancelForm'],
   data () {
     return {
       // ? 深拷贝row为子组件内部数据
@@ -124,14 +124,14 @@ export default {
     submit () {
       this.$refs.form.validate(state => {
         if (state) {
-          this.$emit('update:visible', false)
+          this.$emit('update:modelValue', false)
           this.$emit('submitFrom', { ...this.rowData }, this.type) // 解构赋值数据，去除__ob__监视器
         }
       })
     },
     // 取消修改，在父组件中定义关闭
     cancel () {
-      this.$emit('update:visible', false)
+      this.$emit('update:modelValue', false)
       this.$emit('cancelForm')
     },
     // 关闭动画回调

@@ -139,7 +139,7 @@ export default {
       default: () => []
     }
   },
-  emits: ['setTableOption', 'update:visible'],
+  emits: ['setTableOption', 'update:modelValue'],
   data () {
     return {
       alignList: [
@@ -169,7 +169,7 @@ export default {
         return e
       })
       this.$emit('setTableOption', tableData)
-      this.$emit('update:visible', false)
+      this.$emit('update:modelValue', false)
     },
     reset () {
       this.currIndex = null
