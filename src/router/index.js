@@ -98,7 +98,7 @@ const powerShowRouter = [
       meta: {
         title: 'Ai助手',
         fullScreen: true,
-        newPage: `${location.origin}${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`
+        newPage: `${location.origin}${import.meta.env.VITE_APP_ROUTE_PATH}/application/open-ai`
       }
     }, {
       path: 'ai-painter',

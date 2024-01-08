@@ -185,7 +185,7 @@ export default {
           const type = selectConfirmComponent.component?.data?.selectValue || ''
           if (action === 'confirm' && type === 'ai') {
             setTimeout(() => {
-              window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi`)
+              window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/open-ai`)
             }, 200)
           }
         }
@@ -200,7 +200,7 @@ export default {
     // 查看/修改
     change (row) {
       if (row.type === 'ai') {
-        window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/openAi?uuid=${row.uuid}`)
+        window.open(`${import.meta.env.VITE_APP_ROUTE_PATH}/application/open-ai?uuid=${row.uuid}`)
       } else {
         this.$message(row.type)
       }
