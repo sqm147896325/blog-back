@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
@@ -71,6 +72,16 @@ export default defineConfig({
       less: {
         additionalData: '@import "./src/style/variables.less";@import "./src/style/reset.less";'
       }
+    }
+  },
+
+  test: {
+    globals: true,
+    environment: 'jsdom',
+
+    browser: {
+      enabled: true,
+      name: 'chrome'
     }
   }
 })
