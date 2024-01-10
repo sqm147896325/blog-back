@@ -1,7 +1,10 @@
 <template>
   <div class="open-ai">
     <div class="ai-content">
-      <div ref="list" class="messages-content">
+      <div
+        ref="list"
+        class="messages-content"
+      >
         <div
           v-for="(item, index) in messages"
           :key="index"
@@ -9,7 +12,10 @@
         >
           <div class="msg-item">
             <!-- eslint-disable vue/no-v-html -->
-            <span class="item-text" v-html="toMarked(item.content)" />
+            <span
+              class="item-text"
+              v-html="toMarked(item.content)"
+            />
             <!--eslint-enable-->
           </div>
         </div>
@@ -73,15 +79,29 @@ export default {
         this.msg = '' // 清除消息
       })
 
-      if (!this.uuid) {
-        this.uuid = res.dataInfo.uuid
-        this.$router.replace({ name: 'openAi', query: { uuid: res.dataInfo.uuid } })
-      }
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
 
       this.messages.push({
         role: 'assistant',
-        content: res.dataInfo.result || ''
+        content: ''
       })
+
+      while (1) {
+        // 读取数据流的第一块数据，done表示数据流是否完成，value表示当前的数
+        const { done, value } = await reader.read()
+        if (done) break
+        const text = decoder.decode(value, { stream: true })
+        // 打印第一块的文本内容
+        console.log(text, done)
+
+        // if (!this.uuid) {
+        //   this.uuid = res.dataInfo.uuid
+        //   this.$router.replace({ name: 'openAi', query: { uuid: res.dataInfo.uuid } })
+        // }
+
+        this.messages[this.messages.length - 1].content += text
+      }
 
       this.toBottom()
     },

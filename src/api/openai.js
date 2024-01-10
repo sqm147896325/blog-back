@@ -8,10 +8,12 @@ const baseUrl = import.meta.env.VITE_APP_BASE_PATH
  * @return {*}
  */
 export function conversation (data) {
-  return axios({
-    url: baseUrl + '/openai/conversation',
+  return fetch(baseUrl + '/openai/conversation', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
     method: 'post',
-    data
+    body: JSON.stringify(data)
   })
 };
 
