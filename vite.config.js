@@ -77,11 +77,11 @@ export default defineConfig({
 
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: 'jsdom'
 
-    browser: {
-      enabled: true,
-      name: 'chrome'
-    }
+    // browser: {
+    //   enabled: true,
+    //   name: 'chrome'
+    // }
   }
 })
