@@ -70,38 +70,57 @@ export default {
 
       this.fullscreenLoading = true
 
-      const res = await conversation({
-        userId: this.userInfo.id,
-        message: this.msg,
-        uuid: this.uuid
-      }).finally(() => {
-        this.fullscreenLoading = false
-        this.msg = '' // 清除消息
-      })
+      const controller = new AbortController()
 
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
+      const signal = controller.signal
 
       this.messages.push({
         role: 'assistant',
         content: ''
       })
 
-      while (1) {
-        // 读取数据流的第一块数据，done表示数据流是否完成，value表示当前的数
-        const { done, value } = await reader.read()
-        if (done) break
-        const text = decoder.decode(value, { stream: true })
-        // 打印第一块的文本内容
-        console.log(text, done)
-
-        // if (!this.uuid) {
-        //   this.uuid = res.dataInfo.uuid
-        //   this.$router.replace({ name: 'openAi', query: { uuid: res.dataInfo.uuid } })
-        // }
-
-        this.messages[this.messages.length - 1].content += text
-      }
+      conversation({
+        signal,
+        body: JSON.stringify({
+          userId: this.userInfo.id,
+          message: this.msg,
+          uuid: this.uuid
+        }),
+        // 建立连接的回调
+        onopen: (open) => {
+        },
+        // 接收一次数据段时回调，因为是流式返回，所以这个回调会被调用多次
+        onmessage: (msg) => {
+          console.log('msg >>>', msg)
+          if (msg.event === 'header') {
+            const headerParams = JSON.parse(msg.data)
+            if (!this.uuid) {
+              this.uuid = headerParams.uuid
+              this.$router.replace({ name: 'openAi', query: { uuid: this.uuid } })
+            }
+          } else if (msg.event === 'message') {
+            const content = JSON.parse(msg.data)
+            this.messages[this.messages.length - 1].content += content
+          } else if (msg.event === 'close') {
+            // close 进行关闭
+            controller.abort()
+          }
+        },
+        // 正常结束的回调
+        onclose: () => {
+          this.fullscreenLoading = false
+          this.msg = '' // 清除消息
+          controller.abort() // 关闭连接
+        },
+        // 连接出现异常回调
+        onerror: (err) => {
+          // 必须抛出错误才会停止
+          console.log('err', err)
+          this.fullscreenLoading = false
+          this.msg = '' // 清除消息
+          throw err
+        }
+      })
 
       this.toBottom()
     },
@@ -150,6 +169,7 @@ export default {
     border-radius: 10px;
     font-size: @fz-normal;
     min-height: 40px;
+    max-width: 100%;
     .item-text{
       display: inline-flex;
       flex-direction: column;

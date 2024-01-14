@@ -79,7 +79,7 @@ export default defineComponent({
 // 覆盖el-main样式
 .el-main{
     padding: 0 10px;
-    margin-top: 10px;
+    margin-top: 9px;
     overflow-x: hidden;
 }
 </style>

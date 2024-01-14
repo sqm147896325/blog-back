@@ -1,4 +1,5 @@
 import axios from '../utils/request'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 
 const baseUrl = import.meta.env.VITE_APP_BASE_PATH
 
@@ -7,13 +8,16 @@ const baseUrl = import.meta.env.VITE_APP_BASE_PATH
  * @param {*} data
  * @return {*}
  */
-export function conversation (data) {
-  return fetch(baseUrl + '/openai/conversation', {
+export function conversation (options) {
+  return fetchEventSource(baseUrl + '/openai/conversation', {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      Authorization: 'Bearer ' + localStorage.getItem('token')
     },
-    method: 'post',
-    body: JSON.stringify(data)
+    ...options
   })
 };
 
