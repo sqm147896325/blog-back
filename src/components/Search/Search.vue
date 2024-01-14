@@ -77,13 +77,13 @@ export default {
   padding: 20px 0px !important;
   margin: 0 !important;
 }
-/deep/ .el-select .el-input {
+::v-deep(.el-select .el-input) {
     width: 130px;
   }
-/deep/ .el-input-group__prepend {
+::v-deep(.el-input-group__prepend) {
   background-color: #fff;
 }
-/deep/ .el-input-group__append {
+::v-deep(.el-input-group__append) {
   background-color: #409EFF;
   color: #FFF;
 }

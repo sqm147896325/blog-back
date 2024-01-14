@@ -107,13 +107,13 @@ export default {
 }
 
 // 去掉已上传文件列表的文件移除动画
-/deep/ .el-list-leave-active {
+::v-deep(.el-list-leave-active) {
   transition: none;
 }
-/deep/ .el-list-leave-active {
+::v-deep(.el-list-leave-active) {
   opacity: 0;
 }
-/deep/ .el-upload-list {
+::v-deep(.el-upload-list) {
   max-height: 26px;
 }
 </style>>
