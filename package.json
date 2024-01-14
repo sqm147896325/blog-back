@@ -10,7 +10,7 @@
 		"release": "vite build --base=/page/back/ && git commit -a -m publish && git push",
 		"test": "vitest",
 		"test:e2e": "cypress open --e2e --browser chrome",
-		"test:e2e:beta": "cross-env NODE_ENV=beta cypress open --e2e --browser chrome"
+		"test:beta": "cross-env NODE_ENV=beta cypress open --e2e --browser chrome"
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.3.1",
