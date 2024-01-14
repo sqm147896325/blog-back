@@ -66,17 +66,17 @@ export default {
     height: 80vh;
     position: relative;
 }
-::v-deep .el-dialog__body{
+::v-deep(.el-dialog__body) {
     padding: 0px 10px;
 }
-::v-deep .el-tab-pane{
+::v-deep(.el-tab-pane) {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
 }
-::v-deep .el-tabs__content {
+::v-deep(.el-tabs__content) {
     overflow: hidden;
     position: absolute;
     left: 0;

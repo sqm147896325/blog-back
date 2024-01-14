@@ -313,7 +313,7 @@ export default {
 }
 
 // 编辑器的bar被挤下来了，去除粘性布局可以移上去
-::v-deep .vditor-toolbar--pin{
+::v-deep(.vditor-toolbar--pin) {
   position: relative;
 }
 .md-edit{

@@ -110,7 +110,7 @@ export default {
     margin-left: 10px;
     vertical-align: bottom;
 }
-::v-deep .el-input--mini .el-input__inner{
+::v-deep(.el-input--mini .el-input__inner) {
     height: 23px;
     line-height: 23px;
 }
