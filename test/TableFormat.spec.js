@@ -10,7 +10,7 @@ describe('TableFormat 组件测试', () => {
         plugins: [ElementPlus]
       },
       props: {
-        modelValue: true,
+        modelValue: true, // 渲染出来需要耗时，vitest无法准确感知
         tableOption: [
           { field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width: 180 },
           { field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width: 100 }
@@ -18,17 +18,17 @@ describe('TableFormat 组件测试', () => {
       }
     })
 
-    // const table = await wrapper.get('.cell')
-
-    // console.log(table)
+    // 防止 modelValue 未渲染，赋值做等待使用
+    await wrapper.setProps({
+      tableOption: [
+        { field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width: 180 },
+        { field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width: 100 }
+      ]
+    })
 
     expect(wrapper.text()).toContain('格式')
     expect(wrapper.get('.format-row').text()).toContain('确定', '重置')
-    wrapper.vm.$nextTick(() => {
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.text()).toContain('标题')
-      })
-    })
+    expect(wrapper.text()).toContain('标题')
   })
 
   it('确定方法', async () => {
