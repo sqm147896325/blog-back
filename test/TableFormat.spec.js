@@ -75,15 +75,19 @@ describe('TableFormat 组件测试', () => {
       }
     })
 
-    // // 修改数据
-    // await wrapper.setProps({
-    //   tableOption: [
-    //     { field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width: 100 },
-    //     { field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width: 180 }
-    //   ]
-    // })
+    // 防止 modelValue 未渲染，赋值做等待使用
+    await wrapper.setProps({
+      tableOption: [
+        { field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width: 180 },
+        { field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width: 100 }
+      ]
+    })
 
-    // expect(wrapper.vm.tableData.map(e => e.cname)).toEqual(['作者名', '标题'])
+    await wrapper.get('.el-table__row').trigger('click')
+
+    await wrapper.get('.format-row > button:nth-child(5)').trigger('click')
+
+    expect(wrapper.vm.tableData.map(e => e.cname)).toEqual(['作者名', '标题'])
 
     // 模拟点击重置按钮
     await wrapper.get('.format-row button:nth-child(2)').trigger('click')
