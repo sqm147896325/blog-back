@@ -1,7 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`TableFormat > renders correctly 1`] = `<!--teleport start-->`;
-
-exports[`TableFormat > 组件挂载 1`] = `<!--teleport start-->`;
-
-exports[`TableFormat 组件测试 > 组件挂载 1`] = `<!--teleport start-->`;
