@@ -24,4 +24,37 @@ describe('<TableFormat />', () => {
       }
     })
   })
+
+  it('重置方法', () => {
+    cy.mount(TableFormat, {
+      propsData: {
+        modelValue: true,
+        tableOption: [
+          { field: 'title', cname: '标题', cshow: true, align: 'center', showname: '标题', clock: false, width: 180 },
+          { field: 'author', cname: '作者名', cshow: true, align: 'center', showname: '作者名', clock: false, width: 100 }
+        ]
+      }
+    })
+
+    cy.get('tbody > :nth-child(1) > .el-table_2_column_8 > .cell')
+      .contains('标题')
+      .should('exist')
+
+    cy.get(':nth-child(1) > .el-table_2_column_12 > .cell > .el-checkbox')
+      .click()
+
+    cy.contains('下移')
+      .click()
+
+    cy.get('tbody > :nth-child(1) > .el-table_2_column_8 > .cell')
+      .contains('作者名')
+      .should('exist')
+
+    cy.contains('重置')
+      .click()
+
+    cy.get('tbody > :nth-child(1) > .el-table_2_column_8 > .cell')
+      .contains('标题')
+      .should('exist')
+  })
 })
