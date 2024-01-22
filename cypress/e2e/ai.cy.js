@@ -42,7 +42,7 @@ describe('ai助手测试', () => {
 
     cy.get('.el-textarea').type('落霞与孤鹜齐飞，秋水共长天一色').type('{enter}')
 
-    cy.get('.el-image__inner', { timeout: 45 * 1000 }).last().trigger('mouseenter')
+    cy.get('.el-image__inner', { timeout: 60 * 1000 }).last().trigger('mouseenter')
 
     cy.get('.el-popper').contains('落霞与孤鹜齐飞，秋水共长天一色').should('be.visible')
   })
