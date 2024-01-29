@@ -1,6 +1,12 @@
 <template>
   <div class="open-ai">
-    <div class="ai-content">
+    <CtrlSide class="ai-ctrl" />
+
+    <div
+      v-loading="loading"
+      class="ai-content"
+    >
+      <!-- 内容列表 -->
       <div
         ref="list"
         class="messages-content"
@@ -20,14 +26,16 @@
           </div>
         </div>
       </div>
+
+      <!-- 输入框 -->
       <el-input
         v-model="msg"
         v-loading.lock="fullscreenLoading"
         class="input"
         type="textarea"
         :rows="3"
-        placeholder="输入内容，回车键发送！"
-        @keydown.enter="send"
+        placeholder="输入内容，Ctrl + 回车键发送！"
+        @keydown="keydownSend"
       />
     </div>
   </div>
@@ -38,30 +46,74 @@ import { marked } from 'marked'
 import { conversation, getConversationHistory } from '@/api/openai.js'
 import { mapState } from 'pinia'
 import useUserStore from '@/store/modules/user.js'
+import CtrlSide from './components/CtrlSide.vue'
+
+// marked 设置
+marked.use({
+  // 开启异步渲染
+  async: false,
+  pedantic: false,
+  gfm: true,
+  mangle: false,
+  headerIds: false
+})
 
 export default {
   name: 'OpenAi',
+
+  components: { CtrlSide },
+
   data () {
     return {
       msg: '', // 当前消息
       messages: [], // 消息列表
       fullscreenLoading: false, // 是否全屏loading
-      uuid: '' // 当前对话uuid
+      uuid: '', // 当前对话uuid
+      loading: false
     }
   },
+
   computed: {
     ...mapState(useUserStore, ['userInfo'])
   },
-  mounted () {
-    this.uuid = this.$route.query.uuid || ''
-    getConversationHistory({
-      uuid: this.uuid
-    }).then(e => {
-      this.messages = e.dataInfo
-      this.toBottom()
-    })
+
+  watch: {
+    '$route.query.uuid' (newValue) {
+      this.init()
+    }
   },
+
+  mounted () {
+    this.init()
+  },
+
   methods: {
+    // 初始化
+    init () {
+      this.uuid = this.$route.query.uuid || ''
+      this.messages = []
+      if (this.uuid) {
+        this.loading = true
+        getConversationHistory({
+          uuid: this.uuid
+        }).then(e => {
+          this.messages = e.dataInfo
+          this.toBottom()
+        }).finally(() => {
+          this.loading = false
+        })
+      }
+    },
+
+    // 快捷键发送
+    keydownSend (e) {
+      if (e.ctrlKey && e.keyCode === 13) {
+        // ctrl + enter 进行发送
+        this.send()
+      }
+    },
+
+    // 发送消息
     async send () {
       this.messages.push({
         role: 'user',
@@ -91,12 +143,11 @@ export default {
         },
         // 接收一次数据段时回调，因为是流式返回，所以这个回调会被调用多次
         onmessage: (msg) => {
-          console.log('msg >>>', msg)
           if (msg.event === 'header') {
             const headerParams = JSON.parse(msg.data)
             if (!this.uuid) {
               this.uuid = headerParams.uuid
-              this.$router.replace({ name: 'openAi', query: { uuid: this.uuid } })
+              this.$router.replace({ name: 'openAi', query: { uuid: this.uuid, type: 'new' } })
             }
           } else if (msg.event === 'message') {
             const content = JSON.parse(msg.data)
@@ -142,19 +193,17 @@ export default {
 
 <style lang="less" scoped>
 .open-ai{
-  // min-height: calc(100vh - 115px);
-  // padding: 0 20px;
+  display: flex;
+  height: calc(100vh - 45px);
+  .ai-ctrl{
+  }
   .ai-content{
+    flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
   .input{
-    padding: 10px 0;
   }
 }
 
