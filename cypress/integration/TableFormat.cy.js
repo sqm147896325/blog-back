@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import TableFormat from './TableFormat.vue'
+import TableFormat from '../../src/components/TableFormat/TableFormat.vue'
 
 describe('<TableFormat />', () => {
   it('renders', () => {
