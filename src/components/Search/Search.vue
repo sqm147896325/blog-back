@@ -10,6 +10,7 @@
     <template #prepend>
       <el-select
         v-model="select"
+        class="prepend-select"
         placeholder="请选择"
         @change="selectchange"
       >
@@ -77,12 +78,15 @@ export default {
   padding: 20px 0px !important;
   margin: 0 !important;
 }
-::v-deep(.el-select .el-input) {
-    width: 130px;
-  }
+
+.prepend-select{
+  width: 130px;
+}
+// 内嵌下拉框背景颜色
 ::v-deep(.el-input-group__prepend) {
   background-color: #fff;
 }
+// 内嵌搜索按钮配色
 ::v-deep(.el-input-group__append) {
   background-color: #409EFF;
   color: #FFF;
