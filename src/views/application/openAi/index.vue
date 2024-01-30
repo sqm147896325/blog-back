@@ -19,6 +19,7 @@
           <div class="msg-item">
             <!-- eslint-disable vue/no-v-html -->
             <span
+              v-codeCopy
               class="item-text"
               v-html="toMarked(item.content)"
             />
@@ -42,20 +43,29 @@
 </template>
 
 <script>
-import { marked } from 'marked'
+import { Marked } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/base16/darcula.css' // 注意引入样式，可以前往 node_module 下查看更多的样式主题
 import { conversation, getConversationHistory } from '@/api/openai.js'
 import { mapState } from 'pinia'
 import useUserStore from '@/store/modules/user.js'
 import CtrlSide from './components/CtrlSide.vue'
 
-// marked 设置
+// marked 设置 代码高亮
+const marked = new Marked()
+// marked 基础设置
 marked.use({
   // 开启异步渲染
   async: false,
   pedantic: false,
   gfm: true,
   mangle: false,
-  headerIds: false
+  headerIds: false,
+  highlight (code, lang) {
+    const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+    const html = hljs.highlight(code, { language }).value
+    return html
+  }
 })
 
 export default {
@@ -228,7 +238,6 @@ export default {
     display: flex;
     align-items: center;
     margin: 10px 0 10px 20%;
-    text-align: end;
     justify-content: flex-end;
     .msg-item{
       background-color: rgba(0, 128, 0, 0.72);
@@ -239,7 +248,6 @@ export default {
     display: flex;
     align-items: center;
     margin: 10px 20% 10px 0;
-    text-align: start;
     justify-content: flex-start;
     .msg-item{
       background-color: rgba(0, 0, 0, 0.72);

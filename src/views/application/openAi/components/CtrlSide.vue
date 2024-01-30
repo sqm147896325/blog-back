@@ -55,7 +55,7 @@ export default {
 
   data () {
     return {
-      arrowFlag: true,
+      arrowFlag: false, // 展开标志 true 展开，false 关闭
       query: {
         query: '',
         key: ''
@@ -105,6 +105,9 @@ export default {
         type: 'warning'
       }).then(async () => {
         await conversationDelete({ uuid: row.uuid })
+        if (row.uuid === (this.$route.query.uuid || '')) {
+          this.$router.replace({ name: 'openAi', query: { } })
+        }
         await this.search()
       }).catch((err) => {
         console.log(err)

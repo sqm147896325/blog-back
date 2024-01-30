@@ -25,6 +25,8 @@ import '@/micro'
 import MadderSocket from './plugins/socket'
 // 混入逻辑
 import minix from '@/minix'
+// 导入自定义指令
+import directives from '@/utils/directives'
 
 const app = createApp(App)
 
@@ -41,6 +43,7 @@ app.use(new MadderSocket({
   vuex: storeFun(),
   options: [{ name: 'msg', ip: `${import.meta.env.VITE_SOCKET_URL}/msg` }, { name: 'chat', ip: `${import.meta.env.VITE_SOCKET_URL}/chat` }, { name: 'term', ip: `${import.meta.env.VITE_SOCKET_URL}/term` }]
 }))
+app.use(directives)
 app.mount('#app')
 
 // 挂载自定义方法
