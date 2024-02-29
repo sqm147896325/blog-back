@@ -35,7 +35,7 @@ const directives = {
         })
 
         copyButton.addEventListener('click', () => {
-          const text = codeItem.innerHTML
+          const text = codeItem.innerText.slice(0, -2) // 获取复制的内容并去除增加的 '复制' 二字
           navigator.clipboard.writeText(text)
         })
       }

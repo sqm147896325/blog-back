@@ -51,10 +51,7 @@ import { mapState } from 'pinia'
 import useUserStore from '@/store/modules/user.js'
 import CtrlSide from './components/CtrlSide.vue'
 
-// marked 设置 代码高亮
-const marked = new Marked()
-// marked 基础设置
-marked.use({
+const marked = new Marked({
   // 开启异步渲染
   async: false,
   pedantic: false,
