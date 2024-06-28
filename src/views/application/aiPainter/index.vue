@@ -19,6 +19,7 @@
           class="item-img"
           :src="item.url"
           :preview-src-list="painterList.map(e => e.url)"
+          :initial-index="index"
         />
       </el-tooltip>
     </div>
