@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
 import path from 'path'
 import fs from 'fs'
-import viteBuild from './plugins/viteBuild'
+import viteBuild from '@madder/vite-build'
 
 // 根据环境变量加载环境变量文件
 try {
