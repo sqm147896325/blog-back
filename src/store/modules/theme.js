@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { setTheme } from '@/utils/storage'
 
 const changeStyle = (obj) => {
   for (const key in obj) {
@@ -38,7 +39,7 @@ const useThemeStore = defineStore('theme', {
   }),
   actions: {
     setTheme (themeName) {
-      localStorage.setItem('theme', themeName) // 保存主题到本地，下次进入使用该主题
+      setTheme(themeName) // 保存主题到本地，下次进入使用该主题
       const themeConfig = this.themes[themeName]
       // 如果有主题名称，那么则采用我们定义的主题
       if (themeConfig) {

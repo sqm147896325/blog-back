@@ -1,5 +1,6 @@
 import axios from '../utils/request'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { getToken } from '@/utils/storage'
 
 const baseUrl = import.meta.env.VITE_APP_BASE_PATH
 
@@ -15,7 +16,7 @@ export function conversation (options) {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
       Connection: 'keep-alive',
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+      Authorization: 'Bearer ' + getToken()
     },
     ...options
   })

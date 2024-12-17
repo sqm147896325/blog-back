@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus'
 import storeFun from '../store/index.js'
 import qs from 'qs'
 import crypto from 'crypto-js'
+import { getToken } from '@/utils/storage'
 
 const service = axios.create({
   baseURL: '', // 请求基础路径;不在这里设置,基地址不唯一
@@ -19,9 +20,10 @@ const tokenWL = ['/user/login']
 // 挂载请求拦截器 (相当于请求的预验证，请求到达服务器之前先验证这次请求)
 service.interceptors.request.use(config => {
   // 如果浏览器中有token且该地址不在白名单中，则为请求头添加token
-  if (localStorage.getItem('token') && !tokenWL.includes(config.url)) {
+  const token = getToken()
+  if (token && !tokenWL.includes(config.url)) {
     // 为请求头添加对象，添加token验证的Authorization字段
-    config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+    config.headers.Authorization = 'Bearer ' + token
   }
 
   const data = Object.assign(JSON.parse(JSON.stringify(qs.parse(config.data))), config.params)

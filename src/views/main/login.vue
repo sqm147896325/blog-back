@@ -88,6 +88,7 @@
 <script>
 import { defineComponent, defineAsyncComponent } from 'vue'
 import { apiPostLogin, apiToolEmailVerify, apiToolEmailSetUser, apiGetUser } from '@/api/user.js'
+import { setToken, setUserInfo, removeToken } from '@/utils/storage'
 
 export default defineComponent({
   name: 'LoginView',
@@ -99,10 +100,10 @@ export default defineComponent({
       redirect = to.query.redirect
     }
     if (to.query && to.query.token) {
-      localStorage.setItem('token', to.query.token)
+      setToken(to.query.token)
       apiGetUser().then(res => {
         const userInfo = res.dataInfo
-        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        setUserInfo(userInfo)
         next(vm => {
           vm.$store.user.setUserInfo(userInfo)
           vm.$message.success('授权免登录成功')
@@ -110,7 +111,7 @@ export default defineComponent({
         })
       }).catch(e => {
         console.log('免登录失败', e)
-        localStorage.removeItem('token') // 401 时会自动提示，这里防止产生其他问题
+        removeToken() // 401 时会自动提示，这里防止产生其他问题
         next()
       })
     } else {
@@ -179,9 +180,9 @@ export default defineComponent({
           const res = await apiPostLogin(this.loginInfo)
           // 存在res且flag为1则表示登录成功
           if (res?.flag === 1) {
-            localStorage.setItem('token', res.dataInfo.token)
+            setToken(res.dataInfo.token)
             const userInfo = res.dataInfo.userInfo
-            localStorage.setItem('userInfo', JSON.stringify(userInfo))
+            setUserInfo(userInfo)
             this.$store.user.setUserInfo(userInfo)
             let redirect = '/'
             if (this.$route.query && this.$route.query.redirect) {

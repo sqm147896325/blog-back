@@ -1,6 +1,7 @@
 import { ElMessage } from 'element-plus'
 import router from './router'
 import storeFun from './store'
+import { getToken, getUserInfo } from '@/utils/storage'
 
 // token验证
 router.beforeEach((to, from, next) => {
@@ -8,8 +9,8 @@ router.beforeEach((to, from, next) => {
   // 传入活动的菜单栏
   store.aside.setActiveMenu(to)
 
-  const token = localStorage.getItem('token')
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const token = getToken()
+  const userInfo = getUserInfo()
   // token有无跳转逻辑
   if (token && userInfo) {
     // 有token不能访问login

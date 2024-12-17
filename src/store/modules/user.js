@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import router from '../../router/index'
 import { exit } from '@/api/user.js'
+import { removeToken } from '@/utils/storage'
 
 const useUserStore = defineStore('user', {
   namespaced: true,
@@ -32,7 +33,7 @@ const useUserStore = defineStore('user', {
 
     // 退出跳转到对应路由
     exitTo () {
-      localStorage.removeItem('token')
+      removeToken()
       router.replace({
         name: 'login',
         query: {
