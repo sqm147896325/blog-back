@@ -14,6 +14,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 // 其他导入
 import VueGridLayout from 'vue-grid-layout'
+import { driver } from 'driver.js'
+import 'driver.js/dist/driver.css'
 // 导入工具方法
 import msgTip from '@/utils/msgTip.js'
 // 导入权限控制
@@ -49,6 +51,7 @@ app.mount('#app')
 // 挂载自定义方法
 app.config.globalProperties.$store = storeFun()
 app.config.globalProperties.$msgTip = msgTip
+app.config.globalProperties.$driver = driver
 
 app.mixin(minix)
 
