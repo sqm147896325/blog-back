@@ -63,7 +63,7 @@ export default {
 
 <style lang="less" scoped>
 .message-content{
-    height: 80vh;
+    height: 78vh;
     position: relative;
 }
 ::v-deep(.el-dialog__body) {

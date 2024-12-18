@@ -4,7 +4,10 @@
       height="40px"
       class="main"
     >
-      <el-icon @click="setOpen">
+      <el-icon
+        id="driver-step-1"
+        @click="setOpen"
+      >
         <Expand v-if="collapse()" />
         <Fold v-else />
       </el-icon>
@@ -35,6 +38,7 @@
             class="left-msg"
           >
             <el-icon
+              id="driver-step-2"
               class="msg-icon"
               @click="msgOpen"
             >
@@ -42,6 +46,7 @@
             </el-icon>
           </el-badge>
           <el-dropdown
+            id="driver-step-3"
             class="left-dropdown"
             @command="headMenu"
           >

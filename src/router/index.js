@@ -49,7 +49,8 @@ const powerShowRouter = [
     component: Layout,
     redirect: '/dashboard',
     meta: {
-      title: '首页'
+      title: '首页',
+      description: '这是系统的首页，可以看到各项重要数据'
     },
     children: [{
       path: 'dashboard',
@@ -68,7 +69,8 @@ const powerShowRouter = [
     component: Layout,
     redirect: '/application/app-list',
     meta: {
-      title: '应用'
+      title: '应用',
+      description: '这是应用模块，好用的应用都在这里'
     },
     children: [{
       path: 'app-list',
@@ -131,7 +133,8 @@ const powerShowRouter = [
     component: Layout,
     redirect: '/manage/blog',
     meta: {
-      title: '管理'
+      title: '管理',
+      description: '这是管理模块，可以对多项功能进行管理'
     },
     children: [{
       path: 'conversation',

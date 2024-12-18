@@ -43,6 +43,7 @@
 import { defineComponent } from 'vue'
 import { apiGetBlogList, apiGetKeyword } from '@/api/blog.js'
 import * as echarts from 'echarts' // 引入echarts
+import startDriver from '@/utils/startDriver.js'
 
 export default defineComponent({
   name: 'DashboardView',
@@ -72,6 +73,7 @@ export default defineComponent({
   },
   async mounted () {
     await this.init()
+    startDriver()
   },
   methods: {
     // 初始化

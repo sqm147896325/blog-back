@@ -1,10 +1,12 @@
 <template>
   <template
-    v-for="item in routesMenu"
+    v-for="(item, index) in routesMenu"
     :key="item.name"
   >
     <el-menu-item
       v-if="typeof item.children == 'undefined'"
+      :id="'level-' + menuLevel + '-index-' + index"
+      :data-description="item?.meta?.description"
       :index="setPath(item).path"
       @click="chooseMenu(item)"
     >
@@ -17,6 +19,8 @@
     </el-menu-item>
     <el-menu-item
       v-else-if="item.children.length == 1"
+      :id="'level-' + menuLevel + '-index-' + index"
+      :data-description="item?.meta?.description"
       :index="setPath(item).path"
       @click="chooseMenu(item.children[0])"
     >
@@ -29,6 +33,8 @@
     </el-menu-item>
     <el-sub-menu
       v-else
+      :id="'level-' + menuLevel + '-index-' + index"
+      :data-description="item?.meta?.description"
       :index="item.name"
       @click="chooseMenu(item)"
     >
@@ -38,7 +44,10 @@
         </el-icon>
         <span>{{ item.meta.title }}</span>
       </template>
-      <aside-item :item-menu="item.children" />
+      <aside-item
+        :item-menu="item.children"
+        :menu-level="menuLevel + 1"
+      />
     </el-sub-menu>
   </template>
 </template>
@@ -53,6 +62,10 @@ export default defineComponent({
     itemMenu: {
       type: Array,
       default: () => []
+    },
+    menuLevel: {
+      type: Number,
+      default: 0
     }
   },
   data () {
