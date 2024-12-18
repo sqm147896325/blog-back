@@ -20,7 +20,8 @@ export default () => {
     })
   })
   const driverObj = driver({
-    className: 'driver-class',
+    popoverClass: 'driver-popover-custom-class',
+    overlayColor: '#a1a3a6',
     showProgress: true,
     allowClose: false,
     doneBtnText: '完成',
@@ -65,8 +66,19 @@ export default () => {
       },
       { popover: { title: '教程完成🎉🎉🎉', description: '恭喜，你已经掌握了基础功能，开始愉快的使用吧！', showButtons: ['next', 'previous', 'close'] } }
     ],
-    onNextClick: (a, b, c) => {
-      console.log('a, b, c >>>', a, b, c)
+    onPopoverRender: (popover, { config, state }) => {
+      console.log('onPopoverRender', popover, { config, state })
+      if (state?.activeStep?.popover?.nextBtnText === config?.doneBtnText) {
+        return false
+      }
+      const firstButton = document.createElement('button')
+      firstButton.innerText = '跳过'
+      popover.footerButtons.appendChild(firstButton)
+      firstButton.addEventListener('click', () => {
+        driverObj.destroy()
+      })
+    },
+    onNextClick: () => {
       driverObj.moveNext()
     },
     onPrevClick: () => {
