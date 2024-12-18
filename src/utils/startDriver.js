@@ -24,6 +24,7 @@ export default () => {
     overlayColor: '#a1a3a6',
     showProgress: true,
     allowClose: false,
+    disableActiveInteraction: true, // 高亮区域不可点击
     doneBtnText: '完成',
     nextBtnText: '下一步',
     prevBtnText: '上一步',
